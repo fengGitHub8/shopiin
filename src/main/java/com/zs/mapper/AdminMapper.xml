@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zs.mapper.AdminMapper">
+    <select id="findByUserAndPwd" parameterType="admin" resultType="admin">
+        select * from admin WHERE `user` = #{user } AND password = #{password};
+    </select>
+
+    <update id="updateAdminToken" parameterType="String">
+        update admin set token = #{VALUE };
+    </update>
+
+    <select id="findAdminBytoken" parameterType="String" resultType="admin">
+        select * from admin where token = #{token};
+    </select>
+</mapper>
