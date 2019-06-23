@@ -7,6 +7,8 @@ import com.zs.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @program: shopin
  * @description:
@@ -31,5 +33,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin findAdminBytoken(String token) {
         return adminMapper.findAdminBytoken(token);
+    }
+
+    @Override
+    public List<Admin> findAdminByIndex(String index, String max) {
+        return adminMapper.findAdminByIndex(Integer.parseInt(index),Integer.parseInt(max));
+    }
+
+    @Override
+    public void addAdmin(Admin admin) {
+        adminMapper.addAdmin(admin);
     }
 }

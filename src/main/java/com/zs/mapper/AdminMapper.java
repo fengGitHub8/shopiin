@@ -1,7 +1,10 @@
 package com.zs.mapper;
 
 import com.zs.entity.Admin;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @program: shopin
@@ -31,4 +34,18 @@ public interface AdminMapper {
      * @return
      */
     Admin findAdminBytoken(String token);
+
+    /**
+     * 从index开始查询，最多查询max条管理员信息
+     * @param i
+     * @param i1
+     * @return
+     */
+    List<Admin> findAdminByIndex(@Param("index") int index, @Param("max") int max);
+
+    /**
+     * 添加管理员
+     * @param admin
+     */
+    void addAdmin(Admin admin);
 }

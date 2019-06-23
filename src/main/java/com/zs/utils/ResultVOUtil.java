@@ -12,7 +12,7 @@ public class ResultVOUtil {
 
     public static ResultVO success(Object responseResult, Object responseList){
         ResultVO resultVO = new ResultVO();
-        resultVO.setStatus("success");
+        resultVO.setStatus("Success");
         resultVO.setResponseResult(responseResult);
         resultVO.setResponseList(responseList);
         return resultVO;

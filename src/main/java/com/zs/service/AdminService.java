@@ -2,6 +2,8 @@ package com.zs.service;
 
 import com.zs.entity.Admin;
 
+import java.util.List;
+
 /**
  * @program: shopin
  * @description:
@@ -22,4 +24,18 @@ public interface AdminService {
      * @return
      */
     Admin findAdminBytoken(String token);
+
+    /**
+     * 从index开始查询，最多查询max条管理员信息
+     * @param index
+     * @param max
+     * @return
+     */
+    List<Admin> findAdminByIndex(String index, String max);
+
+    /**
+     * 添加管理员
+     * @param admin
+     */
+    void addAdmin(Admin admin);
 }

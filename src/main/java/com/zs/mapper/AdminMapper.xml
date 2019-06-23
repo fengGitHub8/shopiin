@@ -15,4 +15,13 @@
     <select id="findAdminBytoken" parameterType="String" resultType="admin">
         select * from admin where token = #{token};
     </select>
+
+    <select id="findAdminByIndex" resultType="admin">
+        select * from admin limit #{index},#{max};
+    </select>
+
+    <insert id="addAdmin" parameterType="admin" useGeneratedKeys="true" keyProperty="id">
+        insert into admin (`type`,shopIds, `name`,tel,`user`,status,password)
+        values (#{type},#{shopIds},#{name},#{tel},#{user},#{status},#{password});
+    </insert>
 </mapper>
