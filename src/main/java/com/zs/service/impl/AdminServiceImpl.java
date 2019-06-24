@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
         Admin byUserAndPwd = adminMapper.findByUserAndPwd(admin);
         if (byUserAndPwd != null) {
             String token = TokenUtil.getToken();
-            adminMapper.updateAdminToken(token);
+            adminMapper.updateAdminTokenById(admin.getId(),token);
         }
         return adminMapper.findByUserAndPwd(admin);
     }
@@ -43,5 +43,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void addAdmin(Admin admin) {
         adminMapper.addAdmin(admin);
+    }
+
+    @Override
+    public void updateAdmin(Admin admin) {
+        adminMapper.updateAdmin(admin);
+    }
+
+    @Override
+    public void deleteAdmin(String id) {
+        adminMapper.deleteAdmin(Integer.parseInt(id));
     }
 }

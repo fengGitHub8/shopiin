@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zs.mapper.BrandMapper">
+    <select id="findByShopId" parameterType="int" resultType="brand">
+        select * from brand WHERE shopId = #{shopId} AND status = 1;
+    </select>
+    
+    <insert id="addBrand" parameterType="brand" useGeneratedKeys="true" keyProperty="id">
+        insert into brand (shopId,brandType,logo,status) values (#{shopId},#{brandType},#{logo},#{status});
+    </insert>
+
+    <update id="updateBrand" parameterType="brand">
+        update brand set shopId=#{shopId},brandType=#{brandType},logo=#{logo},status=#{status}
+        where id = #{id};
+    </update>
+
+    <update id="deleteBrand" parameterType="int">
+        update brand set status = 0 where id = #{id} ;
+    </update>
+</mapper>

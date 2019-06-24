@@ -38,4 +38,16 @@ public interface AdminService {
      * @param admin
      */
     void addAdmin(Admin admin);
+
+    /**
+     * 根据id修改管理员信息
+     * @param admin
+     */
+    void updateAdmin(Admin admin);
+
+    /**
+     * 删除管理员
+     * @param id
+     */
+    void deleteAdmin(String id);
 }

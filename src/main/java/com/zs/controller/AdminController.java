@@ -90,4 +90,18 @@ public class AdminController {
         log.info("admin = {}",admin);
         return ResultVOUtil.success("注册成功",null);
     }
+
+    @RequestMapping("/changeAdmin")
+    public ResultVO changeAdmin(Admin admin){
+        adminService.updateAdmin(admin);
+        return ResultVOUtil.success("修改成功",null);
+    }
+
+    @RequestMapping("/deleteAdmin")
+    public ResultVO deleteAdmin(@RequestParam("id") String id){
+        adminService.deleteAdmin(id);
+        return ResultVOUtil.success("删除成功",null);
+    }
+
+
 }

@@ -26,7 +26,7 @@ public interface AdminMapper {
      * 更新用户token
      * @param token
      */
-    void updateAdminToken(String token);
+    void updateAdminTokenById(@Param("id") int id , @Param("token") String token);
 
     /**
      * 根据token查询管理员信息
@@ -37,8 +37,8 @@ public interface AdminMapper {
 
     /**
      * 从index开始查询，最多查询max条管理员信息
-     * @param i
-     * @param i1
+     * @param index
+     * @param max
      * @return
      */
     List<Admin> findAdminByIndex(@Param("index") int index, @Param("max") int max);
@@ -48,4 +48,16 @@ public interface AdminMapper {
      * @param admin
      */
     void addAdmin(Admin admin);
+
+    /**
+     * 修改管理员信息
+     * @param admin
+     */
+    void updateAdmin(Admin admin);
+
+    /**
+     * 删除管理员信息
+     * @param id
+     */
+    void deleteAdmin(int id);
 }
