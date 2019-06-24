@@ -10,13 +10,18 @@ import lombok.Data;
  **/
 @Data
 public class Category {
+    //品类的id
     private Integer id;
+    //门店id
     private Integer shopId;
     /**
-     * 门店名
+     * 门店的名字
      */
     private String shopName;
+    //品类的名字，如男装
     private String type;
+    //该品类下面的状态
     private String status;
+    //品类的优先级
     private Integer grade;
 }
