@@ -10,9 +10,14 @@ import lombok.Data;
  **/
 @Data
 public class Brand {
+    //品牌的id
     private Integer id;
+    //门店id
     private Integer shopId;
+    //品牌
     private String brandType;
+    //Logo
     private String logo;
+    //品牌的状态
     private String Status;
 }
