@@ -44,11 +44,10 @@ public class GameAdmin {
 //    游戏路径
     private String gameUrl;
 
-//    状态（0启用 1禁用）
+//    状态(1为启用，0为禁用，2为删除)
     private Integer status;
 
-//    是否删除（0正常 1删除）
-    private Integer isdel;
+
 
 
 }

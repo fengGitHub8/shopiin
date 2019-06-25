@@ -4,8 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zs.mapper.StoreTypeMapper">
 
+    <resultMap id="type_map" type="storetype">
+        <id property="id" column="id"></id>
+        <result column="name" property="name"></result>
+        <result property="type" column="type"></result>
+    </resultMap>
+
+
     <select id="findStoreTypeByShopIdAndType"  parameterType="storetype" resultType="storetype">
-        select * from store_type where shopId= #{shopId} AND type = #{type} and isdel = 0
+        select * from store_type where shopId= #{shopId} AND type = #{type} and status!=2
     </select>
 
     <insert id="addStoreType" parameterType="storetype">
@@ -13,15 +20,19 @@
     </insert>
 
     <select id="findStoreTypeByShopIdAndTypeAndName" parameterType="storetype" resultType="int">
-        select count(1) from store_type where  name=#{name} and type= #{type} and shopId=#{shopId} and isdel = 0
+        select count(1) from store_type where  name=#{name} and type= #{type} and shopId=#{shopId} and status!=2
     </select>
 
     <update id="updateStoreTypeById" parameterType="storetype">
         update store_type set name = #{name},status = #{status} where id = #{id}
     </update>
     
-    <update id="deleteStoreTypeById">
-        update store_type set isdel = 1 where id = #{id}
+    <update id="deleteStoreTypeById" parameterType="int">
+        update store_type set status=2 where id = #{id}
     </update>
+
+    <select id="findById" parameterType="int" resultMap="type_map">
+        select * from store_type where id = #{id} and status=1
+    </select>
 
 </mapper>

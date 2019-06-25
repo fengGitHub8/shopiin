@@ -38,4 +38,11 @@ public interface BrandMapper {
      * @return
      */
     Boolean deleteBrand(int i);
+
+    /**
+     * 查询商铺的品牌
+     * @param id
+     * @return
+     */
+    List<Brand> findBystoreAdminId(Integer id);
 }

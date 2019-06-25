@@ -26,15 +26,17 @@ public interface StoreTypeService {
     int addStoreType(StoreType storeType);
 
     /**
-     * 通过id修改商铺类型或者公共服务类型，并返回1或者0判断是否修改成功
+     * 通过id修改商铺类型或者公共服务类型，同时修改store_admin表里相关的商铺或者公共服务场所。
+     * 并返回1或者0判断是否修改成功
      * @param storeType
      */
     int updateStoreTypeById(StoreType storeType);
 
     /**
-     * 通过id删除商铺类型或者公共服务类型，并返回1或者0判断是否删除成功
-     * @param storeType
+     * 通过id删除商铺类型或者公共服务类型，同时删除掉store_admin表里相关的商铺或者公共服务场所。
+     * 并返回1或者0判断是否删除成功
+     * @param id
      * @return
      */
-    int deleteStoreTypeById(StoreType storeType);
+    int deleteStoreTypeById(Integer id);
 }

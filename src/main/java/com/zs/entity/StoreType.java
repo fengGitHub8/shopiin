@@ -20,15 +20,10 @@ public class StoreType {
 //    商铺类型或公共服务类型的名字
     private String name;
 
-//    无用字段，门店的名字
-    private String shopName;
-
 //    区分商铺类型(store)还是公共服务类型(service)
     private String type;
 
-//    状态（0启用 1禁用）
+//    状态(1为启用，0为禁用，2为删除)
     private Integer status;
 
-//    是否删除（0正常 1删除）
-    private Integer isdel;
 }

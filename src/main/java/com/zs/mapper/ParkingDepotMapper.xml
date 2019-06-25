@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.ParkingDepotMapper">
+
+    <resultMap id="parkingdepot_map" type="parkingdepot">
+        <id column="id" property="id"></id>
+        <result column="shopId" property="shopId"></result>
+        <result property="doBusinessSiteId" column="doBusinessSiteId"></result>
+        <result property="floorId" column="floorId"></result>
+        <result property="name" column="name"></result>
+        <result column="image" property="image"></result>
+        <result property="introduce" column="introduce"></result>
+        <result column="status" property="status"></result>
+        <result property="qrcodeImage" column="qrcodeImage"></result>
+        <result column="qrcodeText" property="qrcodeText"></result>
+        <association property="doBusinessSiteName" column="doBusinessSiteId" javaType="String">
+            <result property="name" column="business_site.name"></result>
+        </association>
+    </resultMap>
+
+    <select id="findParkingDepotsByShopId" parameterType="parkingdepot" resultMap="parkingdepot_map">
+        select * from parking_depot where status!=2
+    </select>
+
+    <insert id="addParkingDepot" parameterType="parkingdepot">
+        insert into parking_depot(shopId, doBusinessSiteId, floorId, name, image, introduce, status, qrcodeImage, qrcodeText) values(#{shopId}, #{doBusinessSiteId}, #{floorId}, #{name}, #{image}, #{introduce}, #{status}, #{qrcodeImage}, #{qrcodeText})
+    </insert>
+
+    <update id="updateParkingDepotById" parameterType="parkingdepot">
+        update parking_depot set shopId =#{shopId}, doBusinessSiteId =#{doBusinessSiteId}, floorId =#{floorId}, name =#{name}, image =#{image}, introduce #{introduce}, status =#{status} where id = #{id}
+    </update>
+
+    <update id="deleteParkingDepotById" parameterType="int">
+        update parking_depot set status =2 where id = #{id}
+    </update>
+
+</mapper>

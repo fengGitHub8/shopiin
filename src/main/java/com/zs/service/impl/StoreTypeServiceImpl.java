@@ -1,6 +1,7 @@
 package com.zs.service.impl;
 
 import com.zs.entity.StoreType;
+import com.zs.mapper.StoreAdminMapper;
 import com.zs.mapper.StoreTypeMapper;
 import com.zs.service.StoreTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class StoreTypeServiceImpl implements StoreTypeService {
     @Autowired
     private StoreTypeMapper storeTypeMapper;
 
+    @Autowired
+    private StoreAdminMapper storeAdminMapper;
 
     @Override
     public List<StoreType> findStoreTypeByShopIdAndType(StoreType storeType) {
@@ -47,7 +50,8 @@ public class StoreTypeServiceImpl implements StoreTypeService {
     }
 
     @Override
-    public int deleteStoreTypeById(StoreType storeType) {
-        return storeTypeMapper.deleteStoreTypeById(storeType);
+    public int deleteStoreTypeById(Integer id) {
+
+        return storeTypeMapper.deleteStoreTypeById(id);
     }
 }

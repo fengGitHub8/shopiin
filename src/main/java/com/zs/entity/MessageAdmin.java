@@ -33,9 +33,8 @@ public class MessageAdmin {
 //    发送人
     private String creator;
 
-//    状态（0未发送 1已发送）
+//    状态(1为已发送，0为未发送，2为删除)
     private Integer status;
 
-//    是否删除（0正常 1删除）
-    private Integer isdel;
+
 }

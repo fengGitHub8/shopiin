@@ -20,4 +20,8 @@
     <update id="deleteBrand" parameterType="int">
         update brand set status = 0 where id = #{id} ;
     </update>
+
+    <select id="findBystoreAdminId" parameterType="int" resultType="brand">
+        select * from brand left join store_brand sb on brand.id = sb.brandId left join store_admin sa on sb.storeId = sa.id where sa.id = #{id}
+    </select>
 </mapper>

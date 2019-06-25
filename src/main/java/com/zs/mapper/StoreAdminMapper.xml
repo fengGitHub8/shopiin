@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.StoreAdminMapper">
+    <resultMap id="storeadmin_map" type="storeadmin">
+        <id property="id" column="id"></id>
+        <result property="shopId" column="shopId"></result>
+        <result column="name" property="name"></result>
+        <result column="categoryId" property="categoryId"></result>
+        <result column="doBusinessSiteId" property="doBusinessSiteId"></result>
+        <result column="floorId" property="floorId"></result>
+        <result column="introduce" property="introduce"></result>
+        <result column="logoImageUrl" property="logoImageUrl"></result>
+        <result property="status" column="status"></result>
+        <result column="keywords" property="keywords"></result>
+        <result property="storeMas" column="storeMas"></result>
+        <result column="qrcodeImage" property="qrcodeImage"></result>
+        <result property="qrcodeText" column="qrcodeText"></result>
+        <association column="categoryId" javaType="String" property="categoryName" >
+            <result property="type" column="category.type"></result>
+        </association>
+        <association column="storeTypeId" javaType="storetype" property="storeType"  select="com.zs.mapper.StoreTypeMapper.findById">
+        </association>
+        <association column="doBusinessSiteId" javaType="String" property="doBusinessSiteName" >
+            <result property="name" column="business_site.name"></result>
+        </association>
+        <association column="floorId" javaType="String" property="floorName" >
+            <result property="name" column="floor_plan.name"></result>
+        </association>
+        <collection property="brandList" column="id" ofType="brand" select="com.zs.mapper.BrandMapper.findBystoreAdminId">
+        </collection>
+    </resultMap>
+
+    <select id="findStoreAdminByShopIdAndType"  parameterType="storeadmin" resultMap="storeadmin_map">
+        select * from store_admin LEFT JOIN store_type on store_admin.storeTypeId = store_type.id
+         LEFT JOIN category on store_admin.categoryId = category.id LEFT JOIN floor_plan
+          on store_admin.floorId = floor_plan.id  LEFT JOIN business_site on
+           store_admin.doBusinessSiteId = business_site.id left join store_brand sb on store_admin.id = sb.storeId left join brand b on sb.brandId = b.id
+         where store_admin.shopId= #{shopId}  and store_type.type = #{storeType.type}  and store_admin.status!=2
+    </select>
+
+    <insert id="addStoreAdmin" parameterType="storeadmin">
+        insert into store_admin(shopId, name, categoryId, storeTypeId, doBusinessSiteId, floorId, introduce, logoImageUrl, status, keywords, storeMas) values(#{shopId}, #{name}, #{categoryId}, #{storeType.storeTypeId}, #{doBusinessSiteId}, #{floorId}, #{introduce},#{ logoImageUrl}, #{status}, #{keywords},#{ storeMas})
+    </insert>
+
+
+    <update id="updateStoreAdminById" parameterType="storeadmin">
+        update store_admin set name = #{name}, categoryId =#{categoryId}, storeTypeId =#{storeTypeId}, doBusinessSiteId =#{doBusinessSiteId}, floorId =#{floorId}, introduce =#{introduce}, logoImageUrl =#{logoImageUrl}, status = #{status}, keywords=#{keywords}, storeMas = #{storeMas} where id = #{id}
+    </update>
+    
+    <update id="deleteStoreAdminById">
+        update store_admin set status=2 where id = #{id}
+    </update>
+
+</mapper>

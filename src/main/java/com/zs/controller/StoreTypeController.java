@@ -7,6 +7,7 @@ import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -63,9 +64,9 @@ public class StoreTypeController {
     }
 
     @RequestMapping("delete")
-    public ResultVO deleteStoreTypeById(StoreType storeType){
-        System.out.println("前端接收的数据:"+storeType);
-        int i = storeTypeService.deleteStoreTypeById(storeType);
+    public ResultVO deleteStoreTypeById(@RequestParam("id") Integer id){
+        System.out.println("前端接收的数据:"+id);
+        int i = storeTypeService.deleteStoreTypeById(id);
         System.err.println("判断修改是否成功:"+i);
         if (i != 0) {
             return ResultVOUtil.success("删除成功！",null);

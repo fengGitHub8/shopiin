@@ -5,11 +5,11 @@
 <mapper namespace="com.zs.mapper.GameAdminMapper">
 
     <select id="findGamesByShopId" parameterType="gameadmin" resultType="gameadmin">
-        select * from game_admin where shopId = #{shopId} and isdel = 0
+        select * from game_admin where shopId = #{shopId} and status!=2
     </select>
 
     <select id="findGamesByShopIdAndName" parameterType="gameadmin" resultType="int">
-        select count(1) from game_admin where  name=#{name}  and shopId=#{shopId} and isdel = 0
+        select count(1) from game_admin where  name=#{name}  and shopId=#{shopId} and status!=2
     </select>
 
     <insert id="addGame" parameterType="gameadmin">
@@ -21,6 +21,6 @@
     </update>
 
     <update id="deleteGameById" parameterType="gameadmin">
-        update game_admin set isdel = 1 where id = #{id}
+        update game_admin set status=2 where id = #{id}
     </update>
 </mapper>

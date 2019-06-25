@@ -43,8 +43,15 @@ public interface StoreTypeMapper {
 
     /**
      * 通过id删除商铺类型或者公共服务类型，并返回1或者0判断是否删除成功
-     * @param storeType
+     * @param id
      * @return
      */
-    int deleteStoreTypeById(StoreType storeType);
+    int deleteStoreTypeById(Integer id);
+
+    /**
+     * 通过id查询类型。给storeadmin用
+     * @param id
+     * @return
+     */
+    StoreType findById(Integer id);
 }
