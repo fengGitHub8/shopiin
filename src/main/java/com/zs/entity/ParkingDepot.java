@@ -45,7 +45,7 @@ public class ParkingDepot {
 //    二维码
     private String qrcodeImage;
 
-//    二维码的图片
+//    二维码的文字
     private String qrcodeText;
 
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.ParkingAdminMapper">
+
+    <resultMap id="parkingadmin_map" type="parkingadmin">
+        <id column="id" property="id"></id>
+        <result column="shopId" property="shopId"></result>
+        <result property="parkingDepotId" column="parkingDepotId"></result>
+        <result property="name" column="name"></result>
+        <result column="status" property="status"></result>
+        <result property="qrcodeImage" column="qrcodeImage"></result>
+        <result column="qrcodeText" property="qrcodeText"></result>
+        <association property="parkingName" column="parkingDepotId" javaType="String">
+            <result property="name" column="parking_depot.name"></result>
+        </association>
+    </resultMap>
+
+    <select id="findParkingAdminsByShopId" parameterType="parkingadmin" resultMap="parkingadmin_map">
+        select * from parking_admin where status!=2
+    </select>
+
+    <insert id="addParkingAdmin" parameterType="parkingadmin">
+        insert into parking_admin(shopId, parkingDepotId, name, status) values (#{shopId},#{ parkingDepotId}, #{name}, #{introduce}, #{status})
+    </insert>
+
+    <update id="updateParkingAdminById" parameterType="parkingdepot">
+        update parking_admin set shopId =#{shopId}, parkingDepotId =#{parkingDepotId},name =#{name}, status =#{status} where id = #{id}
+    </update>
+
+    <update id="deleteParkingAdminById" parameterType="int">
+        update parking_admin set status =2 where id = #{id}
+    </update>
+
+</mapper>
