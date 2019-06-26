@@ -5,7 +5,7 @@
 
 <mapper namespace="com.zs.mapper.ShopMapper">
     <select id="findAll" resultType="shop">
-        select * from shop WHERE status = 1;
+        select * from shop WHERE status != 2;
     </select>
 
     <insert id="addShop" parameterType="shop" useGeneratedKeys="true" keyProperty="id">
@@ -18,6 +18,6 @@
     </update>
 
     <update id="deleteShop" parameterType="String">
-        update shop set status = 0 where id = #{id};
+        update shop set status = 2 where id = #{id};
     </update>
 </mapper>

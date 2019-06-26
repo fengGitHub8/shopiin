@@ -16,7 +16,7 @@ public interface CategoryService {
      * @param shopId
      * @return
      */
-    List<Category> findByShopId(String shopId);
+    List<Category> findByShopId(Integer shopId);
 
     /**
      * 添加品类信息

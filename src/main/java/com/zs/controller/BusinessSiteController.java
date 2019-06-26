@@ -26,7 +26,7 @@ public class BusinessSiteController {
     private BusinessSiteService businessSiteService;
 
     @RequestMapping("/find")
-    public ResultVO find(@RequestParam("shopId") String shopId){
+    public ResultVO find(@RequestParam("shopId") Integer shopId){
         List<BusinessSite> businessSites = businessSiteService.findByShopId(shopId);
         return ResultVOUtil.success(businessSites,null);
     }

@@ -24,8 +24,8 @@ public class BrandServiceImpl implements BrandService{
     private StoreBrandMapper storeBrandMapper;
 
     @Override
-    public List<Brand> findByShopId(String shopId) {
-        return brandMapper.findByShopId(Integer.parseInt(shopId));
+    public List<Brand> findByShopId(Integer shopId) {
+        return brandMapper.findByShopId(shopId);
     }
 
     @Override

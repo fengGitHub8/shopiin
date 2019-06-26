@@ -27,7 +27,7 @@ public class FloorPlanController {
     private FloorPlanService floorPlanService;
 
     @RequestMapping("/find/{shopId}/floors")
-    public ResultVO find(@PathVariable("shopId") String shopId){
+    public ResultVO find(@PathVariable("shopId") Integer shopId){
         List<FloorPlan> floorPlans = floorPlanService.findByShopId(shopId);
         return ResultVOUtil.success(null,floorPlans);
     }

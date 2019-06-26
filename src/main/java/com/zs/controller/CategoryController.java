@@ -26,7 +26,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @RequestMapping("/finds")
-    public ResultVO finds(@RequestParam("shopId") String shopId){
+    public ResultVO finds(@RequestParam("shopId") Integer shopId){
         List<Category> categories = categoryService.findByShopId(shopId);
         return ResultVOUtil.success(null,categories);
     }

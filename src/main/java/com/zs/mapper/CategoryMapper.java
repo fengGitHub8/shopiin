@@ -18,7 +18,7 @@ public interface CategoryMapper {
      * @param shopId
      * @return
      */
-    List<Category> findByShopId(int shopId);
+    List<Category> findByShopId(Integer shopId);
 
     /**
      * 添加品类信息

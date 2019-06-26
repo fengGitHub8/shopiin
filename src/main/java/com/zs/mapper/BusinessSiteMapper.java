@@ -18,7 +18,7 @@ public interface BusinessSiteMapper {
      * @param shopId
      * @return
      */
-    List<BusinessSite> findByShopId(int shopId);
+    List<BusinessSite> findByShopId(Integer shopId);
 
     /**
      * 添加营业场所

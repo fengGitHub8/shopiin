@@ -16,7 +16,7 @@ public interface FloorPlanService {
      * @param shopId
      * @return
      */
-    List<FloorPlan> findByShopId(String shopId);
+    List<FloorPlan> findByShopId(Integer shopId);
 
     /**
      * 添加楼层平面信息

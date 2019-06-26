@@ -20,7 +20,7 @@ public interface FloorPlanMapper {
      * @param shopId
      * @return
      */
-    List<FloorPlan> findByShopId(int shopId);
+    List<FloorPlan> findByShopId(Integer shopId);
 
     /**
      * 添加楼层平面信息

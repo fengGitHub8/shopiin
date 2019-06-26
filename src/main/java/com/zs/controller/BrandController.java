@@ -26,7 +26,7 @@ public class BrandController {
     private BrandService brandService;
 
     @RequestMapping("/finds")
-    public ResultVO finds(@RequestParam("shopId") String shopId){
+    public ResultVO finds(@RequestParam("shopId") Integer shopId){
         List<Brand> brands = brandService.findByShopId(shopId);
         return ResultVOUtil.success(null,brands);
     }

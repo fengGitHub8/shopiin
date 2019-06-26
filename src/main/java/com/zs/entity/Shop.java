@@ -41,5 +41,5 @@ public class Shop {
     //二维码的说明文字
     private String qrcondeText;
     //门店的状态
-    private String status;
+    private Integer status;
 }

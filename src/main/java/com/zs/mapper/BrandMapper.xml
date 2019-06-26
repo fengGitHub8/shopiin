@@ -5,7 +5,7 @@
 
 <mapper namespace="com.zs.mapper.BrandMapper">
     <select id="findByShopId" parameterType="int" resultType="brand">
-        select * from brand WHERE shopId = #{shopId} AND status = 1;
+        select * from brand WHERE shopId = #{shopId} AND status != 2;
     </select>
     
     <insert id="addBrand" parameterType="brand" useGeneratedKeys="true" keyProperty="id">
@@ -18,7 +18,7 @@
     </update>
 
     <update id="deleteBrand" parameterType="int">
-        update brand set status = 0 where id = #{id} ;
+        update brand set status = 2 where id = #{id} ;
     </update>
 
     <select id="findBystoreAdminId" parameterType="int" resultType="brand">

@@ -19,5 +19,5 @@ public class Brand {
     //Logo
     private String logo;
     //品牌的状态
-    private String Status;
+    private Integer status;
 }

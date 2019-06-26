@@ -34,5 +34,5 @@ public interface ShopService {
      * 删除门店
      * @param id
      */
-    void deleteShop(String id);
+    void deleteShop(Integer id);
 }

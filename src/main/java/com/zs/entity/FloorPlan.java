@@ -37,7 +37,7 @@ public class FloorPlan {
     //楼层的二维码的文字
     private String qrcodeText;
     //楼层的状态
-    private String status;
+    private Integer status;
     //优先级
     private Integer grade;
     //是否显示
