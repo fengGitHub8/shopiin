@@ -87,16 +87,4 @@ public class StoreTypeController {
         }
     }
 
-    /*@RequestMapping("/findbystatus")
-    public ResultVO findByStatus(StoreType storeType){
-        System.err.println(storeType);
-        StoreType byId = storeTypeService.findByStatus(storeType);
-        System.err.println(byId);
-        if (byId != null) {
-            return ResultVOUtil.success(byId,null);
-        }else {
-            return ResultVOUtil.error(null,null);
-        }
-    }*/
-
 }

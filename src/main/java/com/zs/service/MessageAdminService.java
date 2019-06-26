@@ -35,10 +35,10 @@ public interface MessageAdminService {
 
     /**
      * 通过id删除消息，并返回1或者0判断是否删除成功
-     * @param messageAdmin
+     * @param id
      * @return
      */
-    int deleteMessageById(MessageAdmin messageAdmin);
+    int deleteMessageById(Integer id);
 
     /**
      * 通过id将消息发送，并返回1或者0判断是否发送成功
@@ -46,4 +46,11 @@ public interface MessageAdminService {
      * @return
      */
     int sendMessageById(MessageAdmin messageAdmin);
+
+    /**
+     * 修改时通过id查询一次信息
+     * @param id
+     * @return
+     */
+    MessageAdmin findById(Integer id);
 }

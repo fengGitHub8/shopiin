@@ -40,4 +40,10 @@ public interface ParkingDepotService {
      */
     int deleteParkingDepotById(Integer id);
 
+    /**
+     * 修改停车场时通过id再查一次
+     * @param id
+     * @return
+     */
+    ParkingDepot findById(Integer id);
 }

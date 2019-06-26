@@ -32,13 +32,7 @@ public class StoreAdminServiceImpl implements StoreAdminService {
     public List findStoreAdminByShopIdAndType(StoreAdmin storeAdmin) {
         List<StoreAdmin> storeAdmins = storeAdminMapper.findStoreAdminByShopIdAndType(storeAdmin);
         for (StoreAdmin admin : storeAdmins) {
-            List<Brand> brands = admin.getBrandList();
-            List list = new ArrayList();
-            for (Brand brand : brands) {
-                list.add(brand.getId());
-
-            }
-            admin.setBrandIds(list);
+            setIdsInStoreAdmin(admin);
         }
         return storeAdmins;
     }
@@ -86,5 +80,21 @@ public class StoreAdminServiceImpl implements StoreAdminService {
             i = storeAdminMapper.deleteStoreAdminById(id);
         }
         return i;
+    }
+
+    @Override
+    public StoreAdmin findById(Integer id) {
+        StoreAdmin storeAdmin = storeAdminMapper.findById(id);
+        return setIdsInStoreAdmin(storeAdmin);
+    }
+
+    public StoreAdmin setIdsInStoreAdmin(StoreAdmin storeAdmin){
+        List<Brand> brands = storeAdmin.getBrandList();
+        List list = new ArrayList();
+        for (Brand brand : brands) {
+            list.add(brand.getId());
+        }
+        storeAdmin.setBrandIds(list);
+        return storeAdmin;
     }
 }

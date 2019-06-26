@@ -16,11 +16,16 @@
         update message_admin set title = #{title},content = #{content} where id = #{id}
     </update>
 
-    <update id="deleteMessageById" parameterType="messageadmin">
+    <update id="deleteMessageById" parameterType="int">
         update message_admin set status=2 where id = #{id}
     </update>
 
     <update id="sendMessageById" parameterType="messageadmin">
         update message_admin set status = 1,sendDate = #{sendDate} where id = #{id}
     </update>
+
+    <select id="findById" parameterType="int" resultType="messageadmin">
+        select * from message_admin where id = #{id}
+    </select>
+
 </mapper>

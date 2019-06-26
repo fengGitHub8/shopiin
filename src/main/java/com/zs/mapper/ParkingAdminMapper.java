@@ -48,4 +48,11 @@ public interface ParkingAdminMapper {
      * @param parkingDepotId
      */
     void deleteParkingAdminByParkingDepotId(Integer parkingDepotId);
+
+    /**
+     * 修改时通过id查询一次
+     * @param id
+     * @return
+     */
+    ParkingAdmin findById(Integer id);
 }

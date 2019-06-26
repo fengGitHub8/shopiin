@@ -39,4 +39,11 @@ public interface StoreAdminService {
      * @return
      */
     int deleteStoreAdminById(Integer id);
+
+    /**
+     * 修改时通过id查询store的信息
+     * @param id
+     * @return
+     */
+    StoreAdmin findById(Integer id);
 }

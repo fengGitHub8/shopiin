@@ -40,4 +40,11 @@ public interface ParkingAdminService {
      * @return
      */
     int deleteParkingAdminById(Integer id);
+
+    /**
+     * 修改时通过id查询一次
+     * @param id
+     * @return
+     */
+    ParkingAdmin findById(Integer id);
 }

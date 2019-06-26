@@ -41,4 +41,9 @@ public class ParkingAdminServiceImpl implements ParkingAdminService {
     public int deleteParkingAdminById(Integer id) {
         return parkingAdminMapper.deleteParkingAdminById(id);
     }
+
+    @Override
+    public ParkingAdmin findById(Integer id) {
+        return parkingAdminMapper.findById(id);
+    }
 }

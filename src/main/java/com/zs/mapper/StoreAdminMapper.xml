@@ -58,4 +58,13 @@
     <update id="deleteStoreAdminByStoreTypeId" parameterType="int">
         update store_admin set status=2 where storeTypeId = #{storeTypeId}
     </update>
+
+    <select id="findById"  parameterType="int" resultMap="storeadmin_map">
+        select * from store_admin LEFT JOIN store_type on store_admin.storeTypeId = store_type.id
+        LEFT JOIN category on store_admin.categoryId = category.id LEFT JOIN floor_plan
+        on store_admin.floorId = floor_plan.id  LEFT JOIN business_site on
+        store_admin.doBusinessSiteId = business_site.id left join store_brand sb on store_admin.id = sb.storeId left join brand b on sb.brandId = b.id
+        where store_admin.id = #{id}
+    </select>
+
 </mapper>

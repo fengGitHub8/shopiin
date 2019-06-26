@@ -8,6 +8,7 @@ import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
@@ -82,14 +83,26 @@ public class MessageAdminController {
     }
 
     @RequestMapping("delete")
-    public ResultVO deleteMessageById(MessageAdmin messageAdmin){
-        System.out.println("前端接收的数据:"+messageAdmin);
-        int i = messageAdminService.deleteMessageById(messageAdmin);
+    public ResultVO deleteMessageById(@RequestParam("id") Integer id){
+        System.out.println("前端接收的数据:"+id);
+        int i = messageAdminService.deleteMessageById(id);
         System.err.println("判断删除是否成功:"+i);
         if (i != 0) {
             return ResultVOUtil.success("删除成功！",null);
         }else {
             return ResultVOUtil.error("删除失败！",null);
+        }
+    }
+
+    @RequestMapping("/findbyid")
+    public ResultVO findById(@RequestParam("id") Integer id){
+        System.err.println(id);
+        MessageAdmin byId = messageAdminService.findById(id);
+        System.err.println(byId);
+        if (byId != null) {
+            return ResultVOUtil.success(byId,null);
+        }else {
+            return ResultVOUtil.error(null,null);
         }
     }
 

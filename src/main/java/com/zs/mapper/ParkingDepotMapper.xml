@@ -39,4 +39,8 @@
         update parking_depot set status =2 where id = #{id}
     </update>
 
+    <select id="findById" parameterType="int" resultMap="parkingdepot_map">
+        select * from parking_depot left join business_site on business_site.id = parking_depot.doBusinessSiteId where parking_depot.id =#{id}
+    </select>
+
 </mapper>

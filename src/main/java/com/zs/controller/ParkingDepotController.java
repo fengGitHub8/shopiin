@@ -75,5 +75,17 @@ public class ParkingDepotController {
         }
     }
 
+    @RequestMapping("/findbyid")
+    public ResultVO findById(@RequestParam("id") Integer id){
+        System.err.println(id);
+        ParkingDepot byId = parkingDepotService.findById(id);
+        System.err.println(byId);
+        if (byId != null) {
+            return ResultVOUtil.success(byId,null);
+        }else {
+            return ResultVOUtil.error(null,null);
+        }
+    }
+
 
 }

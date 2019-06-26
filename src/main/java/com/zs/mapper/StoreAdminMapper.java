@@ -48,4 +48,11 @@ public interface StoreAdminMapper {
      * @param storeTypeId
      */
     void deleteStoreAdminByStoreTypeId(Integer storeTypeId);
+
+    /**
+     * 修改时通过id查询store
+     * @param id
+     * @return
+     */
+    StoreAdmin findById(Integer id);
 }

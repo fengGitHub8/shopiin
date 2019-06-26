@@ -52,4 +52,9 @@ public class ParkingDepotServiceImpl implements ParkingDepotService {
         parkingAdminMapper.deleteParkingAdminByParkingDepotId(id);
         return i;
     }
+
+    @Override
+    public ParkingDepot findById(Integer id) {
+        return parkingDepotMapper.findById(id);
+    }
 }

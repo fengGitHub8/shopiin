@@ -20,7 +20,13 @@
         update game_admin set name = #{name},content = #{content},advertising=#{advertising},rule=#{rule},time=#{time},image=#{image},bgImage=#{bgImage},gameUrl=#{gameUrl},status=#{status} where id = #{id}
     </update>
 
-    <update id="deleteGameById" parameterType="gameadmin">
+    <update id="deleteGameById" parameterType="int">
         update game_admin set status=2 where id = #{id}
     </update>
+
+    <select id="findById" parameterType="int" resultType="gameadmin">
+        select * from game_admin where id = #{id}
+    </select>
+
+
 </mapper>

@@ -46,7 +46,12 @@ public class GameAdminServiceImpl implements GameAdminService {
     }
 
     @Override
-    public int deleteGameById(GameAdmin gameAdmin) {
-        return gameAdminMapper.deleteGameById(gameAdmin);
+    public int deleteGameById(Integer id) {
+        return gameAdminMapper.deleteGameById(id);
+    }
+
+    @Override
+    public GameAdmin findById(Integer id) {
+        return gameAdminMapper.findById(id);
     }
 }

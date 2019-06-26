@@ -40,4 +40,8 @@
         update parking_admin set status =2 where  parkingDepotId = #{parkingDepotId}
     </update>
 
+    <select id="findById" parameterType="int" resultMap="parkingadmin_map">
+        select * from parking_admin left join parking_depot on parking_admin.parkingDepotId = parking_depot.id where parking_admin.id = #{id}
+    </select>
+
 </mapper>

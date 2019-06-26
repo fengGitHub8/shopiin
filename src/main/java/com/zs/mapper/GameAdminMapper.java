@@ -44,8 +44,15 @@ public interface GameAdminMapper {
 
     /**
      * 删除小游戏，并返回1或者0判断是否删除成功
-     * @param gameAdmin
+     * @param id
      * @return
      */
-    int deleteGameById(GameAdmin gameAdmin);
+    int deleteGameById(Integer id);
+
+    /**
+     * 修改时通过id查一次
+     * @param id
+     * @return
+     */
+    GameAdmin findById(Integer id);
 }

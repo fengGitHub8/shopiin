@@ -38,12 +38,17 @@ public class MessageAdminServiceImpl implements MessageAdminService {
     }
 
     @Override
-    public int deleteMessageById(MessageAdmin messageAdmin) {
-        return messageAdminMapper.deleteMessageById(messageAdmin);
+    public int deleteMessageById(Integer id) {
+        return messageAdminMapper.deleteMessageById(id);
     }
 
     @Override
     public int sendMessageById(MessageAdmin messageAdmin) {
         return messageAdminMapper.sendMessageById(messageAdmin);
+    }
+
+    @Override
+    public MessageAdmin findById(Integer id) {
+        return messageAdminMapper.findById(id);
     }
 }
