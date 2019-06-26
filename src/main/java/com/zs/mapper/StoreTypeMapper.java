@@ -1,7 +1,6 @@
 package com.zs.mapper;
 
 import com.zs.entity.StoreType;
-import org.junit.Test;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
