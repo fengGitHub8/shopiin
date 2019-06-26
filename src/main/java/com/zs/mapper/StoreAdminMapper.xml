@@ -44,13 +44,15 @@
         insert into store_admin(shopId, name, categoryId, storeTypeId, doBusinessSiteId, floorId, introduce, logoImageUrl, status, keywords, storeMas) values(#{shopId}, #{name}, #{categoryId}, #{storeType.storeTypeId}, #{doBusinessSiteId}, #{floorId}, #{introduce},#{ logoImageUrl}, #{status}, #{keywords},#{ storeMas})
     </insert>
 
-
     <update id="updateStoreAdminById" parameterType="storeadmin">
         update store_admin set name = #{name}, categoryId =#{categoryId}, storeTypeId =#{storeTypeId}, doBusinessSiteId =#{doBusinessSiteId}, floorId =#{floorId}, introduce =#{introduce}, logoImageUrl =#{logoImageUrl}, status = #{status}, keywords=#{keywords}, storeMas = #{storeMas} where id = #{id}
     </update>
     
-    <update id="deleteStoreAdminById">
+    <update id="deleteStoreAdminById" parameterType="int">
         update store_admin set status=2 where id = #{id}
     </update>
 
+    <update id="deleteStoreAdminByStoreTypeId" parameterType="int">
+        update store_admin set status=2 where storeTypeId = #{storeTypeId}
+    </update>
 </mapper>

@@ -42,4 +42,10 @@ public interface ParkingAdminMapper {
      * @return
      */
     int deleteParkingAdminById(Integer id);
+
+    /**
+     *通过parkingDepotId删除相关的停车位
+     * @param parkingDepotId
+     */
+    void deleteParkingAdminByParkingDepotId(Integer parkingDepotId);
 }

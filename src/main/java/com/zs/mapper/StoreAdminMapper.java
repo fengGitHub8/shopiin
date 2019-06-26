@@ -36,5 +36,16 @@ public interface StoreAdminMapper {
      */
     int updateStoreAdminById(StoreAdmin storeAdmin);
 
+    /**
+     * 删除商铺或公共服务场所，并返回1或0判断是否删除成功
+     * @param id
+     * @return
+     */
     int deleteStoreAdminById(Integer id);
+
+    /**
+     * 通过storeTypeId删除相关的商铺或公共服务场所
+     * @param storeTypeId
+     */
+    void deleteStoreAdminByStoreTypeId(Integer storeTypeId);
 }

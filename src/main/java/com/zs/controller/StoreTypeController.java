@@ -74,4 +74,29 @@ public class StoreTypeController {
             return ResultVOUtil.error("删除失败！",null);
         }
     }
+
+    @RequestMapping("/findbyid")
+    public ResultVO findById(@RequestParam("id") Integer id){
+        System.err.println(id);
+        StoreType byId = storeTypeService.findById(id);
+        System.err.println(byId);
+        if (byId != null) {
+            return ResultVOUtil.success(byId,null);
+        }else {
+            return ResultVOUtil.error(null,null);
+        }
+    }
+
+    /*@RequestMapping("/findbystatus")
+    public ResultVO findByStatus(StoreType storeType){
+        System.err.println(storeType);
+        StoreType byId = storeTypeService.findByStatus(storeType);
+        System.err.println(byId);
+        if (byId != null) {
+            return ResultVOUtil.success(byId,null);
+        }else {
+            return ResultVOUtil.error(null,null);
+        }
+    }*/
+
 }

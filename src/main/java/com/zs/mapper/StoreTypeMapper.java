@@ -49,9 +49,10 @@ public interface StoreTypeMapper {
     int deleteStoreTypeById(Integer id);
 
     /**
-     * 通过id查询类型。给storeadmin用
+     * 通过id查询类型。
      * @param id
      * @return
      */
     StoreType findById(Integer id);
+
 }

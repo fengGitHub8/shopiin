@@ -33,4 +33,8 @@
         update parking_admin set status =2 where id = #{id}
     </update>
 
+    <update id="deleteParkingAdminByParkingDepotId" parameterType="int">
+        update parking_admin set status =2 where  parkingDepotId = #{parkingDepotId}
+    </update>
+
 </mapper>

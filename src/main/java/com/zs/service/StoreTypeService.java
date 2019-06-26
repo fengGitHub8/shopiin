@@ -39,4 +39,13 @@ public interface StoreTypeService {
      * @return
      */
     int deleteStoreTypeById(Integer id);
+
+    /**
+     * 修改时通过id来查询storetype信息
+     * @param id
+     * @return
+     */
+    StoreType findById(Integer id);
+
+
 }
