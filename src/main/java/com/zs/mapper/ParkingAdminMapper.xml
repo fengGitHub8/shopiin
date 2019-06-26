@@ -18,7 +18,10 @@
     </resultMap>
 
     <select id="findParkingAdminsByShopId" parameterType="parkingadmin" resultMap="parkingadmin_map">
-        select * from parking_admin where status!=2
+        select * from parking_admin left join parking_depot pd on parking_admin.parkingDepotId = pd.id where parking_admin.status!=2 and parking_admin.shopId = #{shopId}
+        <if test="name!=null">
+            parking_admin.name like concat('%',#{name},'%')
+        </if>
     </select>
 
     <insert id="addParkingAdmin" parameterType="parkingadmin">

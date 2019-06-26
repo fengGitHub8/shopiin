@@ -38,6 +38,9 @@
           on store_admin.floorId = floor_plan.id  LEFT JOIN business_site on
            store_admin.doBusinessSiteId = business_site.id left join store_brand sb on store_admin.id = sb.storeId left join brand b on sb.brandId = b.id
          where store_admin.shopId= #{shopId}  and store_type.type = #{storeType.type}  and store_admin.status!=2
+         <if test="name!=null">
+             and store_admin.name like concat('%',#{name},'%')
+         </if>
     </select>
 
     <insert id="addStoreAdmin" parameterType="storeadmin">
