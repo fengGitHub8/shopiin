@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper>
+<mapper namespace="com.zs.mapper.OpinionAdminMapper">
     <select id="findOpinion" parameterType="opinionadmin" resultType="opinionadmin">
        select * from opinion_admin where shopId = #{shopId} and isdel = 0;
     </select>

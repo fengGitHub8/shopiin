@@ -7,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * @program: shopin
+ * @description: 无线电管理
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 @Service
 public class RadioAdminServiceImpl implements RadioAdminService {
     @Autowired

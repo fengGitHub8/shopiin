@@ -4,6 +4,12 @@ import com.zs.entity.CommentAdmin;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 评论管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 public interface CommentAdminService {
     //根据门店id查询评论信息
     List<CommentAdmin> findComment(CommentAdmin commentAdmin);

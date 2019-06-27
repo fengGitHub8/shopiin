@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 会员Controller
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Controller
 @ResponseBody
 @RequestMapping("/memberClub")
@@ -21,13 +27,13 @@ public class MemberClubController {
     @RequestMapping("/finds")
     public ResultVO finds(MemberClub memberClub) {
         List<MemberClub> memberClubs = memberClubService.findMember(memberClub);
-        return ResultVOUtil.success( memberClubs,null);
+        return ResultVOUtil.success(memberClubs, null);
     }
 
     @RequestMapping("/modify")
     public ResultVO modify(MemberClub memberClub) {
         Boolean result = memberClubService.updateMember(memberClub);
-        return ResultVOUtil.success(result,null);
+        return ResultVOUtil.success(result, null);
     }
 
 

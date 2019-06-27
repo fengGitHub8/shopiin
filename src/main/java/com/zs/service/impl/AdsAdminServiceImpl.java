@@ -7,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * @program: shopin
+ * @description: 广告管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Service
 public class AdsAdminServiceImpl implements AdsAdminService {
 
