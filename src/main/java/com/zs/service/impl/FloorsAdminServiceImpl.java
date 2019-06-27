@@ -8,6 +8,13 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+
+/**
+ * @program: shopin
+ * @description: 评论管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Service
 public class FloorsAdminServiceImpl implements FloorsAdminService {
     @Autowired

@@ -4,6 +4,12 @@ import com.zs.entity.RadioAdmin;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 无线电管理
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 public interface RadioAdminService {
     List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin);
 

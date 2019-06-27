@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 广告Controller
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Controller
 @ResponseBody
 @RequestMapping("/pageAdAdmin")
@@ -21,26 +27,26 @@ public class AdsAdminController {
     @RequestMapping("/findAds")
     public ResultVO findAds(AdsAdmin adsAdmin) {
         List<AdsAdmin> adsAdmins = adsAdminService.findAds(adsAdmin);
-        return ResultVOUtil.success(adsAdmins,null);
+        return ResultVOUtil.success(adsAdmins, null);
 
     }
 
     @RequestMapping("/addAds")
     public ResultVO addAds(AdsAdmin adsAdmin) {
         Boolean result = adsAdminService.addAds(adsAdmin);
-        return ResultVOUtil.success(result,null);
+        return ResultVOUtil.success(result, null);
 
     }
 
     @RequestMapping("/modifyAds")
     public ResultVO modifyAds(AdsAdmin adsAdmin) {
         Boolean result = adsAdminService.modifyAds(adsAdmin);
-        return ResultVOUtil.success(result,null);
+        return ResultVOUtil.success(result, null);
     }
 
     @RequestMapping("/deleteAds")
     public ResultVO deleteAds(AdsAdmin adsAdmin) {
         Boolean result = adsAdminService.deleteAds(adsAdmin);
-        return ResultVOUtil.success(result,null);
+        return ResultVOUtil.success(result, null);
     }
 }
