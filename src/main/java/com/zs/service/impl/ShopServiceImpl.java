@@ -51,5 +51,10 @@ public class ShopServiceImpl implements ShopService{
         shopMapper.deleteShop(id);
     }
 
+    @Override
+    public Shop findById(String id) {
+        return shopMapper.findById(Integer.parseInt(id));
+    }
+
 
 }

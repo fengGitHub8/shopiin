@@ -53,4 +53,8 @@
     <select id="findFloorByDoBusinessSiteId" parameterType="int" resultMap="FloorPlanMap2">
         select * from floor_plan where doBusinessSiteId = #{doBusinessSiteId} and status = 1
     </select>
+
+    <select id="findById" parameterType="int" resultType="floorPlan">
+        select * from floor_plan WHERE id = #{id} AND status !=2;
+    </select>
 </mapper>

@@ -38,4 +38,11 @@ public interface CategoryMapper {
      * @return
      */
     Boolean deleteCategory(int i);
+
+    /**
+     * 根据id查询品类信息
+     * @param id
+     * @return
+     */
+    Category findById(Integer id);
 }

@@ -36,4 +36,11 @@ public interface BrandService {
      * @return
      */
     Boolean deleteBrand(String id);
+
+    /**
+     * 根据ID查询品牌信息
+     * @param id
+     * @return
+     */
+    Brand findById(Integer id);
 }

@@ -1,6 +1,7 @@
 package com.zs.service;
 
 import com.zs.entity.Admin;
+import com.zs.entity.AdminType;
 
 import java.util.List;
 
@@ -50,4 +51,17 @@ public interface AdminService {
      * @param id
      */
     void deleteAdmin(String id);
+
+    /**
+     * 查询所有管理员类型
+     * @return
+     */
+    List<AdminType> findAllType();
+
+    /**
+     * 根据id查询管理员信息
+     * @param id
+     * @return
+     */
+    Admin findAdminById(String id);
 }

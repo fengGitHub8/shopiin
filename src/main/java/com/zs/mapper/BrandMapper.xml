@@ -24,4 +24,8 @@
     <select id="findBystoreAdminId" parameterType="int" resultType="brand">
         select * from brand left join store_brand sb on brand.id = sb.brandId left join store_admin sa on sb.storeId = sa.id where sa.id = #{id}
     </select>
+
+    <select id="findById" parameterType="int" resultType="brand">
+        select * from brand WHERE id = #{id} AND status != 2;
+    </select>
 </mapper>

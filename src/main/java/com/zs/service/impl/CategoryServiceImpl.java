@@ -40,4 +40,9 @@ public class CategoryServiceImpl implements CategoryService{
     public Boolean deleteCategory(String id) {
         return categoryMapper.deleteCategory(Integer.parseInt(id));
     }
+
+    @Override
+    public Category findById(Integer id) {
+        return categoryMapper.findById(id);
+    }
 }

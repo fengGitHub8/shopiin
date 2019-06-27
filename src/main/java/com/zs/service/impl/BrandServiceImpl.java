@@ -43,4 +43,9 @@ public class BrandServiceImpl implements BrandService{
     public Boolean deleteBrand(String id) {
         return brandMapper.deleteBrand(Integer.parseInt(id));
     }
+
+    @Override
+    public Brand findById(Integer id) {
+        return brandMapper.findById(id);
+    }
 }

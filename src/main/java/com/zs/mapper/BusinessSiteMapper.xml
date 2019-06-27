@@ -31,4 +31,8 @@
     <select id="findBusinessSiteAndFloor" parameterType="int" resultMap="businessSiteAndFloor">
         select * from business_site where shopId = #{shopId} and status = 1
     </select>
+
+    <select id="findById" parameterType="int" resultType="businessSite">
+        select * from business_site WHERE id = #{id} and status != 2;
+    </select>
 </mapper>

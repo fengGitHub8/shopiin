@@ -45,4 +45,11 @@ public interface BusinessSiteMapper {
      * @return
      */
     List<BusinessSite> findBusinessSiteAndFloor(Integer shopId);
+
+    /**
+     * 根据id查询营业场所
+     * @param id
+     * @return
+     */
+    BusinessSite findById(Integer id);
 }

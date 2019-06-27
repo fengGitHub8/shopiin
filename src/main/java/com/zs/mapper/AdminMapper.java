@@ -1,6 +1,7 @@
 package com.zs.mapper;
 
 import com.zs.entity.Admin;
+import com.zs.entity.AdminType;
 import com.zs.entity.Shop;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -61,4 +62,17 @@ public interface AdminMapper {
      * @param id
      */
     void deleteAdmin(int id);
+
+    /**
+     * 查询所有管理员类型
+     * @return
+     */
+    List<AdminType> findAllType();
+
+    /**
+     * 根据id查询管理员信息
+     * @param i
+     * @return
+     */
+    Admin findAdminById(int id);
 }

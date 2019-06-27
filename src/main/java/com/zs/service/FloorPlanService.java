@@ -38,4 +38,11 @@ public interface FloorPlanService {
      * @return
      */
     Boolean deleteFloorPlan(String id);
+
+    /**
+     * 根据id查询楼层平面
+     * @param id
+     * @return
+     */
+    FloorPlan findById(Integer id);
 }
