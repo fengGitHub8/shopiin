@@ -32,7 +32,7 @@
                 <!--v-bind:value="list.shopId"-->
                 <!--{{list.introduce}}-->
                 <select type="button" id="Resultlist"   class="btn btn-default "  data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list in store" v-if="list.status==0"  v-bind:value="list.id" >{{list.introduce}}</option> <span class="caret"></span>
+                    <option v-for="list in store" v-if="list.status==1" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -244,15 +244,23 @@
                     .post('/doBusinessSite/find?shopId='+"39")
                     .then(function (response) {
                         that.responseResult=response.data.responseResult;
-
-
                         console.log(response.data)
-
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-            }
+
+            axios
+                .post('/shopAdmin/find')
+                .then(function (response) {
+                    that.store=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
         })
 </script>
 </body>

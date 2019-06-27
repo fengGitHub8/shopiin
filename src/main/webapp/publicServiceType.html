@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bond="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>公共服务场所管理</title>
+    <title>公共服务类型管理</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css"/>
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
@@ -46,9 +46,6 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             top:25%;
             z-index: 5;
         }
-        td{
-            text-align: center;
-        }
     </style>
     <div class="container" id="responseResult" >
         <div class="row" >
@@ -56,7 +53,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <span style="font-size: 20px">门店：</span>
             <div class="btn-group" >
                 <select type="button" id="Resultlist"   class="btn btn-default "  data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list in store" v-bind:value="list.id" >{{list.introduce}}</option> <span class="caret"></span>
+                    <option v-for="list1 in store" v-if="list1.status==1" v-bind:value="list1.id" >{{list1.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -65,30 +62,16 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 
             <table class="table table-bordered table-hover tab-content">
                 <tr>
-                    <td>公共服务场所id</td>
-                    <td>公共服务场所名字</td>
+                    <td>公共服务类型id</td>
                     <td>服务类型</td>
-                    <td>营业场所</td>
-                    <td>楼层</td>
-                    <td>关键字</td>
-                    <td>服务介绍</td>
-                    <td>门头图</td>
                     <td>状态</td>
-                    <td>二维码</td>
-                    <td>操作</td>
+                    <td style="width: 500px">操作</td>
                 </tr>
-                <tr v-for="Result in responseResult" >
-                    <td>{{Result.id}}</td>
-                    <td >{{Result.name}}</td>
-                    <td >{{Result.doBusinessSiteName}}</td>
-                    <td >{{Result.floorName}}</td>
-                    <td >{{Result.keywords}}</td>
-                    <td >{{Result.introduce}}</td>
-                    <td ><img :src="Result.logoImageUrl" height="40px" @click="pimgs(val)"></td>
-                    <td >{{Result.name}}</td>
-                    <td >{{Result.name}}</td>
-                    <td  v-if="Result.status==1">启用</td>
-                    <td v-else>禁用</td>
+                <tr v-for="Result in responseResult" class="vert-aligned" style="height: 60px" >
+                    <td width="200px">{{Result.id}}</td>
+                    <td width="200px">{{Result.name}}</td>
+                    <td width="200px" v-if="Result.status==1">启用</td>
+                    <td width="200px" v-else>禁用</td>
                     <td><button class="btn btn-default btn-xs" @click="updateAndid(Result)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(Result)">删除</button></td>
 
                 </tr>
@@ -96,7 +79,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             </table>
 
 
-            <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade bbd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" style="width:650px">
                     <div class="modal-content">
                         <div class="modal-body">
@@ -105,61 +88,17 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                         </div>
                         <form class="form-horizontal"   method="post" role="form">
                             <div class="modal-header">
-                                <input type="hidden" id="list.id" name="type" v-model="list.type" value="store">
+                                <input type="hidden" name="type" v-model="list.id"    >
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">场所名称:</label>
+                                    <label class="col-sm-2 control-label">服务类型:</label>
                                     <div class="col-sm-8">
                                         <input type="text"  class="form-control" v-model="list.name" placeholder="请输入该门店的名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">营业场所:</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" id="list.name"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.id" >{{list.name}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">楼层:</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" id="list.keywords"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.keywords" >{{list.name}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">类型:</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" id="list.storeTypeId"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.storeTypeId" >{{list.name}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">关键字:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="list.name" placeholder="请输入关键字(关键字请以逗号隔开)">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">介绍:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="list.name" placeholder="请输入介绍">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">门头图:</label>
-                                <div class="div_imgall  col-sm-offset-3">
-                                    <input type="file" class="input_flie" ref="file">
-                                    <div class="div_shuline"></div>
-                                    <div class="div_hengline"></div>
-                                </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-2 control-label">门店状态:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="status" v-model="list.status">
+                                        <select class="form-control" id="status" v-model="list.status" >
                                             <option value="1" >启用</option>
                                             <option value="0">禁用</option>
                                         </select>
@@ -192,15 +131,9 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">简介:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text"class="form-control" v-model="updatelist.introduce"  placeholder="请输入该门店的地址">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-2 control-label">门店状态:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="updatestatus" v-bind:value="updatelist.status" v-model="updatelist.status" >
+                                        <select class="form-control" id="updatestatus" v-model="updatelist.status" >
                                             <option value="1" >启用</option>
                                             <option value="0">禁用</option>
                                         </select>
@@ -238,8 +171,9 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             },
             // 店铺查询
             getStore(){
+                var that=this
                 axios
-                    .post(''+39)
+                    .post('?shopId='+39)
                     .then(function (response) {
                         that.store=response.data.responseResult;
                         console.log(response.data)
@@ -250,11 +184,11 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             },
             // 添加
             addShop(list) {
-                this.list.shopId = '39';
-                console.log(this.list)
+                this.list.shopId = 39;
+                this.list.type='service'
+                console.log(this.list.name)
                 axios
-                // /doBusinessSite/add
-                    .post('/doBusinessSite/add', this.list)
+                    .post('/storeType/add', this.list)
                     .then(function (response) {
                         $("#myModal").modal('hide')
                         console.log(list)
@@ -269,7 +203,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             delByid(Result) {
                 axios
                 // shopAdmin/deleteShop
-                    .post('shopAdmin/deleteShop', Result.id)
+                    .post('/storeType/delete?id='+Result.id)
                     .then(function (response) {
                         alert("删除成功")
                         location.reload()
@@ -282,14 +216,12 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             // 修改
             updateAndid(Result) {
                 $("#myModall").modal('show')
-                alert(Result.id)
-                var that=this
+                var that = this
                 axios
                 // 单个查询
-                    .post('/storeAdmin/findbyid?id='+Result.id)
+                    .post('/storeType/findbyid?id='+Result.id)
                     .then(function (response) {
                         that.updatelist = response.data.responseResult;
-                        console.log(response.data.responseResult)
                         $("#updatestatus").val(that.updatelist.status)
                     })
                     .catch(function (error) {
@@ -297,10 +229,9 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                     });
             }
             , updateByid(updatelist) {
-                this.updatelist.status = $("#updatestatus").val();
-                console.log(this.updatelist.status)
+                console.log(this.updatelist.name)
                 axios
-                    .post('/storeAdmin/modify', this.updatelist)
+                    .post('/storeType/modify', this.updatelist)
                     .then(function (response) {
                         $("#myModal").modal('hide')
                         alert("修改成功")
@@ -314,11 +245,19 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
         ,created(){
             var that=this
             axios
-            // /doBusinessSite/find
-            // /storeType/finds?shopId=39&type=service
-                .post('/storeAdmin/finds?shopId=39&storeType.type=service')
+                .post('/storeType/finds?shopId=39&type=service')
                 .then(function (response) {
                     that.responseResult=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            axios
+                .post('/shopAdmin/find')
+                .then(function (response) {
+                    that.store=response.data.responseList;
                     console.log(response.data)
                 })
                 .catch(function (error) {
