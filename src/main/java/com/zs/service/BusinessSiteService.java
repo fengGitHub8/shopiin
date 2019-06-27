@@ -36,4 +36,11 @@ public interface BusinessSiteService {
      * @return
      */
     Boolean deleteBusinessSite(String id);
+
+    /**
+     * 查询所有营业场所以及它所拥有的楼层
+     * @param shopId
+     * @return
+     */
+    List<BusinessSite> findBusinessSiteAndFloor(Integer shopId);
 }

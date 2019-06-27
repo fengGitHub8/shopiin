@@ -7,4 +7,9 @@
     <select id="findByShopIdAndDate" resultType="operState">
         select * from oper_state WHERE shopId = #{shopId} AND DATE_FORMAT(`date`, '%Y-%m-%d') = #{date}
     </select>
+
+    <select id="findByBeginAndEndTime" resultType="operState">
+        SELECT * from oper_state where shopId = #{param1} AND DATE_FORMAT(`date`, '%Y-%m-%d') &gt;= #{param2}
+        AND DATE_FORMAT(`date`, '%Y-%m-%d') &lt;= #{param3}
+    </select>
 </mapper>

@@ -24,6 +24,13 @@
             <result column="shop.name" property="name"></result>
         </association>
     </resultMap>
+
+    <resultMap id="FloorPlanMap2" type="floorPlan">
+        <id column="id" property="id"></id>
+        <result property="name" column="name"></result>
+    </resultMap>
+
+
     <select id="findByShopId" parameterType="int" resultMap="FloorPlanMap">
         select * from floor_plan LEFT JOIN business_site on doBusinessSiteId = business_site.id
         LEFT JOIN shop on floor_plan.shopId = shop.id WHERE floor_plan.shopId = #{shopId} AND floor_plan.status != 2;
@@ -42,4 +49,8 @@
     <update id="deleteFloorPlan" parameterType="int">
         update floor_plan set status = 2 where id = #{id};
     </update>
+
+    <select id="findFloorByDoBusinessSiteId" parameterType="int" resultMap="FloorPlanMap2">
+        select * from floor_plan where doBusinessSiteId = #{doBusinessSiteId} and status = 1
+    </select>
 </mapper>

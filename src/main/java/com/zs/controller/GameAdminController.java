@@ -7,6 +7,7 @@ import com.zs.service.GameAdminService;
 import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,7 @@ public class GameAdminController {
     }
 
     @RequestMapping("/addGame")
-    public ResultVO addGame(GameAdmin gameAdmin){
+    public ResultVO addGame(@RequestBody GameAdmin gameAdmin){
         System.err.println("前端接收的数据:"+gameAdmin);
         int i = gameAdminService.addGame(gameAdmin);
         System.err.println("判断是否添加成功:"+i);
@@ -53,7 +54,7 @@ public class GameAdminController {
     }
 
     @RequestMapping("/modifGame")
-    public ResultVO updateGameById(GameAdmin gameAdmin){
+    public ResultVO updateGameById(@RequestBody GameAdmin gameAdmin){
         System.err.println("前端接收的数据:"+gameAdmin);
         int i = gameAdminService.updateGameById(gameAdmin);
         System.err.println("判断是否修改成功:"+i);

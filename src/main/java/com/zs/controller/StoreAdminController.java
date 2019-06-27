@@ -31,7 +31,7 @@ public class StoreAdminController {
     private StoreAdminService storeAdminService;
 
     @RequestMapping("/finds")
-    public ResultVO findStoreAdmin(StoreAdmin storeAdmin){
+    public ResultVO findStoreAdmin( StoreAdmin storeAdmin){
         System.err.println(storeAdmin);
         List<StoreAdmin> byShopIdAndType = storeAdminService.findStoreAdminByShopIdAndType(storeAdmin);
         System.err.println(byShopIdAndType);
@@ -43,7 +43,7 @@ public class StoreAdminController {
     }
 
     @RequestMapping("/add")
-    public ResultVO addStoreAdmin(StoreAdmin storeAdmin){
+    public ResultVO addStoreAdmin(@RequestBody StoreAdmin storeAdmin){
         System.err.println("前端接收的数据:"+storeAdmin);
         int i = storeAdminService.addStoreAdmin(storeAdmin);
         System.err.println("判断是否添加成功:"+i);
@@ -55,7 +55,7 @@ public class StoreAdminController {
     }
 
     @RequestMapping("/modify")
-    public ResultVO updateStoreAdminById(StoreAdmin storeAdmin){
+    public ResultVO updateStoreAdminById(@RequestBody StoreAdmin storeAdmin){
         System.err.println("前端接收的数据:"+storeAdmin);
         int i = storeAdminService.updateStoreAdminById(storeAdmin);
         System.err.println("判断修改是否成功:"+i);
