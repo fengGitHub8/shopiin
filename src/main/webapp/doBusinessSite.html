@@ -29,7 +29,7 @@
             <span style="font-size: 20px">门店：</span>
             <div class="btn-group" >
                 <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list in store" v-if="list.status==1" v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
+                    <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -151,28 +151,30 @@
     var responseResult=new Vue({
         el:"#responseResult",
         data:{
-            selVal:0,
+            selVal:39,
             responseResult:{},
             list:{},
             updatelist:{},
             store:{}
         },
-        One(){
-            var that=this
-            axios
-                .post('/doBusinessSite/find?shopId='+this.selVal)
-                .then(function (response) {
-                    that.responseResult=response.data.responseResult;
-                    console.log(response.data)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
+
         methods: {
             addUser() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
+            },
+            One(){
+                console.log(this.selVal)
+                var that=this
+                axios
+                    .post('/doBusinessSite/find?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.responseResult=response.data.responseResult;
+                        console.log(response.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
                 // 添加
                 addShop(list) {
@@ -210,20 +212,21 @@
                     var that = this
                     axios
                     // 单个查询
-                        .post('', Result.id)
+                        .post('/doBusinessSite/findById?id='+ Result.id)
                         .then(function(response) {
-                            that.updatelist = response.data;
-                            $("#updatestatus").val(updatelist.status)
+                            that.updatelist = response.data.responseList;
+                            console.log(response.data)
+                            $("#updatestatus").val(that.updatelist.status)
                         })
                         .catch(function(error) {
                             console.log(error);
                         });
                 }
             , updateByid(updatelist) {
-                    this.updatelist = $("#updatestatus").val();
-                    console.log(this.updatelist)
+                    this.updatelist.status = $("#updatestatus").val();
+                    console.log(this.updatelist.status)
                     axios
-                        .post('/storeAdmin/modify', this.updatelist)
+                        .post('/doBusinessSite/change', this.updatelist)
                         .then(function (response) {
                             $("#myModal").modal('hide')
                             alert("修改成功")
@@ -238,7 +241,7 @@
                 var that=this
                 axios
                 // /doBusinessSite/find
-                    .post('/doBusinessSite/find?shopId='+"39")
+                    .post('/doBusinessSite/find?shopId=39')
                     .then(function (response) {
                         that.responseResult=response.data.responseResult;
                         console.log(response.data)

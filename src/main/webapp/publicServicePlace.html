@@ -56,7 +56,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <span style="font-size: 20px">门店：</span>
             <div class="btn-group" >
                 <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list in store" v-if="list.status==1" v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
+                    <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -80,15 +80,15 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 <tr v-for="Result in responseResult" >
                     <td>{{Result.id}}</td>
                     <td >{{Result.name}}</td>
+                    <td v-for="Result.storeTypeId">{{Result.storeTypeName}}</td>
                     <td >{{Result.doBusinessSiteName}}</td>
                     <td >{{Result.floorName}}</td>
                     <td >{{Result.keywords}}</td>
                     <td >{{Result.introduce}}</td>
-                    <td ><img :src="Result.logoImageUrl" height="40px" @click="pimgs(val)"></td>
-                    <td >{{Result.name}}</td>
-                    <td >{{Result.name}}</td>
+                    <td ><img :src="Result.logoImageUrl" height="40px" @click="pimgs(Result)"></td>
                     <td  v-if="Result.status==1">启用</td>
                     <td v-else>禁用</td>
+                    <td><button class="btn btn-default btn-xs" @click="ping()">生成</button></td>
                     <td><button class="btn btn-default btn-xs" @click="updateAndid(Result)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(Result)">删除</button></td>
 
                 </tr>
@@ -216,6 +216,23 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             </div>
 
 
+            <div class="modal fade bbd-example-modal-sm" id="myModalll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width:600px">
+                    <div class="modal-content">
+                        <img v-for="val in responseResult" :src="val.logoImageUrl">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade bbd-example-modal-sm" id="myModallll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" >
+                    <div class="modal-content"  >
+                        <img  :src="store" style="height: 400px">
+                    </div>
+                </div>
+            </div>
+
 
 
         </div>
@@ -226,6 +243,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
     var responseResult=new Vue({
         el:"#responseResult",
         data:{
+            selVal:39,
             responseResult:{},
             list:{},
             updatelist:{},
@@ -236,24 +254,23 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 $("#myModal").modal('show');
                 $("#status").val(1)
             },
+            pimgs(Result){
+                this.store=Result.images
+                $("#myModallll").modal('show');
+            },
+            ping() {
+                $("#myModalll").modal('show');
+            },
+            Shop() {
+                $("#myModal").modal('show');
+                $("#status").val(1)
+            },
             One() {
                 var that = this
                 axios
                     .post('/storeAdmin/finds?shopId='+this.selVal+'&&storeType.type=service')
                     .then(function (response) {
                         that.responseResult = response.data.responseList;
-                        console.log(response.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            // 店铺查询
-            getStore(){
-                axios
-                    .post(''+39)
-                    .then(function (response) {
-                        that.store=response.data.responseResult;
                         console.log(response.data)
                     })
                     .catch(function (error) {
@@ -281,7 +298,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             delByid(Result) {
                 axios
                 // shopAdmin/deleteShop
-                    .post('shopAdmin/deleteShop', Result.id)
+                    .post('/storeAdmin/delete?id='+ Result.id)
                     .then(function (response) {
                         alert("删除成功")
                         location.reload()
@@ -298,7 +315,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 var that=this
                 axios
                 // 单个查询
-                    .post('/storeAdmin/findbyid?id='+Result.id)
+                    .post('/findbyid?id='+Result.id)
                     .then(function (response) {
                         that.updatelist = response.data.responseResult;
                         console.log(response.data.responseResult)

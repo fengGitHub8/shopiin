@@ -53,7 +53,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <span style="font-size: 20px">门店：</span>
             <div class="btn-group" >
                 <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list in store" v-if="list.status==1" v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
+                    <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -159,7 +159,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
     var responseResult=new Vue({
         el:"#responseResult",
         data:{
-            selVal:0,
+            selVal:39,
             responseResult:{},
             list:{},
             updatelist:{},
@@ -181,19 +181,6 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                     .catch(function (error) {
                         console.log(error);
                     })
-            },
-            // 店铺查询
-            getStore(){
-                var that=this
-                axios
-                    .post('?shopId='+39)
-                    .then(function (response) {
-                        that.store=response.data.responseResult;
-                        console.log(response.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
             },
             // 添加
             addShop(list) {

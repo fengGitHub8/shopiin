@@ -230,7 +230,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 				</div>
 				<form class="form-horizontal" method="post" role="form">
 					<div class="modal-header">
-						<input type="hidden" name="type" v-model="updatelist.id" value="">
+						<input type="text" name="type" id="updatelist.id" v-model="updatelist.id" >
 						<div class="form-group">
 							<label class="col-sm-2 control-label">门店名称:</label>
 							<div class="col-sm-8">
@@ -358,7 +358,6 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 			// 删除
 			delByid(val) {
 				axios
-				// shopAdmin/deleteShop
 						.post('/shopAdmin/deleteShop?id='+val.id)
 						.then(function(response) {
 							alert("删除成功")
@@ -371,23 +370,24 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 			},
 			// 修改
 			updateid(val) {
+				alert(val.id)
 				$("#myModall").modal('show')
-				// this.updatelist=val
 				var that=this
 				axios
 				// 单个查询
-						.post('', val.id)
+						.post('/shopAdmin/findById?id='+val.id)
 						.then(function(response) {
-							that.updatelist = response.data;
-							$("#updatestatus").val(updatelist.status)
+							that.updatelist = response.data.responseList;
+							console.log(response.data)
+							$("#updatelist.id").val(that.updatelist.updatelist)
 						})
 						.catch(function(error) {
 							console.log(error);
 						});
 			},
 			updateByid(updatelist) {
-				this.updatelist = $("#updatestatus").val();
-				console.log(this.updatelist.status)
+				this.updatelist.id=$("#updatelist.id").val()
+				console.log(this.updatelist.name)
 				axios
 						.post('/shopAdmin/deleteShop', this.updatelist)
 						.then(function(response) {
