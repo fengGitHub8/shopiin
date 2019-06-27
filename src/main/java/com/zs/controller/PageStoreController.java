@@ -19,7 +19,7 @@ import java.util.List;
  **/
 @Controller
 @ResponseBody
-@RequestMapping("/pageAdAdmin")
+@RequestMapping("/pageAdmin")
 public class PageStoreController {
     @Autowired
     private PageStoreService pageStoreService;
