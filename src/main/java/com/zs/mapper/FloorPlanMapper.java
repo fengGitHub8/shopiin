@@ -39,4 +39,11 @@ public interface FloorPlanMapper {
      * @param id
      */
     void deleteFloorPlan(int id);
+
+    /**
+     * 通过营业场所id查询该营业场所所有的楼层
+     * @param doBusinessSiteId
+     * @return
+     */
+    List<FloorPlan> findFloorByDoBusinessSiteId(Integer doBusinessSiteId);
 }

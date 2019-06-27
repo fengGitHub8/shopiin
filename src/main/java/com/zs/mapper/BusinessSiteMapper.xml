@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zs.mapper.BusinessSiteMapper">
+
+    <resultMap id="businessSiteAndFloor" type="businessSite">
+        <id column="id" property="id"></id>
+        <result property="name" column="name"></result>
+        <collection property="floorPlanList" column="id" select="com.zs.mapper.FloorPlanMapper.findFloorByDoBusinessSiteId"></collection>
+    </resultMap>
+
     <select id="findByShopId" parameterType="int" resultType="businessSite">
         select * from business_site WHERE shopId = #{shopId} AND status != 2;
     </select>
@@ -20,4 +27,8 @@
     <update id="deleteById" parameterType="int">
         update business_site set status = 2 where id = #{id};
     </update>
+
+    <select id="findBusinessSiteAndFloor" parameterType="int" resultMap="businessSiteAndFloor">
+        select * from business_site where shopId = #{shopId} and status = 1
+    </select>
 </mapper>
