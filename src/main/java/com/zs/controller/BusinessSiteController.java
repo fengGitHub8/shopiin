@@ -52,7 +52,7 @@ public class BusinessSiteController {
     @RequestMapping("/findBusinessSiteAndFloor")
     public ResultVO findBusinessSiteAndFloor(@RequestParam("shopId") Integer shopId){
         List<BusinessSite> businessSites = businessSiteService.findBusinessSiteAndFloor(shopId);
-        return ResultVOUtil.success(businessSites,null);
+        return ResultVOUtil.success(null,businessSites);
     }
 
 }
