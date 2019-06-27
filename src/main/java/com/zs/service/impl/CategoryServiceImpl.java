@@ -20,8 +20,8 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> findByShopId(String shopId) {
-        return categoryMapper.findByShopId(Integer.parseInt(shopId));
+    public List<Category> findByShopId(Integer shopId) {
+        return categoryMapper.findByShopId(shopId);
     }
 
     @Override

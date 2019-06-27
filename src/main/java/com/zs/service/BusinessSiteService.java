@@ -16,7 +16,7 @@ public interface BusinessSiteService {
      * @param shopId
      * @return
      */
-    List<BusinessSite> findByShopId(String shopId);
+    List<BusinessSite> findByShopId(Integer shopId);
 
     /**
      * 添加营业场所

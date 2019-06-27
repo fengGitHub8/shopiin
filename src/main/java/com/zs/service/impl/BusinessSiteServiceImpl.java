@@ -20,8 +20,8 @@ public class BusinessSiteServiceImpl implements BusinessSiteService{
     private BusinessSiteMapper businessSiteMapper;
 
     @Override
-    public List<BusinessSite> findByShopId(String shopId) {
-        return businessSiteMapper.findByShopId(Integer.parseInt(shopId));
+    public List<BusinessSite> findByShopId(Integer shopId) {
+        return businessSiteMapper.findByShopId(shopId);
     }
 
     @Override

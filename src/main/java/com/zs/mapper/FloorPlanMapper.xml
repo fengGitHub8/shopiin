@@ -26,7 +26,7 @@
     </resultMap>
     <select id="findByShopId" parameterType="int" resultMap="FloorPlanMap">
         select * from floor_plan LEFT JOIN business_site on doBusinessSiteId = business_site.id
-        LEFT JOIN shop on floor_plan.shopId = shop.id WHERE floor_plan.shopId = #{shopId} AND floor_plan.status = 1;
+        LEFT JOIN shop on floor_plan.shopId = shop.id WHERE floor_plan.shopId = #{shopId} AND floor_plan.status != 2;
     </select>
 
     <insert id="addFloorPlan" parameterType="floorPlan" useGeneratedKeys="true" keyProperty="id">
@@ -40,6 +40,6 @@
     </update>
 
     <update id="deleteFloorPlan" parameterType="int">
-        update floor_plan set status = 0 where id = #{id};
+        update floor_plan set status = 2 where id = #{id};
     </update>
 </mapper>

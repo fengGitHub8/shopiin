@@ -20,8 +20,8 @@ public class FloorPlanServiceImpl implements FloorPlanService{
     private FloorPlanMapper floorPlanMapper;
 
     @Override
-    public List<FloorPlan> findByShopId(String shopId) {
-        List<FloorPlan> floorPlans = floorPlanMapper.findByShopId(Integer.parseInt(shopId));
+    public List<FloorPlan> findByShopId(Integer shopId) {
+        List<FloorPlan> floorPlans = floorPlanMapper.findByShopId(shopId);
         return floorPlans;
     }
 

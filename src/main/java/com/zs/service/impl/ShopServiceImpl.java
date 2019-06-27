@@ -46,7 +46,7 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public void deleteShop(String id) {
+    public void deleteShop(Integer id) {
 
         shopMapper.deleteShop(id);
     }

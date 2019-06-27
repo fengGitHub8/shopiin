@@ -21,7 +21,7 @@ public class Category {
     //品类的名字，如男装
     private String type;
     //该品类下面的状态
-    private String status;
+    private Integer status;
     //品类的优先级
     private Integer grade;
 }

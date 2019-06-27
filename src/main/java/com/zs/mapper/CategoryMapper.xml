@@ -6,7 +6,7 @@
 <mapper namespace="com.zs.mapper.CategoryMapper">
     <select id="findByShopId" parameterType="int" resultType="category">
         select category.*,shop.name shopName from category,shop WHERE category.shopId = shop.id
-        AND category.shopId = #{shopId} AND category.status = 1;
+        AND category.shopId = #{shopId} AND category.status !=2;
     </select>
 
     <insert id="addCategory" parameterType="category" useGeneratedKeys="true" keyProperty="id">
@@ -18,6 +18,6 @@
     </update>
 
     <update id="deleteCategory" parameterType="int">
-        update category set status = 0 where id =#{id};
+        update category set status = 2 where id =#{id};
     </update>
 </mapper>

@@ -69,7 +69,7 @@ public class ShopController {
      * @return
      */
     @RequestMapping("/deleteShop")
-    public ResultVO deleteShop(@RequestParam("id") String id){
+    public ResultVO deleteShop(@RequestParam("id") Integer id){
         shopService.deleteShop(id);
         return ResultVOUtil.success("删除成功",null);
     }

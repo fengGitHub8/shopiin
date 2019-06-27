@@ -18,7 +18,7 @@ public interface BrandMapper {
      * @param shopId
      * @return
      */
-    List<Brand> findByShopId(int shopId);
+    List<Brand> findByShopId(Integer shopId);
 
     /**
      * 添加品牌信息

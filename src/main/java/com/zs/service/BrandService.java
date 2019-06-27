@@ -16,7 +16,7 @@ public interface BrandService {
      * @param shopId
      * @return
      */
-    List<Brand> findByShopId(String shopId);
+    List<Brand> findByShopId(Integer shopId);
 
     /**
      * 添加品牌信息

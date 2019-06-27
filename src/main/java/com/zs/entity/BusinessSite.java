@@ -19,9 +19,11 @@ public class BusinessSite {
     //简介
     private String introduce;
     //该营业场所的状态
-    private String status;
+    private Integer status;
     //二维码图片
     private String qrcodeImage;
     //二维码文字
     private String qrcodeText;
+    //楼层对象
+    private FloorPlan floorPlan;
 }
