@@ -48,9 +48,6 @@ public class StoreTypeServiceImpl implements StoreTypeService {
     public int updateStoreTypeById(StoreType storeType) {
         int count = storeTypeMapper.findStoreTypeByShopIdAndTypeAndName(storeType);
         if (count == 0) {
-            if (storeType.getStatus() == 0) {
-                storeAdminMapper.deleteStoreAdminByStoreTypeId(storeType.getId());
-            }
             return storeTypeMapper.updateStoreTypeById(storeType);
         } else {
             return 0;
