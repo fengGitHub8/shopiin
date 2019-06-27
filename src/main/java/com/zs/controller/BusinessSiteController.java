@@ -31,6 +31,12 @@ public class BusinessSiteController {
         return ResultVOUtil.success(businessSites,null);
     }
 
+    @RequestMapping("/findById")
+    public ResultVO findById(@RequestParam("id") Integer id){
+        BusinessSite businessSite = businessSiteService.findById(id);
+        return ResultVOUtil.success("查询成功",businessSite);
+    }
+
     @RequestMapping("/add")
     public ResultVO add(BusinessSite businessSite){
         businessSiteService.addBusinessSite(businessSite);

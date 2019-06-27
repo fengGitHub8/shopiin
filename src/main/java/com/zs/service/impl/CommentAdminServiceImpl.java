@@ -7,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * @program: shopin
+ * @description: 评论管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Service
 public class CommentAdminServiceImpl implements CommentAdminService {
     @Autowired
@@ -15,6 +22,16 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     @Override
     public List<CommentAdmin> findComment(CommentAdmin commentAdmin) {
         return commentAdminMapper.findComment(commentAdmin);
+    }
+
+    @Override
+    public List<CommentAdmin> findCommentById(int id) {
+        return commentAdminMapper.findCommentById(id);
+    }
+
+    @Override
+    public List<CommentAdmin> findCommentByContent(CommentAdmin commentAdmin) {
+        return commentAdminMapper.findCommentByContent(commentAdmin);
     }
 
     @Override

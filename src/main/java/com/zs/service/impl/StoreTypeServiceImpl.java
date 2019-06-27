@@ -31,11 +31,16 @@ public class StoreTypeServiceImpl implements StoreTypeService {
 
     @Override
     public int addStoreType(StoreType storeType) {
-        int count = storeTypeMapper.findStoreTypeByShopIdAndTypeAndName(storeType);
-        if (count == 0) {
+        StoreType byId = storeTypeMapper.findById(storeType.getId());
+        if (byId.getName() == storeType.getName()) {
             return storeTypeMapper.addStoreType(storeType);
         } else {
-            return 0;
+            int count = storeTypeMapper.findStoreTypeByShopIdAndTypeAndName(storeType);
+            if (count == 0) {
+                return storeTypeMapper.addStoreType(storeType);
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -43,9 +48,6 @@ public class StoreTypeServiceImpl implements StoreTypeService {
     public int updateStoreTypeById(StoreType storeType) {
         int count = storeTypeMapper.findStoreTypeByShopIdAndTypeAndName(storeType);
         if (count == 0) {
-            if(storeType.getStatus()==0){
-                storeAdminMapper.deleteStoreAdminByStoreTypeId(storeType.getId());
-            }
             return storeTypeMapper.updateStoreTypeById(storeType);
         } else {
             return 0;

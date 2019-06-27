@@ -20,6 +20,13 @@ public interface ShopMapper {
     List<Shop> findAll();
 
     /**
+     * 根据id查询门店信息
+     * @param id
+     * @return
+     */
+    Shop findById(int id);
+
+    /**
      * 传入shop新增shop
      * @param shop
      * @return

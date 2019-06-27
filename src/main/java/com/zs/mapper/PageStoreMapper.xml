@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.PageStoreMapper">
+    <select id="getPageStore" parameterType="int" resultType="pagestore">
+        select * from pagestore_admin where pageFloorId = #{pageFloorId};
+    </select>
+    <insert id="addPageStore" parameterType="pagestore">
+        insert into pagestore_admin values(#{id},#{storeId},#{pageFloorId},#{title},#{image},#{url},#{grade},#{type});
+    </insert>
+    <update id="modifyPageStore" parameterType="pagestore">
+        update pagestore_admin set pageFloorId = #{pageFloorId},storeId = #{storeId},title = #{title},image = #{image},url = #{url},type = #{type}
+        where pageFloorId = #{pageFloorId};
+    </update>
+</mapper>

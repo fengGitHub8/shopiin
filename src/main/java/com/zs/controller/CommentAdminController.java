@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 评论Controller
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Controller
 @ResponseBody
 @RequestMapping("/commentAdmin")
@@ -21,11 +27,24 @@ public class CommentAdminController {
     @RequestMapping("/find")
     public ResultVO find(CommentAdmin commentAdmin) {
         List<CommentAdmin> commentAdmins = commentAdminService.findComment(commentAdmin);
-        return ResultVOUtil.success(commentAdmins,null);
+        return ResultVOUtil.success(commentAdmins, null);
     }
+
+    @RequestMapping("findById")
+    public ResultVO findById(int id) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findCommentById(id);
+        return ResultVOUtil.success(commentAdmins, null);
+    }
+
+    @RequestMapping("findByContent")
+    public ResultVO findByContent(CommentAdmin commentAdmin) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findCommentByContent(commentAdmin);
+        return ResultVOUtil.success(commentAdmins, null);
+    }
+
     @RequestMapping("/modify")
-    public ResultVO modify(CommentAdmin commentAdmin){
+    public ResultVO modify(CommentAdmin commentAdmin) {
         Boolean result = commentAdminService.modifyComment(commentAdmin);
-        return ResultVOUtil.success(result,null);
+        return ResultVOUtil.success(result, null);
     }
 }

@@ -31,6 +31,12 @@ public class CategoryController {
         return ResultVOUtil.success(null,categories);
     }
 
+    @RequestMapping("/findById")
+    public ResultVO findById(@RequestParam("id")Integer id){
+        Category categorie = categoryService.findById(id);
+        return ResultVOUtil.success("查询成功",categorie);
+    }
+
     @RequestMapping("/add")
     public ResultVO add(Category category){
         Boolean result = categoryService.addCategory(category);

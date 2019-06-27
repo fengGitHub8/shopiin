@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 广告管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Repository
 public interface AdsAdminMapper {
     List<AdsAdmin> findAds(AdsAdmin adsAdmin);

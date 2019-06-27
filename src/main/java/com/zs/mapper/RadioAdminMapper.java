@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 无线电管理
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 @Repository
 public interface RadioAdminMapper {
     List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin);

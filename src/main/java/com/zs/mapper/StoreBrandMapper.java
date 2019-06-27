@@ -1,6 +1,7 @@
 package com.zs.mapper;
 
 import com.zs.entity.StoreBrand;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Classname storeBrandMapper
@@ -8,6 +9,7 @@ import com.zs.entity.StoreBrand;
  * @Date 2019/6/25 15:07
  * @Created by GuiPeng
  */
+@Repository
 public interface StoreBrandMapper {
 
     /**

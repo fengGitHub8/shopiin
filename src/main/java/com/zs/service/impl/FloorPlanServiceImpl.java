@@ -42,4 +42,9 @@ public class FloorPlanServiceImpl implements FloorPlanService{
         floorPlanMapper.deleteFloorPlan(Integer.parseInt(id));
         return true;
     }
+
+    @Override
+    public FloorPlan findById(Integer id) {
+        return floorPlanMapper.findById(id);
+    }
 }

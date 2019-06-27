@@ -45,4 +45,11 @@ public interface BrandMapper {
      * @return
      */
     List<Brand> findBystoreAdminId(Integer id);
+
+    /**
+     * 根据id查询品牌信息
+     * @param id
+     * @return
+     */
+    Brand findById(Integer id);
 }

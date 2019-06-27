@@ -35,4 +35,10 @@ public interface ShopService {
      * @param id
      */
     void deleteShop(Integer id);
+
+    /**
+     * 根据id查询门店信息
+     * @param id
+     */
+    Shop findById(String id);
 }

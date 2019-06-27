@@ -1,6 +1,7 @@
 package com.zs.service.impl;
 
 import com.zs.entity.Admin;
+import com.zs.entity.AdminType;
 import com.zs.mapper.AdminMapper;
 import com.zs.service.AdminService;
 import com.zs.utils.TokenUtil;
@@ -53,5 +54,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteAdmin(String id) {
         adminMapper.deleteAdmin(Integer.parseInt(id));
+    }
+
+    @Override
+    public List<AdminType> findAllType() {
+        return adminMapper.findAllType();
+    }
+
+    @Override
+    public Admin findAdminById(String id) {
+        return adminMapper.findAdminById(Integer.parseInt(id));
     }
 }

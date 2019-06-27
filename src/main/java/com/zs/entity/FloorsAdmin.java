@@ -2,6 +2,12 @@ package com.zs.entity;
 
 import lombok.Data;
 
+/**
+ * @program: shopin
+ * @description: 楼层管理
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 @Data
 public class FloorsAdmin {
     //该楼层的id

@@ -39,6 +39,12 @@ public class ShopController {
         }
     }
 
+    @RequestMapping("/findById")
+    public ResultVO findById(@RequestParam("id") String id){
+        Shop shop = shopService.findById(id);
+        return ResultVOUtil.success("查询成功",shop);
+    }
+
     /**
      * 添加门店
      * @return

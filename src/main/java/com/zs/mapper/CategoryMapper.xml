@@ -20,4 +20,8 @@
     <update id="deleteCategory" parameterType="int">
         update category set status = 2 where id =#{id};
     </update>
+
+    <select id="findById" parameterType="int" resultType="category">
+        select * from category WHERE id =#{id} AND status !=2;
+    </select>
 </mapper>

@@ -4,6 +4,12 @@ import com.zs.entity.AdsAdmin;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 广告管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 public interface AdsAdminService {
     List<AdsAdmin> findAds(AdsAdmin adsAdmin);
 

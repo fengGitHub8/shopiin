@@ -31,6 +31,12 @@ public class BrandController {
         return ResultVOUtil.success(null,brands);
     }
 
+    @RequestMapping("/findById")
+    public ResultVO findById(@RequestParam("id")Integer id){
+        Brand brand = brandService.findById(id);
+        return ResultVOUtil.success("查询成功",brand);
+    }
+
     @RequestMapping("/add")
     public ResultVO add(Brand brand){
         brandService.addBrand(brand);

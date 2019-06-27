@@ -2,6 +2,7 @@ package com.zs.controller;
 
 import com.zs.VO.ResultVO;
 import com.zs.entity.Admin;
+import com.zs.entity.AdminType;
 import com.zs.entity.OperState;
 import com.zs.service.AdminService;
 import com.zs.service.OperStateService;
@@ -77,12 +78,29 @@ public class AdminController {
         return ResultVOUtil.success(operState,null);
     }
 
+    /**
+     * 查询从index到max的管理员信息
+     * @param index
+     * @param max
+     * @return
+     */
     @RequestMapping("/findAdmin")
     public ResultVO findAdmin(@RequestParam("index") String index, @RequestParam("max") String max){
         List<Admin> adminList = adminService.findAdminByIndex(index, max);
         return ResultVOUtil.success(null,adminList);
     }
 
+    @RequestMapping("/findAdminById")
+    public ResultVO findAdminById(@RequestParam("id") String id){
+        Admin admin = adminService.findAdminById(id);
+        return ResultVOUtil.success(null,admin);
+    }
+
+    /**
+     * 添加管理员
+     * @param admin
+     * @return
+     */
     @RequestMapping("/addUser")
     public ResultVO addAdmin(Admin admin){
         log.info("admin = {}",admin);
@@ -91,17 +109,51 @@ public class AdminController {
         return ResultVOUtil.success("注册成功",null);
     }
 
+    /**
+     * 修改管理员
+     * @param admin
+     * @return
+     */
     @RequestMapping("/changeAdmin")
     public ResultVO changeAdmin(Admin admin){
         adminService.updateAdmin(admin);
         return ResultVOUtil.success("修改成功",null);
     }
 
+    /**
+     * 删除管理员
+     * @param id
+     * @return
+     */
     @RequestMapping("/deleteAdmin")
     public ResultVO deleteAdmin(@RequestParam("id") String id){
         adminService.deleteAdmin(id);
         return ResultVOUtil.success("删除成功",null);
     }
 
+    /**
+     * 运行营数据下载
+     * @param shopId
+     * @param date
+     * @param date2
+     * @return
+     */
+    @RequestMapping("/creatorExcel")
+    public ResultVO creatorExcel(@RequestParam("shopId") String shopId,
+                                 @RequestParam("date") String date,
+                                 @RequestParam("date2") String date2){
 
+        List<OperState> operStates = operStateService.findByBeginAndEndTime(shopId, date, date2);
+        return ResultVOUtil.success(null,operStates);
+    }
+
+    /**
+     * 查询所有管理员类别信息
+     * @return
+     */
+    @RequestMapping("/findAdminTypes")
+    public ResultVO findAdminType(){
+        List<AdminType> allType = adminService.findAllType();
+        return ResultVOUtil.success("查询成功",allType);
+    }
 }

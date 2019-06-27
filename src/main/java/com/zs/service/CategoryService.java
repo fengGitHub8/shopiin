@@ -37,4 +37,11 @@ public interface CategoryService {
      * @return
      */
     Boolean deleteCategory(String id);
+
+    /**
+     * 根据id查询品类信息
+     * @param id
+     * @return
+     */
+    Category findById(Integer id);
 }

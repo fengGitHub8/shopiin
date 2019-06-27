@@ -32,6 +32,12 @@ public class FloorPlanController {
         return ResultVOUtil.success(null,floorPlans);
     }
 
+    @RequestMapping("/findById")
+    public ResultVO findById(@RequestParam("id") Integer id){
+        FloorPlan floorPlan = floorPlanService.findById(id);
+        return ResultVOUtil.success("查询成功",floorPlan);
+    }
+
     @RequestMapping("/add")
     public ResultVO add(FloorPlan floorPlan){
         Boolean result = floorPlanService.addFloorPlan(floorPlan);
