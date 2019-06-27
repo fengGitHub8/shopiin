@@ -315,7 +315,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 var that=this
                 axios
                 // 单个查询
-                    .post('/findbyid?id='+Result.id)
+                    .post('/storeAdmin/findbyid?id='+Result.id)
                     .then(function (response) {
                         that.updatelist = response.data.responseResult;
                         console.log(response.data.responseResult)

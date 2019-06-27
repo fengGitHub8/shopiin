@@ -186,7 +186,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             addShop(list) {
                 this.list.shopId = 39;
                 this.list.type='service'
-                console.log(this.list.name)
+                console.log(this.list)
                 axios
                     .post('/storeType/add', this.list)
                     .then(function (response) {
