@@ -41,4 +41,9 @@ public class BusinessSiteServiceImpl implements BusinessSiteService{
         return true;
     }
 
+    @Override
+    public List<BusinessSite> findBusinessSiteAndFloor(Integer shopId) {
+        return businessSiteMapper.findBusinessSiteAndFloor(shopId);
+    }
+
 }

@@ -49,4 +49,10 @@ public class BusinessSiteController {
         return ResultVOUtil.success(result,null);
     }
 
+    @RequestMapping("/findBusinessSiteAndFloor")
+    public ResultVO findBusinessSiteAndFloor(@RequestParam("shopId") Integer shopId){
+        List<BusinessSite> businessSites = businessSiteService.findBusinessSiteAndFloor(shopId);
+        return ResultVOUtil.success(null,businessSites);
+    }
+
 }

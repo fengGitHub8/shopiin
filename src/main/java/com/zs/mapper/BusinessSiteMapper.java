@@ -33,9 +33,16 @@ public interface BusinessSiteMapper {
     void updateBusinessSite(BusinessSite businessSite);
 
     /**
-     * 删除营业场所信息，修改status = 0
-     * @param i
+     * 删除营业场所信息，修改status = 2
+     * @param id
      * @return
      */
     void deleteById(int id);
+
+    /**
+     * 查询所有营业场所以及所拥有的楼层
+     * @param shopId
+     * @return
+     */
+    List<BusinessSite> findBusinessSiteAndFloor(Integer shopId);
 }

@@ -6,6 +6,7 @@ import com.zs.service.ParkingAdminService;
 import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +41,7 @@ public class ParkingAdminController {
     }
 
     @RequestMapping("/add")
-    public ResultVO addParkingAdmin(ParkingAdmin parkingAdmin){
+    public ResultVO addParkingAdmin(@RequestBody ParkingAdmin parkingAdmin){
         System.err.println("前端接收的数据:"+parkingAdmin);
         int i = parkingAdminService.addParkingAdmin(parkingAdmin);
         System.err.println("判断是否添加成功:"+i);
@@ -52,7 +53,7 @@ public class ParkingAdminController {
     }
 
     @RequestMapping("/modify")
-    public ResultVO updateParkingAdminById(ParkingAdmin parkingAdmin){
+    public ResultVO updateParkingAdminById(@RequestBody ParkingAdmin parkingAdmin){
         System.err.println("前端接收的数据:"+parkingAdmin);
         int i = parkingAdminService.updateParkingAdminById(parkingAdmin);
         System.err.println("判断修改是否成功:"+i);

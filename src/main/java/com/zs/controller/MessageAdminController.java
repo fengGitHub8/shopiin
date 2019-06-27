@@ -7,6 +7,7 @@ import com.zs.service.MessageAdminService;
 import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +45,7 @@ public class MessageAdminController {
     }
 
     @RequestMapping("/add")
-    public ResultVO addMessage(MessageAdmin messageAdmin){
+    public ResultVO addMessage(@RequestBody MessageAdmin messageAdmin){
         System.err.println("前端接收的数据:"+messageAdmin);
         int i = messageAdminService.addMessage(messageAdmin);
         System.err.println("判断是否添加成功:"+i);
@@ -56,7 +57,7 @@ public class MessageAdminController {
     }
 
     @RequestMapping("/modify")
-    public ResultVO updateMessageById(MessageAdmin messageAdmin){
+    public ResultVO updateMessageById(@RequestBody MessageAdmin messageAdmin){
         System.err.println("前端接收的数据:"+messageAdmin);
         int i = messageAdminService.updateMessageById(messageAdmin);
         System.err.println("判断修改是否成功:"+i);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.AdsAdminMapper">
+    <select id="findAds" parameterType="adsadmin" resultType="adsadmin">
+        select * from pageads_admin where shopId = #{shopId} and adPositionId = #{adPositionId} and isdel = 0;
+    </select>
+
+    <insert id="addAds" parameterType="adsadmin" useGeneratedKeys="true" keyProperty="id">
+     insert into pageads_admin values(#{name},#{shopId},#{adPositionId},#{imageUrl},#{url},#{type});
+    </insert>
+
+    <update id="modifyAds" parameterType="adsadmin">
+        update pageads_admin set name = #{name},shopId = #{shopId},adPositionId = #{adPositionId},imageUrl = #{imageUrl},url = #{url},type = #{type}
+        where id = #{id}
+    </update>
+
+    <update id="deleteAds" parameterType="adsadmin">
+        update pageads_admin set isdel = 1 where id = #{id};
+    </update>
+
+</mapper>

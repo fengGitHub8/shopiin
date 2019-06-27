@@ -64,7 +64,7 @@ public class ShopController {
     }
 
     /**
-     * 删除门店，修改status=0
+     * 删除门店，修改status=2
      * @param id
      * @return
      */
