@@ -103,5 +103,12 @@ public class AdminController {
         return ResultVOUtil.success("删除成功",null);
     }
 
+    @RequestMapping("/creatorExcel")
+    public ResultVO creatorExcel(@RequestParam("shopId") String shopId,
+                                 @RequestParam("date") String date,
+                                 @RequestParam("date2") String date2){
 
+        List<OperState> operStates = operStateService.findByBeginAndEndTime(shopId, date, date2);
+        return ResultVOUtil.success(null,operStates);
+    }
 }

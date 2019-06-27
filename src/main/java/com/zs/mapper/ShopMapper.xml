@@ -8,6 +8,10 @@
         select * from shop WHERE status != 2;
     </select>
 
+    <select id="findById" parameterType="int" resultType="shop">
+        select * from shop WHERE id = #{id} AND status = 1;
+    </select>
+
     <insert id="addShop" parameterType="shop" useGeneratedKeys="true" keyProperty="id">
         insert into shop (`name`,address,tel,businessHours,longitude,latitude,images,status,hotSearch)
         values (#{name},#{address},#{tel},#{businessHours},#{longitude},#{latitude},#{images},#{status},#{hotSearch});

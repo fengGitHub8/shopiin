@@ -2,6 +2,8 @@ package com.zs.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @program: shopin
  * @description:管理人员
