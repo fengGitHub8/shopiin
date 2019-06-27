@@ -16,6 +16,10 @@ public interface CommentAdminMapper {
 
     List<CommentAdmin> findComment(CommentAdmin commentAdmin);
 
+    List<CommentAdmin> findCommentById(int id);
+
+    List<CommentAdmin> findCommentByContent(CommentAdmin commentAdmin);
+
     Boolean modifyComment(CommentAdmin commentAdmin);
 
 }

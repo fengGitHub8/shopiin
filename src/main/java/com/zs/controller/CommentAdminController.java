@@ -30,6 +30,18 @@ public class CommentAdminController {
         return ResultVOUtil.success(commentAdmins, null);
     }
 
+    @RequestMapping("findById")
+    public ResultVO findById(int id) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findCommentById(id);
+        return ResultVOUtil.success(commentAdmins, null);
+    }
+
+    @RequestMapping("findByContent")
+    public ResultVO findByContent(CommentAdmin commentAdmin) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findCommentByContent(commentAdmin);
+        return ResultVOUtil.success(commentAdmins, null);
+    }
+
     @RequestMapping("/modify")
     public ResultVO modify(CommentAdmin commentAdmin) {
         Boolean result = commentAdminService.modifyComment(commentAdmin);

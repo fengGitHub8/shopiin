@@ -25,6 +25,16 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     }
 
     @Override
+    public List<CommentAdmin> findCommentById(int id) {
+        return commentAdminMapper.findCommentById(id);
+    }
+
+    @Override
+    public List<CommentAdmin> findCommentByContent(CommentAdmin commentAdmin) {
+        return commentAdminMapper.findCommentByContent(commentAdmin);
+    }
+
+    @Override
     public Boolean modifyComment(CommentAdmin commentAdmin) {
         commentAdminMapper.modifyComment(commentAdmin);
         return true;
