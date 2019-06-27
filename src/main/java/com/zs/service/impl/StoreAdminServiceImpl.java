@@ -56,17 +56,13 @@ public class StoreAdminServiceImpl implements StoreAdminService {
         List brandIds = storeAdmin.getBrandIds();
         StoreBrand storeBrand = new StoreBrand();
         storeBrand.setStoreId(storeAdmin.getId());
-        i = storeBrandMapper.deleteStoreBrand(storeAdmin.getId());
-        if (i == 0) {
-            return i;
-        } else {
-            i = storeAdminMapper.updateStoreAdminById(storeAdmin);
-            for (Object brandId : brandIds) {
-                storeBrand.setBrandId((Integer) brandId);
-                i = storeBrandMapper.addStoreBrand(storeBrand);
-                if (i ==0){
-                    break;
-                }
+        storeBrandMapper.deleteStoreBrand(storeAdmin.getId());
+        i = storeAdminMapper.updateStoreAdminById(storeAdmin);
+        for (Object brandId : brandIds) {
+            storeBrand.setBrandId((Integer) brandId);
+            i = storeBrandMapper.addStoreBrand(storeBrand);
+            if (i ==0){
+                break;
             }
         }
         return i;
