@@ -2,6 +2,8 @@ package com.zs.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @program: shopin
  * @description: 营业场所实体类
@@ -25,5 +27,5 @@ public class BusinessSite {
     //二维码文字
     private String qrcodeText;
     //楼层对象
-    private FloorPlan floorPlan;
+    private List<FloorPlan> floorPlanList;
 }

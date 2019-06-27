@@ -6,6 +6,7 @@ import com.zs.service.StoreTypeService;
 import com.zs.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +41,7 @@ public class StoreTypeController {
     }
 
     @RequestMapping("/add")
-    public ResultVO addStoreType(StoreType storeType){
+    public ResultVO addStoreType(@RequestBody StoreType storeType){
         System.err.println("前端接收的数据:"+storeType);
         int i = storeTypeService.addStoreType(storeType);
         System.err.println("判断是否添加成功:"+i);
@@ -52,7 +53,7 @@ public class StoreTypeController {
     }
 
     @RequestMapping("/modify")
-    public ResultVO updateStoreTypeById(StoreType storeType){
+    public ResultVO updateStoreTypeById(@RequestBody StoreType storeType){
         System.err.println("前端接收的数据:"+storeType);
         int i = storeTypeService.updateStoreTypeById(storeType);
         System.err.println("判断修改是否成功:"+i);
