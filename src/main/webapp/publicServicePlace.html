@@ -55,8 +55,8 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <br>
             <span style="font-size: 20px">门店：</span>
             <div class="btn-group" >
-                <select type="button" id="Resultlist"   class="btn btn-default "  data-toggle="dropdown" style="width: 250px">
-                    <option v-for="list1 in store" v-if="list1.status==1" v-bind:value="list1.id" >{{list1.name}}</option> <span class="caret"></span>
+                <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 250px">
+                    <option v-for="list in store" v-if="list.status==1" v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
                 </select>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -235,6 +235,18 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             addUser() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
+            },
+            One() {
+                var that = this
+                axios
+                    .post('/storeAdmin/finds?shopId='+this.selVal+'&&storeType.type=service')
+                    .then(function (response) {
+                        that.responseResult = response.data.responseList;
+                        console.log(response.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
             // 店铺查询
             getStore(){

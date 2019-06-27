@@ -195,9 +195,9 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 						<div class="form-group">
 							<label class="col-sm-2 control-label">门头图:</label>
 							<div class="div_imgall  col-sm-offset-3">
-								<input type="file" class="input_flie" ref="file" :src="list.Images">
+								<input type="file" class="input_flie" ref="file" v-model="list.Images">
 								<div class="div_shuline"></div>
-								<img :src="updatelist.Images" class="img-thumbnail" alt="Paris" width="400" height="300">
+								<!--<img :src="updatelist.Images" class="img-thumbnail" alt="Paris" width="400" height="300">-->
 								<div class="div_hengline"></div>
 							</div>
 						</div>
@@ -309,8 +309,8 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 	</div>
 	<div class="modal fade bbd-example-modal-sm" id="myModallll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" >
-			<div class="modal-content"  v-for="val in responseList">
-				<img  :src="val.images" style="height: 400px">
+			<div class="modal-content"  >
+				<img  :src="store" style="height: 400px">
 			</div>
 		</div>
 	</div>
@@ -324,12 +324,13 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 			responseList: {},
 			list: {},
 			updatelist: {},
+            store:{}
 		},
 		methods: {
 			pimgs(val){
+			    alert(val.images)
+			    this.store=val.images
 				$("#myModallll").modal('show');
-				$("")
-				return;
 			},
 			ping() {
 				$("#myModalll").modal('show');

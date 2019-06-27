@@ -17,8 +17,8 @@
         <br>
         <span style="font-size: 20px">门店：</span>
         <div class="btn-group">
-            <select type="button" id="Resultlist"   class="btn btn-default "  data-toggle="dropdown" style="width: 250px">
-                <option v-for="list in store" v-if="list.status==1" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
+            <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 250px">
+                <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
             </select>
         </div>&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" class="btn btn-default col-sm-offset-0" id="show_addbtn" @click="addUser()">创建</button>
@@ -129,6 +129,7 @@
     var responseList=new Vue({
         el:"#responseList",
         data:{
+            selVal:0,
             responseList:{},
             list:{},
             updatelist:{},
@@ -139,7 +140,19 @@
                 $("#myModal").modal('show');
                 $("#status").val(1)
             },
-                // 添加
+            One(){
+                var that=this
+                axios
+                    .post('/category/finds?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.responseList=response.data.responseList;
+                        console.log(response.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            // 添加
                 addShop(list) {
                 this.list.shopId=39
                     console.log(this.list.name)
@@ -200,21 +213,23 @@
             }
             ,created(){
                 var that=this
-                axios
-                // /doBusinessSite/find
-                    .post('/category/finds?shopId=39')
-                    .then(function (response) {
-                        that.responseList=response.data.responseList;
-                        console.log(response.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+
 
             axios
                 .post('/shopAdmin/find')
                 .then(function (response) {
                     that.store=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            axios
+            // /doBusinessSite/find
+                .post('/category/finds?shopId=39')
+                .then(function (response) {
+                    that.responseList=response.data.responseList;
                     console.log(response.data)
                 })
                 .catch(function (error) {

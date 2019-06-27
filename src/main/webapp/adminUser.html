@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员权限设置</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css" />
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Vue/axios.min.js " type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="container" id="showShop">
+    <div class="row ">
+        <br/>
+        <button type="button" class="btn btn-default  col-sm-2 " id="show_addbtn" @click="Shop()">添加管理员</button>
+        <br/><br/><br/>
+
+        <table style='TBBLE-LBYOUT: fixed' class="table table-bordered table-hover tab-content"  >
+            <tr >
+                <td >管理员类型</td>
+                <td>权限</td>
+                <td style="width: 90px" >管理员姓名</td>
+                <td>管理员电话</td>
+                <td>账号</td>
+                <td>状态</td>
+                <td >操作</td>
+            </tr>
+            <tr v-for="val in responseList" class="vert-aligned">
+                <td>{{val.type}}</td>
+                <td v-for="list in store"  v-bind:value="list.id" >{{list.name}}</td>
+                <td>{{val.address}}</td>
+                <td>{{val.tel}}</td>
+                <td>{{val.businessHours}}</td>
+                <td>{{val.latitude}}</td>
+                <td>{{val.longitude}}</td>
+                <!--<td><img :src="val.map" ></td>-->
+                <td ><img :src="val.images" height="40px" @click="pimgs(val)"></td>
+                <td>{{val.hotSearch}}</td>
+                <!--<td>{{val.map}}</td>-->
+                <td v-if="val.status==1">启用</td>
+                <td v-else>禁用</td>
+                <td><button class="btn btn-default btn-xs" @click="ping()">生成</button></td>
+                <td><button class="btn btn-default btn-xs" @click="updateid(val)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default btn-xs">设置导航路线</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(val)">删除</button></td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="modal fade bbd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:650px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">创建/修改 新门店</h4>
+                </div>
+                <form class="form-horizontal" id="" method="post" role="form">
+                    <div class="modal-header">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店名称:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="list.name" placeholder="请输入该门店的名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店地址:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="list.address" placeholder="请输入该门店的地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店电话:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="list.tel" placeholder="请输入该门店的电话">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">营业时间:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="list.businessHours" placeholder="请输入该门店的营业时间">
+                            </div>
+                        </div>
+                        帮助：获取经纬度的方式（打开新链接以后，右上角是经纬度，逗号前面是纬度，逗号后面是经度）
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店纬度:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="list.longitude" placeholder="请输入该门店的纬度">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店经度:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="list.latitude" class="form-control" placeholder="请输入该门店的经度">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">热搜:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="list.hotSearch" class="form-control" placeholder="请输入该门店的热搜">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门头图:</label>
+                            <div class="div_imgall  col-sm-offset-3">
+                                <input type="file" class="input_flie" ref="file" v-model="list.Images">
+                                <div class="div_shuline"></div>
+                                <div class="div_hengline"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="status" v-model="list.status">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-body col-sm-offset-9">
+                            <button type="button" id="add_btn" class="btn btn-primary" @click="addShop(list)">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    <div class="modal fade bbd-example-modal-sm" id="myModall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:650px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabell">创建/修改 新门店</h4>
+                </div>
+                <form class="form-horizontal" method="post" role="form">
+                    <div class="modal-header">
+                        <input type="hidden" name="type" v-model="updatelist.id" value="">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店名称:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="updatelist.name" placeholder="请输入该门店的名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店地址:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="updatelist.address" placeholder="请输入该门店的地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店电话:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="updatelist.tel" placeholder="请输入该门店的电话">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">营业时间:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="updatelist.businessHours" placeholder="请输入该门店的营业时间">
+                            </div>
+                        </div>
+                        帮助：获取经纬度的方式（打开新链接以后，右上角是经纬度，逗号前面是纬度，逗号后面是经度）
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店纬度:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="updatelist.longitude" placeholder="请输入该门店的纬度">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店经度:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="updatelist.latitude" class="form-control" placeholder="请输入该门店的经度">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">热搜:</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="updatelist.hotSearch" class="form-control" placeholder="请输入该门店的热搜">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店图:</label>
+                            <div class="col-sm-8">
+                                <img src="https://static.runoob.com/images/mix/cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre" @click>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" v-bind:value="1" id="updatestatus" v-model="updatelist.status">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-body col-sm-offset-9">
+                            <button type="button" id="update_btn" class="btn btn-primary" @click="updateByid(list)">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    <div class="modal fade bbd-example-modal-sm" id="myModalll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:600px">
+            <div class="modal-content">
+                <img v-for="val in responseList" :src="val.qrcodeImage">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bbd-example-modal-sm" id="myModallll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content"  v-for="val in store">
+                <img  :src="val" style="height: 400px">
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var showShop = new Vue({
+        el: "#showShop",
+        data: {
+            responseList: {},
+            list: {},
+            updatelist: {},
+            store:{},
+            store1:{}
+        },
+        methods: {
+            pimgs(val){
+                alert(val.images)
+                this.store=val.images
+                // $("#myModallll").modal('show');
+            },
+            ping() {
+                // $("#myModalll").modal('show');
+            },
+            Shop() {
+                $("#myModal").modal('show');
+                $("#status").val(1)
+            },
+            // 添加
+            addShop(list) {
+                console.log(this.list.name)
+                axios
+                // /shopAdmin/add
+                    .post('/shopAdmin/add', this.list)
+                    .then(function(response) {
+                        $("#myModal").modal('hide')
+                        console.log(list)
+                        alert("添加成功")
+                        location.reload()
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+            // 删除
+            delByid(val) {
+                axios
+                // shopAdmin/deleteShop
+                    .post('/shopAdmin/deleteShop?id='+val.id)
+                    .then(function(response) {
+                        alert("删除成功")
+                        location.reload()
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        alert("删除失败")
+                    });
+            },
+            // 修改
+            updateid(val) {
+                $("#myModall").modal('show')
+                // this.updatelist=val
+                var that=this
+                axios
+                // 单个查询
+                    .post('', val.id)
+                    .then(function(response) {
+                        that.updatelist = response.data;
+                        $("#updatestatus").val(updatelist.status)
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+            updateByid(updatelist) {
+                this.updatelist = $("#updatestatus").val();
+                console.log(this.updatelist.status)
+                axios
+                    .post('/shopAdmin/deleteShop', this.updatelist)
+                    .then(function(response) {
+                        $("#myModal").modal('hide')
+                        alert("修改成功")
+                        location.reload()
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        },
+        created() {
+            var that = this
+            axios
+            // /shopAdmin/find
+                .post('/shopAdmin/find')
+                .then(function(response) {
+                    that.responseList = response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+
+            axios
+                .post('/shopAdmin/find')
+                .then(function (response) {
+                    that.store=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    })
+</script>
+
+</body>
+</html>
