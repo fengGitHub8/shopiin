@@ -4,7 +4,6 @@ import com.zs.entity.RadioAdmin;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
 public interface RadioAdminMapper {
     List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin);

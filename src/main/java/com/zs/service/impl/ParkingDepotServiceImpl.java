@@ -4,7 +4,6 @@ import com.zs.entity.ParkingDepot;
 import com.zs.mapper.ParkingAdminMapper;
 import com.zs.mapper.ParkingDepotMapper;
 import com.zs.service.ParkingDepotService;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,7 @@
 package com.zs.mapper;
 
 import com.zs.entity.Admin;
+import com.zs.entity.Shop;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
