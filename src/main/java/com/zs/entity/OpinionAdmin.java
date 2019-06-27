@@ -2,6 +2,12 @@ package com.zs.entity;
 
 import lombok.Data;
 
+/**
+ * @program: shopin
+ * @description: 意见管理
+ * @author: ZWX
+ * @create: 2019-06-25
+ **/
 @Data
 public class OpinionAdmin {
     //意见反馈id

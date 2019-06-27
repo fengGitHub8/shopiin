@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 无线电Controller
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 @Controller
 @ResponseBody
 @RequestMapping("/pageAdAdmin")

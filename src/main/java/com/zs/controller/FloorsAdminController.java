@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * @program: shopin
+ * @description: 楼层Controller
+ * @author: ZWX
+ * @create: 2019-06-26
+ **/
 @Controller
 @ResponseBody
 @RequestMapping("/pageAdAdmin")
@@ -21,7 +27,7 @@ public class FloorsAdminController {
     @RequestMapping("/getPageFloors")
     public ResultVO getPageFloors(int shopId) {
         List<FloorsAdmin> floorsAdmins = floorsAdminService.getPageFloors(shopId);
-        return ResultVOUtil.success(floorsAdmins,null);
+        return ResultVOUtil.success(floorsAdmins, null);
     }
 
     @RequestMapping("/addPageFloor")

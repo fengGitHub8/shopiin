@@ -7,6 +7,14 @@
         select * from comment_admin where shopId = #{shopId} and status=1;
     </select>
 
+    <select id="findCommentById" parameterType="int" resultType="commentadmin">
+        select * from comment_admin where id = #{id};
+    </select>
+    
+    <select id="findCommentByContent" parameterType="commentadmin" resultType="commentadmin">
+        select * from comment_admin where content like '%#{content}%'
+    </select>
+
     <update id="modifyComment" parameterType="commentadmin">
         update comment_admin set status = #{status} where id = #{id};
     </update>
