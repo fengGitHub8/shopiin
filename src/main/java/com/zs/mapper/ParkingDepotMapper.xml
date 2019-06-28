@@ -18,10 +18,13 @@
         <association property="doBusinessSiteName" column="doBusinessSiteId" javaType="String">
             <result property="name" column="business_site.name"></result>
         </association>
+        <association property="floorName" column="floorId" javaType="String">
+            <result property="name" column="floor_plan.name"></result>
+        </association>
     </resultMap>
 
     <select id="findParkingDepotsByShopId" parameterType="parkingdepot" resultMap="parkingdepot_map">
-        select * from parking_depot left join business_site on business_site.id = parking_depot.doBusinessSiteId where parking_depot.status!=2 and parking_depot.shopId =#{shopId}
+        select * from parking_depot left join business_site on business_site.id = parking_depot.doBusinessSiteId left join floor_plan fp on business_site.id = fp.doBusinessSiteId where parking_depot.status!=2 and parking_depot.shopId =#{shopId}
         <if test="name!=null">
             parking_depot.name like concat('%',#{name},'%')
         </if>
