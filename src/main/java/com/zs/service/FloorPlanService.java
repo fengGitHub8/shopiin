@@ -1,5 +1,6 @@
 package com.zs.service;
 
+import com.zs.entity.BusinessSite;
 import com.zs.entity.FloorPlan;
 
 import java.util.List;
@@ -45,4 +46,11 @@ public interface FloorPlanService {
      * @return
      */
     FloorPlan findById(Integer id);
+
+    /**
+     * 通过营业场所来查找楼层
+     * @param doBusinessSiteId
+     * @return
+     */
+    List<BusinessSite> findByDoBusinessSiteId(Integer doBusinessSiteId);
 }
