@@ -1,6 +1,7 @@
 package com.zs.mapper;
 
 import com.zs.VO.ResultVO;
+import com.zs.entity.BusinessSite;
 import com.zs.entity.FloorPlan;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,4 +54,11 @@ public interface FloorPlanMapper {
      * @return
      */
     FloorPlan findById(Integer id);
+
+    /**
+     * 通过营业场所来查找楼层
+     * @param doBusinessSiteId
+     * @return
+     */
+    List<BusinessSite> findByDoBusinessSiteId(Integer doBusinessSiteId);
 }

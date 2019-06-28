@@ -25,7 +25,7 @@
     </select>
 
     <insert id="addParkingAdmin" parameterType="parkingadmin">
-        insert into parking_admin(shopId, parkingDepotId, name, status) values (#{shopId},#{ parkingDepotId}, #{name}, #{introduce}, #{status})
+        insert into parking_admin(shopId, parkingDepotId, name, status) values (#{shopId},#{ parkingDepotId}, #{name}, #{status})
     </insert>
 
     <update id="updateParkingAdminById" parameterType="parkingdepot">

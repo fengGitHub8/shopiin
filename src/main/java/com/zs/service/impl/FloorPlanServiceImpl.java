@@ -1,5 +1,6 @@
 package com.zs.service.impl;
 
+import com.zs.entity.BusinessSite;
 import com.zs.entity.FloorPlan;
 import com.zs.mapper.FloorPlanMapper;
 import com.zs.service.FloorPlanService;
@@ -46,5 +47,10 @@ public class FloorPlanServiceImpl implements FloorPlanService{
     @Override
     public FloorPlan findById(Integer id) {
         return floorPlanMapper.findById(id);
+    }
+
+    @Override
+    public List<BusinessSite> findByDoBusinessSiteId(Integer doBusinessSiteId) {
+        return floorPlanMapper.findByDoBusinessSiteId(doBusinessSiteId);
     }
 }

@@ -1,6 +1,7 @@
 package com.zs.controller;
 
 import com.zs.VO.ResultVO;
+import com.zs.entity.BusinessSite;
 import com.zs.entity.FloorPlan;
 import com.zs.service.FloorPlanService;
 import com.zs.utils.ResultVOUtil;
@@ -54,6 +55,12 @@ public class FloorPlanController {
     public ResultVO delete(@RequestParam("id") String id){
         Boolean result = floorPlanService.deleteFloorPlan(id);
         return ResultVOUtil.success(result,null);
+    }
+
+    @RequestMapping("findByDoBusinessSiteId")
+    public ResultVO findByDoBusinessSiteId(@RequestParam("doBusinessSiteId") Integer doBusinessSiteId){
+        List<BusinessSite> businessSiteList= floorPlanService.findByDoBusinessSiteId(doBusinessSiteId);
+        return ResultVOUtil.success(null,businessSiteList);
     }
 
 }

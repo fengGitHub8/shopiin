@@ -57,4 +57,9 @@
     <select id="findById" parameterType="int" resultType="floorPlan">
         select * from floor_plan WHERE id = #{id} AND status !=2;
     </select>
+
+    <select id="findByDoBusinessSiteId" parameterType="int" resultType="floorPlan">
+        select * from floor_plan WHERE doBusinessSiteId = #{doBusinessSiteId} AND status = 1;
+    </select>
+
 </mapper>
