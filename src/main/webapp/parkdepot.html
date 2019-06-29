@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js" type="text/javascript"></script>
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
     <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -59,13 +59,13 @@
             <td>{{parkingdepot.name}}</td>
             <td>{{parkingdepot.introduce}}</td>
             <td class="1">
-                <button class="btn btn-default btn-xs" @click="showqrcode(parking)">显示平面图</button>
+                <button class="btn btn-default btn-xs" @click="showqrcode(parkingdepot)">显示平面图</button>
             </td>
             <td v-if="parkdepot.status==1">启用</td>
             <td v-else>禁用</td>
             <td>
-                <button class="btn btn-warning btn-xs" @click="showModal(parking)">修改</button>
-                <button class="btn btn-danger btn-xs" @click="del(parking)">删除</button>
+                <button class="btn btn-warning btn-xs" @click="showModal(parkingdepot)">修改</button>
+                <button class="btn btn-danger btn-xs" @click="del(parkingdepot)">删除</button>
             </td>
         </tr>
     </table>
@@ -101,14 +101,12 @@
                 </div>
                 <form class="form-horizontal" id="addForm" method="post" role="form">
                     <div class="modal-body">
-
-                        <input type="hidden" name="parkingDepot.shopId" v-model="shop.shopId">
+                        <input type="hidden" name="parkingDepot.shopId" :value="shop.shopId">
                         <div class="form-group">
-
                             <label class="col-sm-3 control-label">营业场所:</label>
                             <div class="col-sm-8">
                                 <select class="form-control"
-                                        id="doBusinessSiteName" @click="bussinesschange()">
+                                        id="doBusinessSiteName" @change="bussinesschange()">
                                     <option disabled selected>请选择</option>
                                     <option v-for=" (value,index) in bussinessList" :value="index"
                                             :label="value.name"></option>
@@ -119,10 +117,9 @@
                             <label class="col-sm-3 control-label">楼层:</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="parkingDepot.parkingDepotId" placeholder="请选择"
-                                        id="floorName" @change="floorchange()">
-                                    <option disabled selected>请选择</option>
-                                    <option v-for="itemfloor in bussinessSite.floorPlanList" :value="itemfloor.floorId"
-                                            :label="itemfloor.name" selected=""></option>
+                                        id="floorName" @change="floorchange()" :label="msg" v-model="parkingDepot.floorId">
+                                    <option v-for="itemfloor in bussinessSite.floorPlanList" v-model="itemfloor.floorId"
+                                            :label="itemfloor.name"></option>
                                 </select>
                             </div>
                             <label class="control-label"></label>
@@ -131,7 +128,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">停车场名字:</label>
                             <div class="col-sm-8">
-                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name" id="nameadd"
+                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name"
                                        class="form-control" placeholder="请输入停车场名字">
                             </div>
                             <label class="control-label"></label>
@@ -139,7 +136,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">停车说明:</label>
                             <div class="col-sm-8">
-                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name" id="introduceadd"
+                                <input type="select" v-model="parkingDepot.introduce" id="introduce"
                                        class="form-control" placeholder="请输入停车说明">
                             </div>
                             <label class="control-label"></label>
@@ -173,7 +170,7 @@
         <!-- /.modal -->
     </div>
 
-    <!--模态框修改停车场数据-->
+    模态框修改停车场数据
     <div class="modal fade" id="myModalupdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -201,9 +198,10 @@
                             <label class="col-sm-3 control-label">楼层:</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="parkingDepot.parkingDepotId"
-                                        id="floorNameupdate" @change="floorchangeupdate()">
-                                    <option v-for="itemfloor in bussinessSite.floorPlanList" :value="itemfloor.floorId"
-                                            :label="itemfloor.name"></option>
+                                        id="floorNameupdate" @click="floorchangeupdate()">
+                                    <option v-model="parkingDepot.parkingDepotId" id="tempfloor">{{parkingDepot.name}}</option>
+                                    <!--<option v-for="itemfloor in bussinessSite.floorPlanList" :value="itemfloor.floorId"-->
+                                            <!--:label="itemfloor.name"></option>-->
                                 </select>
                             </div>
                             <label class="control-label"></label>
@@ -261,6 +259,7 @@
     var showEmp = new Vue({
             el: "#showEmp",
             data: {
+                msg:"wtf",
                 status: "Success",
                 code: "",
                 responseResult: "",
@@ -305,7 +304,7 @@
                 }
                 ,
                 showModal(parkingDepot) {
-                    $("#myModal").modal('show');
+                    $("#myModalupdate").modal('show');
                     this.parkingDepot = parkingDepot;
                     this.getBussinessandfloor();
                 },
@@ -319,10 +318,17 @@
                         this.pagenum = tempnum;
                     this.getpageList();
                 },
+                cleanmodel(){
+                    $("#myModaladd").on("hidden.bs.modal",function(){
+                        $("#addForm").reset();
+                    })
+                }
+                ,
                 bussinesschange(){
                     var index=$("#doBusinessSiteName").val();
                     console.log(index);
                     this.bussinessSite=this.bussinessList[index];
+                    // $("#floorName").val(0);
                     console.log(this.bussinessSite);
                 },
                 floorchange(){
@@ -358,15 +364,15 @@
                 }
                 , addparkingDepot() {
                     var that = this;
-                    var parking = this.parkingDepot;
-                    parking.id = null;
-                    parking.shopId = this.shop.shopId;
-                    parking.parkingDepotId = $("#parkingDepotIdadd").val();
-                    parking.name = $("#nameadd").val();
-                    parking.status = $("#statusadd").val();
-                    parking.doBusinessSiteId=this.bussinessSite.id;
-                    parking.floorId=this.floor.id;
-                    this.parkingDepot = parking;
+                    // var parking = this.parkingDepot;
+                    // parking.id = null;
+                    this.parkingDepot.shopId = this.shop.shopId;
+                    // // parking.name = $("#nameadd").val();
+                    // parking.status = $("#statusadd").val();
+                    this.parkingDepot.doBusinessSiteId=this.bussinessSite.id;
+                    this.parkingDepot.floorId=$("#floorName").val();
+                    this.parkingDepot.introduce=$("#introduce").val();;
+                    // this.parkingDepot = parking;
                     // this.parkingDepot=parkingDepot;
                     console.log(this.parkingDepot);
                     axios.post('parkingDepot/add', this.parkingDepot)
@@ -415,6 +421,19 @@
                     }
                     console.log("page:");
                     console.log(that.pageList);
+                }
+                ,floorchangeupdate(){
+                    var options=$("#floorNameupdate").empty();
+    //                 console.log(options);
+    //                 for(var option in options){
+    // console.log(option);
+    //                     option.remove();
+    //                 }
+    //                 $("#tempfloor").remove();
+                    console.log(this.floorList);
+                    for(var floor in  this.floorList)
+                        console.log(floor);
+                    // $("#floorNameupdate").append(" <option value="+"></option>");
                 }
                 , gettabledata() {
                     var that = this;
@@ -488,6 +507,7 @@
                 }
             }
             , created() {
+                // this.cleanmodel();
                 var that = this;
                 this.getshoplist();
                 this.getBussinessandfloor();

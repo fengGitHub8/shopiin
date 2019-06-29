@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js" type="text/javascript"></script>
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
     <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -41,7 +41,7 @@
             <button class="btn btn-default " @click="search()">查找</button>
         </div>
     </div>
-    <!--分页栏-->
+    <!--表格-->
     <table class="table table-bordered table-hover tab-content">
         <tr>
             <td class="col-sm-2">停车位id</td>
@@ -58,7 +58,7 @@
             <td class="col-sm-2">
                 <!--<button class="btn btn-warning btn-xs" @click="showqrcode(tempparkdepot.grcodeImage)"></button>-->
                 <!--<button class="btn btn-warning btn-xs" @click="showqrcode('https://images.shopin.net/wxx/1530167817416.png')">修改</button>-->
-                <button class="btn btn-default btn-xs" @click="showqrcode(parking)">显示二维码</button>
+                <button class="btn btn-default btn-xs" @click="showqrcode(parking.qrcodeImage)">显示二维码</button>
             </td>
             <!--<td>{{tempparkdepot.qrcodeImage}}</td>-->
             <!--<td>{{tempparkdepot.status}}</td>-->
@@ -74,7 +74,7 @@
     <div class="container">
         <label id="pagecount" class="col-sm-1">共{{pagecount}}页</label>
         <button id="prepage" class="btn btn-default btn-xs" @click="changepagenum(-1)"><<</button>
-        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="width: 20px;text-align: center">
+        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="border:0;width: 20px;text-align: center">
         <button id="nextpage" class="btn btn-default btn-xs" @click="changepagenum(1)">>></button>
     </div>
 
@@ -226,7 +226,6 @@
             },
             dataType: "json",   //返回数据为json格式
             methods: {
-
                 getparkingDepot() {
                     var that = this;
                     axios.post('/parkingDepot/finds?shopId=39')
@@ -331,7 +330,7 @@
                 },
                 showqrcode(string) {
                     console.log(string);
-                    $("#qrcodeImage").attr("src", "" + string.qrcodeImage);
+                    $("#qrcodeImage").attr("src", string);
                     $("#qrcodemodal").modal("show");
                 }
                 , getpageList() {
