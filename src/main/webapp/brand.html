@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>品牌管理</title>
@@ -8,159 +8,224 @@
     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="Vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="Vue/axios.min.js "type="text/javascript" charset="utf-8"></script>
+    <script src="Vue/axios.min.js " type="text/javascript" charset="utf-8"></script>
+    <style>
+        td{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div class="container" id="responseList" >
-    <div class="form-group" >
+<br>
+<div class="container" id="responseList">
 
-        <br>
+    <div class="container">
+        <div class="row">
+            <form class="form-inline" id="daoruForm" role="form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label  class="control-label">门店：</label>
+                    <select type="button" id="Resultlist" class="btn btn-default " v-model="selVal" @change="One()"
+                            v-bind:value="store.id" data-toggle="dropdown" style="width: 200px">
+                        <option v-for="list in store" v-model="list.id" v-bind:value="list.id">{{list.name}}
+                        </option>
+                    </select>
+                </div>
 
-        <div class="col-sm-12">
-            <div class="col-sm-4">
-            <span style="font-size: 20px">门店：</span>
-            <div class="btn-group col-sm-offset-0 ">
-            <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 200px">
-                <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
-            </select>
-            </div>
-            </div>
-            <div class="col-sm-1">
-        <button type="button" class="btn btn-default" id="show_addbtn" @click="addUser()">创建</button>
-        </div>
-            <div class="col-sm-1">
-        <button type="button" class="btn btn-default " id="addUser_addbtn">下载模板</button>
-            </div>
-            <div class="col-sm-1">
-        <button type="button"  class="btn btn-default " id=“lead_addbtn">一键导入</button>
-            </div>
-        <div class="col-sm-2  col-sm-offset-2 ">
-            <input type="text" class="form-control" id="name" placeholder="请输入名称">
-        </div >
-            <div class="col-sm-1 ">
-        <button type="button" class="btn btn-primary" id="select_btn">查询</button>
-            </div>
-        </div>
-        <br/>
-        <br/>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 "></label>
+                </div>
 
-        <table class="table table-bordered table-hover tab-content">
-            <tr>
-                <td>品牌id</td>
-                <td width="200px">品牌</td>
-                <td>logo</td>
-                <td>状态</td>
-                <td >操作</td>
-            </tr>
-            <tr v-for="List in responseList" class="vert-aligned" style="height: 60px">
-                <td>{{List.id}}</td>
-                <td>{{List.brandType}}</td>
-                <td><img :src="List.logo" height="40px" @click="pimgs(val)"></td>
-                <td v-if="List.status==1">启用</td>
-                <td v-else>禁用</td>
-                <td><button class="btn btn-default btn-xs" @click="updateAndid(List)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(List)">删除</button></td>
-            </tr>
-        </table>
+                <div class="form-group">
+                    <label class="control-label col-sm-8 "></label>
+                </div>
 
+                <div class="form-group">
+                    <button type="button" class="btn btn-default btn-sm" style="border-spacing: 1em;border-color: #ececf6"
+                            @click="addUser()">创建
+                    </button>
+                </div>
 
-        <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width:800px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">创建/修改 品类</h4>
-                    </div>
-                    <form class="form-horizontal"   method="post" role="form">
-                        <div class="modal-header">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">品类:</label>
-                                <div class="col-xs-4">
-                                    <input type="text" style="width: 230px" class="form-control" v-model="list.type" placeholder="请输入添加的品类">
-                                </div>
-                                <div>
-                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处建议字数限制：2 ~ 4</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">门店状态:</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" v-bind:value="1" id="status" v-model="list.status">
-                                        <option value="1" >启用</option>
-                                        <option value="0">禁用</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-body col-sm-offset-9">
-                                <button type="button" id="add_btn" class="btn btn-primary" @click="addShop(list)">确定</button>
-                            </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 "></label>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8 "></label>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-default btn-sm" style="border-spacing: 1px;border-color: #ececf6"
+                            @click="daochu()">下载模板
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4 "></label>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8 "></label>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-default btn-sm" style="border-spacing: 1px;border-color: #ececf6"
+                            >一键导入
+                    </button>
+                    <input id="daoru" type="file" style="display: none;" name="file" onchange="doUpload2()"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4 "></label>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8 "></label>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control"
+                                   placeholder="请输入要查询的品牌">
                         </div>
-                    </form>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-
-
-
-        <div class="modal fade " id="myModall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width:800px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabell">创建/修改 品类</h4>
                     </div>
-                    <form class="form-horizontal"   method="post" role="form">
-                        <div class="modal-header">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">品类:</label>
-                                <div class="col-sm-4">
-                                    <input type="text" style="width: 230px" class="form-control" v-model="updatelist.type" placeholder="请输入添加的品类">
-                                </div>
-                                <div>
-                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处建议字数限制：2 ~ 4</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">门店状态:</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" id="updatestatus" v-model="updatelist.status">
-                                        <option value="1" >启用</option>
-                                        <option value="0">禁用</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-body col-sm-offset-9">
-                                <button type="button" class="btn btn-primary" @click="updateByid(updatelist)">确定</button>
-                            </div>
-                        </div>
-                    </form>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-sm" id="p">搜索</button>
+                    </div>
+                </div>
+            </form>
         </div>
-
-
     </div>
+<br/>
+
+    <table class="table table-bordered table-hover tab-content text-center
+">
+        <tr style="height: 50px">
+            <td>品牌id</td>
+            <td>品牌</td>
+            <td>logo</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <tr v-for="List in responseList" class="vert-aligned" >
+            <td>{{List.id}}</td>
+            <td>{{List.brandType}}</td>
+            <td><img :src="List.logo" height="40px" @click="pimgs(val)"></td>
+            <td v-if="List.status==1">启用</td>
+            <td v-else>禁用</td>
+            <td>
+                <button class="btn btn-default btn-sm" @click="updateAndid(List)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button
+                    class="btn btn-danger btn-sm" @click="delByid(List)">删除
+            </button>
+            </td>
+        </tr>
+    </table>
+
+
+    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width:800px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">创建/修改 品牌</h4>
+                </div>
+                <form class="form-horizontal" method="post" role="form">
+                    <div class="modal-header">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">品类:</label>
+                            <div class="col-xs-4">
+                                <input type="text" style="width: 230px" class="form-control" v-model="list.type"
+                                       placeholder="请输入添加的品类">
+                            </div>
+                            <div>
+                                <a class="btn  btn-xs disabled " role="button"
+                                   style="background-color: #ebcccc;color: red">此处建议字数限制：2 ~ 4</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店状态:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" v-bind:value="1" id="status" v-model="list.status">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-body col-sm-offset-9">
+                            <button type="button" id="add_btn" class="btn btn-primary" @click="addShop(list)">确定
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <div class="modal fade " id="myModall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width:800px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabell">创建/修改 品类</h4>
+                </div>
+                <form class="form-horizontal" method="post" role="form">
+                    <div class="modal-header">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">品类:</label>
+                            <div class="col-sm-4">
+                                <input type="text" style="width: 230px" class="form-control"
+                                       v-model="updatelist.type" placeholder="请输入添加的品类">
+                            </div>
+                            <div>
+                                <a class="btn  btn-xs disabled " role="button"
+                                   style="background-color: #ebcccc;color: red">此处建议字数限制：2 ~ 4</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">门店状态:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="updatestatus" v-model="updatelist.status">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-body col-sm-offset-9">
+                            <button type="button" class="btn btn-primary" @click="updateByid(updatelist)">确定
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
 </div>
 <script>
-    var responseList=new Vue({
-        el:"#responseList",
-        data:{
-            selVal:39,
-            responseList:{},
-            list:{},
-            updatelist:{},
-            store:{}
+    var responseList = new Vue({
+        el: "#responseList",
+        data: {
+            selVal: 39,
+            responseList: {},
+            list: {},
+            updatelist: {},
+            store: {}
         },
         methods: {
             addUser() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
             },
-            One(){
-                var that=this
+            One() {
+                var that = this
                 axios
-                    .post('/category/finds?shopId='+this.selVal)
+                    .post('/category/finds?shopId=' + this.selVal)
                     .then(function (response) {
-                        that.responseList=response.data.responseList;
+                        that.responseList = response.data.responseList;
                         console.log(response.data)
                     })
                     .catch(function (error) {
@@ -169,7 +234,7 @@
             },
             // 添加
             addShop(list) {
-                this.list.shopId=39
+                this.list.shopId = 39
                 console.log(this.list.name)
                 axios
                     .post('/category/add', this.list)
@@ -185,7 +250,7 @@
             // 删除
             delByid(List) {
                 axios
-                    .post('/category/delete?id='+List.id)
+                    .post('/brand/delete?id=' + List.id)
                     .then(function (response) {
                         alert("删除成功")
                         location.reload()
@@ -201,18 +266,18 @@
                 var that = this
                 axios
                 // 单个查询
-                    .post('/category/findById?id='+ List.id)
-                    .then(function(response) {
+                    .post('/category/findById?id=' + List.id)
+                    .then(function (response) {
                         that.updatelist = response.data.responseList;
                         console.log(response.data)
                         $("#updatestatus").val(that.updatelist.status)
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.log(error);
                     });
             },
             updateByid(updatelist) {
-                this.updatelist.status= $("#updatestatus").val();
+                this.updatelist.status = $("#updatestatus").val();
                 console.log(this.updatelist.type)
                 axios
                     .post('/category/modify', this.updatelist)
@@ -226,14 +291,14 @@
                     });
             }
         }
-        ,created(){
-            var that=this
+        , created() {
+            var that = this
 
 
             axios
                 .post('/shopAdmin/find')
                 .then(function (response) {
-                    that.store=response.data.responseList;
+                    that.store = response.data.responseList;
                     console.log(response.data)
                 })
                 .catch(function (error) {
@@ -244,7 +309,7 @@
             // /doBusinessSite/find
                 .post('/brandAdmin/finds?shopId=39')
                 .then(function (response) {
-                    that.responseList=response.data.responseList;
+                    that.responseList = response.data.responseList;
                     console.log(response.data)
                 })
                 .catch(function (error) {
