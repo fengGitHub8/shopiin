@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>banner</title>
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
+    <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<style>
+    #showEmp {
+        margin-top: 30px;
+    }
+    .tdtype{
+        width:200px;
+    }
+</style>
+
+<body>
+
+<div class="container" id="showEmp" style="margin-top: 30px">
+    <div class="form-group col-sm-8">
+        <label class="control-label col-sm-1">门店</label>
+        <div class="col-sm-2">
+            <select class="form-control" style="width:100px" name="shop" id="shop">
+                <option v-for="item in storelist" :value="item.id"
+                        :label="item.name" @click="changeshop(item.id)"></option>
+            </select>
+        </div>
+        <div class="col-sm-1 col-sm-offset-2">
+            <button class="btn btn-default" @click="showadd()">创建</button>
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <input id="searchId" stype="text" class="form-control">
+        </div>
+        <div>
+            <button class="btn btn-default " @click="search()">查找</button>
+        </div>
+    </div>
+    <!--表格-->
+    <table class="table table-bordered table-hover tab-content">
+        <tr>
+            <td class="col-sm-1" >banner的id</td>
+            <td class="col-sm-1" >名字</td>
+            <td class="col-sm-1" >banner图</td>
+            <td class="col-sm-1" >类型</td>
+            <td class="col-sm-1" >跳转链接</td>
+            <td class="col-sm-1" >优先级</td>
+            <td class="col-sm-1" >操作</td>
+        </tr>
+        <tr v-for="game in pageList">
+            <td>{{game.id}}</td>
+            <td>{{game.name}}</td>
+            <td>{{game.content}}</td>
+            <td class="col-sm-1">
+                <button class="btn btn-default btn-xs" @click="showqrcode(game.advertising)">显示宣传图</button>
+            </td>
+            <td>{{game.rule}}</td>
+            <td>{{game.time}}</td>
+            <td class="col-sm-1">
+                <button class="btn btn-default btn-xs" @click="showqrcode(game.bgimage)">显示宣传图</button>
+            </td>
+            <td class="col-sm-1">
+                <button class="btn btn-default btn-xs" @click="showqrcode(game.bgimage)">显示背景图</button>
+            </td>
+            <td>{{game.gameUrl}}</td>
+            <td v-if="game.status==0">启用</td>
+            <td v-else>禁用</td>
+            <td>
+                <button class="btn btn-warning btn-xs" @click="showModalupdate(game)">修改</button>
+                <button class="btn btn-danger btn-xs" @click="del(game)">删除</button>
+            </td>
+        </tr>
+    </table>
+    <div class="container">
+        <label id="pagecount" class="col-sm-1">共{{pagecount}}页</label>
+        <button id="prepage" class="btn btn-default btn-xs" @click="changepagenum(-1)"><<</button>
+        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="border:0;width: 20px;text-align: center">
+        <button id="nextpage" class="btn btn-default btn-xs" @click="changepagenum(1)">>></button>
+    </div>
+</div>
+</body>
+</html>
