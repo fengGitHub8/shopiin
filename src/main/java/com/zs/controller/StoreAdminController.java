@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.pattern.PathPattern;
 
 import java.util.List;
@@ -88,5 +89,11 @@ public class StoreAdminController {
         }else {
             return ResultVOUtil.error(null,null);
         }
+    }
+
+    @RequestMapping("/upload")
+    public ResultVO upload(@RequestParam("shopId") Integer shopId, MultipartFile mFile){
+        storeAdminService.readExcelFile(mFile,shopId);
+        return ResultVOUtil.success("上传成功",null);
     }
 }

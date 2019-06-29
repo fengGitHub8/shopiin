@@ -25,18 +25,18 @@ public class CommentAdminController {
     private CommentAdminService commentAdminService;
 
     @RequestMapping("/find")
-    public ResultVO find(CommentAdmin commentAdmin) {
-        List<CommentAdmin> commentAdmins = commentAdminService.findComment(commentAdmin);
-        return ResultVOUtil.success(commentAdmins, null);
+    public ResultVO find(int shopId) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findComment(shopId);
+        return ResultVOUtil.success(null, commentAdmins);
     }
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     public ResultVO findById(int id) {
         List<CommentAdmin> commentAdmins = commentAdminService.findCommentById(id);
         return ResultVOUtil.success(commentAdmins, null);
     }
 
-    @RequestMapping("findByContent")
+    @RequestMapping("/findByContent")
     public ResultVO findByContent(CommentAdmin commentAdmin) {
         List<CommentAdmin> commentAdmins = commentAdminService.findCommentByContent(commentAdmin);
         return ResultVOUtil.success(commentAdmins, null);

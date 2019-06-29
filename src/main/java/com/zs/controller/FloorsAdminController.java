@@ -27,7 +27,7 @@ public class FloorsAdminController {
     @RequestMapping("/getPageFloors")
     public ResultVO getPageFloors(int shopId) {
         List<FloorsAdmin> floorsAdmins = floorsAdminService.getPageFloors(shopId);
-        return ResultVOUtil.success(floorsAdmins, null);
+        return ResultVOUtil.success(null, floorsAdmins);
     }
 
     @RequestMapping("/addPageFloor")
@@ -41,4 +41,8 @@ public class FloorsAdminController {
         Boolean result = floorsAdminService.modifyPageFloor(floorsAdmin);
         return ResultVOUtil.success(result, null);
     }
+
+
+
+
 }

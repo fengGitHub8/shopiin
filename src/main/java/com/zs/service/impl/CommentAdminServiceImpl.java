@@ -20,8 +20,8 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     private CommentAdminMapper commentAdminMapper;
 
     @Override
-    public List<CommentAdmin> findComment(CommentAdmin commentAdmin) {
-        return commentAdminMapper.findComment(commentAdmin);
+    public List<CommentAdmin> findComment(int shopId) {
+        return commentAdminMapper.findComment(shopId);
     }
 
     @Override

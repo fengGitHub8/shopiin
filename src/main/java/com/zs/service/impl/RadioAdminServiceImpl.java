@@ -20,8 +20,8 @@ public class RadioAdminServiceImpl implements RadioAdminService {
     private RadioAdminMapper radioAdminMapper;
 
     @Override
-    public List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin) {
-        return radioAdminMapper.findRadioBroadcasts(radioAdmin);
+    public List<RadioAdmin> findRadioBroadcasts(int shopId) {
+        return radioAdminMapper.findRadioBroadcasts(shopId);
     }
 
     @Override

@@ -3,12 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zs.mapper.RadioAdminMapper">
-    <select id="findRadioBroadcasts" parameterType="radioadmin" resultType="radioadmin">
+    <select id="findRadioBroadcasts" parameterType="int" resultType="radioadmin">
         select * from pageradio_admin where shopId = #{shopId} and isdel = 0;
     </select>
 
     <insert id="addRadioBroadcast" parameterType="radioadmin">
-        insert into pageradio_admin values(#{shopId},#{content},#{title});
+        insert into pageradio_admin(shopId,content,title) values(#{shopId},#{content},#{title});
     </insert>
     <update id="modifyRadioBroadcast" parameterType="radioadmin">
         update pageradio_admin set shopId = #{shopId},content = #{content},title = #{title} where id = #{id};

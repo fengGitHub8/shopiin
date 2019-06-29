@@ -7,7 +7,7 @@
         select * from pagefloors_admin where shopId = #{shopId} and isdel = 0;
     </select>
     <insert id="addPageFloor" parameterType="floorsadmin">
-        insert into pagefloors_admin values(#{shopId},#{type},#{title},#{viceTitle},#{banner},#{bannerUrl});
+        insert into pagefloors_admin(shopId,type,title,viceTitle,banner,bannerUrl) values(#{shopId},#{type},#{title},#{viceTitle},#{banner},#{bannerUrl});
     </insert>
     <update id="modifyPageFloor" parameterType="floorsadmin">
         update pagefloors_admin set shopId = #{shopId},type = #{type},title = #{title},viceTitle = #{viceTitle},banner = #{banner},bannerUrl = #{bannerUrl}

@@ -25,14 +25,14 @@ public class MemberClubController {
     private MemberClubService memberClubService;
 
     @RequestMapping("/finds")
-    public ResultVO finds(MemberClub memberClub) {
-        List<MemberClub> memberClubs = memberClubService.findMember(memberClub);
-        return ResultVOUtil.success(memberClubs, null);
+    public ResultVO finds(int id) {
+        List<MemberClub> memberClubs = memberClubService.findMember(id);
+        return ResultVOUtil.success(null, memberClubs);
     }
 
     @RequestMapping("/modify")
     public ResultVO modify(MemberClub memberClub) {
-        Boolean result = memberClubService.updateMember(memberClub);
+        Boolean result = memberClubService.modifyMember(memberClub);
         return ResultVOUtil.success(result, null);
     }
 

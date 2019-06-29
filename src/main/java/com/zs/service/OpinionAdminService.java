@@ -11,7 +11,7 @@ import java.util.List;
  * @create: 2019-06-25
  **/
 public interface OpinionAdminService {
-    List<OpinionAdmin> findOpinion(OpinionAdmin opinionAdmin);
+    List<OpinionAdmin> findOpinion(int shopId);
 
     Boolean modifyOpinion(OpinionAdmin opinionAdmin);
 

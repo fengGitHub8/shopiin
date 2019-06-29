@@ -20,13 +20,13 @@ public class MemberClubServiceImpl implements MemberClubService {
     private MemberClubMapper memberClubMapper;
 
     @Override
-    public List<MemberClub> findMember(MemberClub memberClub) {
-        return memberClubMapper.findMember(memberClub);
+    public  List<MemberClub> findMember(int id){
+        return memberClubMapper.findMember(id);
     }
 
     @Override
-    public Boolean updateMember(MemberClub memberClub) {
-        memberClubMapper.updateMember(memberClub);
+    public Boolean modifyMember(MemberClub memberClub) {
+        memberClubMapper.modifyMember(memberClub);
         return true;
     }
 }

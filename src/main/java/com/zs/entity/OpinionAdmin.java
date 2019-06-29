@@ -11,13 +11,13 @@ import lombok.Data;
 @Data
 public class OpinionAdmin {
     //意见反馈id
-    private String id;
+    private Integer id;
     //门店id
-    private String shopId;
+    private Integer shopId;
     //用户id
-    private String userId;
+    private Integer userId;
     //意见反馈的类型
-    private String type;
+    private Integer type;
     //意见反馈的内容
     private String content;
     //意见反馈的图片
@@ -27,7 +27,7 @@ public class OpinionAdmin {
     //电话
     private String tel;
     //状态
-    private String status;
+    private Integer status;
     //是否删除
     private Integer isdel;
 }

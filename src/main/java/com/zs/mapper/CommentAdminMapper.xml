@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zs.mapper.CommentAdminMapper">
-    <select id="findComment" parameterType="commentadmin" resultType="commentadmin">
+    <select id="findComment" parameterType="int" resultType="commentadmin">
         select * from comment_admin where shopId = #{shopId} and status=1;
     </select>
 
@@ -12,7 +12,7 @@
     </select>
     
     <select id="findCommentByContent" parameterType="commentadmin" resultType="commentadmin">
-        select * from comment_admin where content like '%#{content}%'
+        select * from comment_admin where content like concat('%',#{content},'%');
     </select>
 
     <update id="modifyComment" parameterType="commentadmin">
