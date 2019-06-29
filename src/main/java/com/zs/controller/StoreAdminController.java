@@ -29,7 +29,7 @@ public class StoreAdminController {
 
     @Autowired
     private StoreAdminService storeAdminService;
-
+//shopId name storeType.type
     @RequestMapping("/finds")
     public ResultVO findStoreAdmin( StoreAdmin storeAdmin){
         System.err.println(storeAdmin);

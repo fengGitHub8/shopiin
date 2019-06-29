@@ -3,6 +3,7 @@ package com.zs.service.impl;
 import com.zs.entity.ParkingAdmin;
 import com.zs.mapper.ParkingAdminMapper;
 import com.zs.service.ParkingAdminService;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ public class ParkingAdminServiceImpl implements ParkingAdminService {
 
     @Autowired
     private ParkingAdminMapper parkingAdminMapper;
-
 
     @Override
     public List<ParkingAdmin> findParkingAdminsByShopId(ParkingAdmin parkingAdmin) {

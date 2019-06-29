@@ -30,7 +30,7 @@ public class ParkingAdminController {
 
     @RequestMapping("/finds")
     public ResultVO findParkingAdminsByShopId(ParkingAdmin parkingAdmin){
-        System.err.println(parkingAdmin);
+        System.err.println("parkingAdming"+parkingAdmin);
         List<ParkingAdmin> byShopId = parkingAdminService.findParkingAdminsByShopId(parkingAdmin);
         System.err.println(byShopId);
         if (byShopId != null) {
@@ -51,6 +51,7 @@ public class ParkingAdminController {
             return ResultVOUtil.error("添加失败!该类型已存在!",null);
         }
     }
+
 
     @RequestMapping("/modify")
     public ResultVO updateParkingAdminById(@RequestBody ParkingAdmin parkingAdmin){

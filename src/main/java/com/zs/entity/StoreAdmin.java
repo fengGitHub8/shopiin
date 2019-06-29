@@ -38,6 +38,8 @@ public class StoreAdmin {
 //    类型实体类
     private StoreType storeType;
 
+    //data   name parking.parkingdepot.parkingdepotId
+
 //    营业场所id
     private Integer doBusinessSiteId;
 
