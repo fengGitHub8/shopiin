@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>楼层平面管理</title>
+<<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css"/>
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Vue/axios.min.js "type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="container" id="responseList" >
+    <div class="row" >
+            <div class="col-sm-4">
+                <span style="font-size: 20px">门店：</span>
+                <div class="btn-group col-sm-offset-0 ">
+                    <select type="button" id="Resultlist"  class="btn btn-default " v-model="selVal" @change="One()" v-bind:value="store.id" data-toggle="dropdown" style="width: 200px">
+                        <option v-for="list in store"  v-model="list.id" v-bind:value="list.id" >{{list.name}}</option> <span class="caret"></span>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-default" id="show_addbtn" @click="addUser()">创建</button>
+            </div>
+        <br/>
+        <br/>
+
+        <table class="table table-bordered table-hover tab-content">
+            <tr>
+                <td>楼层id</td>
+                <td>营业场所</td>
+                <td>楼层【数字】</td>
+                <td>楼层名字【汉字】</td>
+                <td>平面图</td>
+                <td >状态</td>
+                <td >是否显示</td>
+                <td >二维码</td>
+                <td >优先级</td>
+                <td >操作</td>
+            </tr>
+            <tr v-for="List in responseList" class="vert-aligned" style="height: 60px">
+                <td>{{List.id}}</td>
+                <td>{{List.doBusinessSiteName}}</td>
+                <td>{{List.floor}}</td>
+                <td>{{List.name}}</td>
+                <td><img :src="List.imageUrl" height="40px" @click="pimgs(val)"></td>
+                <td v-if="List.status==1">启用</td>
+                <td v-else>禁用</td>
+                <td v-if="List.Display==0">显示</td>
+                <td v-else>隐藏</td>
+                <td><button class="btn btn-default btn-xs" @click="ping()">生成</button></td>
+                <td>{{List.grade}}</td>
+                <td><button class="btn btn-default btn-xs" @click="updateAndid(List)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default btn-xs" @click="updateAndByid(List)">管理平面图</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(List)">删除</button></td>
+            </tr>
+        </table>
+
+
+        <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">创建/修改 品类</h4>
+                    </div>
+                    <form class="form-horizontal"   method="post" role="form">
+                        <div class="modal-header">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">营业场所:</label>
+                                <div class="col-sm-4">
+                                <select  class="form-control"  id="listdoBusinessSiteId" placeholder="请输入该门店的名称" >
+                                    <option disabled selected>请选择</option>
+                                    <option v-for="(value,key) in repost" v-model="updatelist" v-bind:value="value.id">{{value.name}}</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">楼层【数字】:</label>
+                                <div class="col-xs-4">
+                                    <input type="text" style="width: 230px" id="listfloor" class="form-control" v-model="list.floor" placeholder="请输入添加的品类">
+                                </div>
+                                <div>
+                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4，请填写：4</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">楼层【汉字】:</label>
+                                <div class="col-xs-4">
+                                    <input type="text" style="width: 230px" id="listname" class="form-control" v-model="list.name" placeholder="请输入添加的品类">
+                                </div>
+                                <div>
+                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4楼，请填写：4F</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">平面图:</label>
+                                <div class="col-xs-4">
+                                    <input type="file" style="width: 230px" class="form-control" v-model="list.type" placeholder="请输入添加的品类">
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态:</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" v-bind:value="1" id="status" v-model="list.status">
+                                        <option value="1" >启用</option>
+                                        <option value="0">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态:</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="adddisplay" v-model="list.display">
+                                        <option value="1" >显示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-body col-sm-offset-9">
+                                <button type="button" id="add_btn" class="btn btn-primary" @click="addShop(list)">确定</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+
+        <div class="modal fade " id="myModall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabell">创建/修改 品类</h4>
+                    </div>
+                    <form class="form-horizontal"   method="post" role="form">
+                        <div class="modal-header">
+                            <div class="form-group">
+                                <input type="hidden" v-model="updatelist.id">
+                                <label class="col-sm-2 control-label">品类:</label>
+                                <div class="col-sm-4">
+                                    <select  class="form-control"  id="updateTypeName" v-model="updatelist.doBusinessSiteId" placeholder="请输入该门店的名称" >
+                                        <option disabled selected>请选择</option>
+                                        <option v-for="(value,key) in repost1"  v-bind:value="value.id">{{value.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">楼层【数字】:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" style="width: 230px" id="updatename" class="form-control" v-model="updatelist.name" placeholder="请输入添加的品类">
+                                </div>
+                                <div>
+                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4，请填写：4</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">楼层【汉字】:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" style="width: 230px" id="updatefloor" class="form-control" v-model="updatelist.floor" placeholder="请输入添加的品类">
+                                </div>
+                                <div>
+                                    <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4，请填写：4</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态:</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="updatestatus" v-model="updatelist.status">
+                                        <option value="1" >启用</option>
+                                        <option value="0">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">门状态:</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="updatedisplay" v-model="updatelist.display">
+                                        <option value="1" >显示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-body col-sm-offset-9">
+                                <button type="button" class="btn btn-primary" @click="updateByid(updatelist)">确定</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+
+
+
+    </div>
+</div>
+<script>
+    var responseList=new Vue({
+        el:"#responseList",
+        data:{
+            selVal:39,
+            responseList:{},
+            list:{},
+            updatelist:{},
+            store:{},
+            repost:{},
+            repost1:{}
+        },
+        methods: {
+            addUser() {
+                $("#myModal").modal('show');
+                $("#status").val(1)
+                $("#updatedisplay").val(1)
+                var that=this
+                axios
+                    .post('/doBusinessSite/find?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.repost=response.data.responseResult;
+                        console.log(response.data.responseResult)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            One(){
+                var that=this
+                axios
+                    .post('/category/finds?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.responseList=response.data.responseList;
+                        console.log(response.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            // 添加
+            addShop(list) {
+                this.list.shopId=this.selVal
+                this.list.doBusinessSiteId=$("#listdoBusinessSiteId").val()
+                this.list.floor=$("#listfloor").val()
+                this.list.display=$("#adddisplay").val()
+                this.list.status=$("#status").val()
+                console.log($("#status").val())
+                axios
+                    .post('/floorAdmin/add', this.list)
+                    .then(function (response) {
+                        $("#myModal").modal('hide')
+                        alert("添加成功")
+                        location.reload()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            // 删除
+            delByid(List) {
+                axios
+                    .post('/floorAdmin/delete?id='+List.id)
+                    .then(function (response) {
+                        alert("删除成功")
+                        location.reload()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        alert("删除失败")
+                    });
+            },
+            // 修改
+            updateAndid(List) {
+                $("#myModall").modal('show')
+                var that = this
+                axios
+                // 单个查询
+                    .post('/floorAdmin/findById?id='+ List.id)
+                    .then(function(response) {
+                        that.updatelist = response.data.responseList;
+                        console.log(response.data)
+                        $("#updatestatus").val(that.updatelist.status)
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+
+
+                axios
+                    .post('/doBusinessSite/find?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.repost1=response.data.responseResult;
+                        console.log(response.data.responseResult)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            updateByid(updatelist) {
+                this.updatelist.status= $("#updatestatus").val();
+                console.log(this.updatelist.type)
+                axios
+                    .post('/category/modify', this.updatelist)
+                    .then(function (response) {
+                        $("#myModal").modal('hide')
+                        alert("修改成功")
+                        location.reload()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+        ,created(){
+            var that=this
+            axios
+                .post('/shopAdmin/find')
+                .then(function (response) {
+                    that.store=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            axios
+            // /doBusinessSite/find
+                .post('/floorAdmin/find/39/floors')
+                .then(function (response) {
+                    that.responseList=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+        }
+    })
+</script>
+</body>
+</html>
