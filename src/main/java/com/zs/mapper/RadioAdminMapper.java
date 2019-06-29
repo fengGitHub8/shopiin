@@ -13,7 +13,7 @@ import java.util.List;
  **/
 @Repository
 public interface RadioAdminMapper {
-    List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin);
+    List<RadioAdmin> findRadioBroadcasts(int shopId);
 
     Boolean addRadioBroadcast(RadioAdmin radioAdmin);
 

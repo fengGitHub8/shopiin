@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface CommentAdminMapper {
 
-    List<CommentAdmin> findComment(CommentAdmin commentAdmin);
+    List<CommentAdmin> findComment(int shopId);
 
     List<CommentAdmin> findCommentById(int id);
 

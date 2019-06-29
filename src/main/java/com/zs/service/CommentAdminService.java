@@ -12,7 +12,7 @@ import java.util.List;
  **/
 public interface CommentAdminService {
     //根据门店id查询评论信息
-    List<CommentAdmin> findComment(CommentAdmin commentAdmin);
+    List<CommentAdmin> findComment(int shopId);
 
     //根据评论id查询评论信息
     List<CommentAdmin> findCommentById(int id);

@@ -13,7 +13,7 @@ import java.util.List;
  **/
 @Repository
 public interface OpinionAdminMapper {
-    List<OpinionAdmin> findOpinion(OpinionAdmin opinionAdmin);
+    List<OpinionAdmin> findOpinion(int shopId);
 
     Boolean modifyOpinion(OpinionAdmin opinionAdmin);
 

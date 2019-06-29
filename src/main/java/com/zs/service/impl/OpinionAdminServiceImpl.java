@@ -20,8 +20,8 @@ public class OpinionAdminServiceImpl implements OpinionAdminService {
     private OpinionAdminMapper opinionAdminMapper;
 
     @Override
-    public List<OpinionAdmin> findOpinion(OpinionAdmin opinionAdmin) {
-        return opinionAdminMapper.findOpinion(opinionAdmin);
+    public List<OpinionAdmin> findOpinion(int shopId) {
+        return opinionAdminMapper.findOpinion(shopId);
     }
 
     @Override

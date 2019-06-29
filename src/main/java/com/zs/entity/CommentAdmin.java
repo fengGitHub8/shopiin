@@ -13,7 +13,7 @@ public class CommentAdmin {
     //评论id
     private Integer id;
     //门店id
-    private String shopId;
+    private Integer shopId;
     //门店id
     private Integer storeId;
     //用户id

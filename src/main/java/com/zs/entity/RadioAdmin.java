@@ -13,7 +13,7 @@ public class RadioAdmin {
     //广告的id
     private Integer id;
     //门店id
-    private String shopId;
+    private Integer shopId;
     //标题
     private String title;
     //内容

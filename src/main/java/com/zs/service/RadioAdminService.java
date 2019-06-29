@@ -11,7 +11,7 @@ import java.util.List;
  * @create: 2019-06-26
  **/
 public interface RadioAdminService {
-    List<RadioAdmin> findRadioBroadcasts(RadioAdmin radioAdmin);
+    List<RadioAdmin> findRadioBroadcasts(int shopId);
 
     Boolean addRadioBroadcast(RadioAdmin radioAdmin);
 

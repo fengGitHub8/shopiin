@@ -25,8 +25,8 @@ public class CommentAdminController {
     private CommentAdminService commentAdminService;
 
     @RequestMapping("/find")
-    public ResultVO find(CommentAdmin commentAdmin) {
-        List<CommentAdmin> commentAdmins = commentAdminService.findComment(commentAdmin);
+    public ResultVO find(int shopId) {
+        List<CommentAdmin> commentAdmins = commentAdminService.findComment(shopId);
         return ResultVOUtil.success(commentAdmins, null);
     }
 

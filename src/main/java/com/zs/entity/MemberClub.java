@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class MemberClub {
     //会员club的id
-    private String id;
+    private Integer id;
     //会员club的名字
     private String name;
     //会员club的图片

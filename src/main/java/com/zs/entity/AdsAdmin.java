@@ -11,11 +11,11 @@ import lombok.Data;
 @Data
 public class AdsAdmin {
     //Banner的id
-    private String id;
+    private Integer id;
     //用于区分是banner、广告位、还是附近导航banner
-    private String adPositionId;
+    private Integer adPositionId;
     //门店id
-    private String shopId;
+    private Integer shopId;
     //Banner图
     private String imageUrl;
     //跳转的链接
