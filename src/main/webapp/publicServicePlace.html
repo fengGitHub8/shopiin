@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bond="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bond="http://www.w3.org/1999/xhtml"
+      xmlns:v-for="http://www.w3.org/1999/xhtml" xmlns:v-model="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>公共服务场所管理</title>
@@ -80,7 +81,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 <tr v-for="Result in responseResult" >
                     <td>{{Result.id}}</td>
                     <td >{{Result.name}}</td>
-                    <td v-for="Result.storeTypeId">{{Result.storeTypeName}}</td>
+                    <td >{{Result.storeType.name}}</td>
                     <td >{{Result.doBusinessSiteName}}</td>
                     <td >{{Result.floorName}}</td>
                     <td >{{Result.keywords}}</td>
@@ -88,7 +89,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                     <td ><img :src="Result.logoImageUrl" height="40px" @click="pimgs(Result)"></td>
                     <td  v-if="Result.status==1">启用</td>
                     <td v-else>禁用</td>
-                    <td><button class="btn btn-default btn-xs" @click="ping()">生成</button></td>
+                    <td><button class="btn btn-default btn-xs" @click="ping(Result)">生成</button></td>
                     <td><button class="btn btn-default btn-xs" @click="updateAndid(Result)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(Result)">删除</button></td>
 
                 </tr>
@@ -109,49 +110,50 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">场所名称:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="list.name" placeholder="请输入该门店的名称">
+                                        <input type="text"  class="form-control" id="" v-model="list.name" placeholder="请输入该门店的名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">营业场所:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="list.name"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.id" >{{list.name}}</option>
+                                        <select class="form-control"  id="listdoBusinessSiteName" @change="Two()"  placeholder="请输入该门店的名称" >
+                                            <option disabled selected>请选择</option>
+                                            <option v-for="(value,index) in sired" v-bind:value="index" v-bind:label="value.name"></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">楼层:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="list.keywords"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.keywords" >{{list.name}}</option>
+                                        <select class="form-control" id="listflorid"   >
+                                            <option v-for="i in sired1.floorPlanList" v-model="i.id" >{{i.name}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">类型:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="list.storeTypeId"  placeholder="请输入该门店的名称" >
-                                            <option v-model="list.storeTypeId" >{{list.name}}</option>
-                                        </select>
-                                    </div>
+                                    <select  class="form-control" v-bind:value="first.id" id="liststoreTypeName" placeholder="请输入该门店的名称" >
+                                        <option v-for="f in first" v-model="f.id">{{f.name}}</option>
+                                    </select>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">关键字:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="list.name" placeholder="请输入关键字(关键字请以逗号隔开)">
+                                        <input type="text"  class="form-control" v-model="list.keywords" placeholder="请输入关键字(关键字请以逗号隔开)">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">介绍:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="list.name" placeholder="请输入介绍">
+                                        <input type="text"  class="form-control" v-model="list.introduce" placeholder="请输入介绍">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">门头图:</label>
                                 <div class="div_imgall  col-sm-offset-3">
-                                    <input type="file" class="input_flie" ref="file">
+                                    <input type="file" class="input_flie" ref="file" v-model="list.logoImageUrl">
                                     <div class="div_shuline"></div>
                                     <div class="div_hengline"></div>
                                 </div>
@@ -165,10 +167,11 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                                         </select>
                                     </div>
                                 </div>
+                                </div>
                                 <div class="modal-body col-sm-offset-9">
                                     <button type="button" id="add_btn" class="btn btn-primary" @click="addShop(list)">确定</button>
                                 </div>
-                            </div>
+
                         </form>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
@@ -219,7 +222,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <div class="modal fade bbd-example-modal-sm" id="myModalll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" style="width:600px">
                     <div class="modal-content">
-                        <img v-for="val in responseResult" :src="val.logoImageUrl">
+                        <img  :src="store" style="height: 400px">
                     </div>
                 </div>
             </div>
@@ -228,7 +231,8 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             <div class="modal fade bbd-example-modal-sm" id="myModallll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" >
                     <div class="modal-content"  >
-                        <img  :src="store" style="height: 400px">
+                        <img  :src="Store1">
+
                     </div>
                 </div>
             </div>
@@ -247,28 +251,52 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             responseResult:{},
             list:{},
             updatelist:{},
-            store:{}
+            store:{},
+            Store1:{},
+            first:{},
+            sired:[],
+            sired1:{}
         },
         methods: {
             addUser() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
+                var that=this
+                axios
+                    .post('/doBusinessSite/findBusinessSiteAndFloor?shopId='+this.selVal)
+                    .then(function (response) {
+                        that.sired = response.data.responseList;
+                        console.log(that.sired)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+
             },
             pimgs(Result){
-                this.store=Result.images
+                this.Store1=Result.logoImageUrl
                 $("#myModallll").modal('show');
             },
-            ping() {
+            ping(Result) {
+                this.store=Result.qrcodeImage
                 $("#myModalll").modal('show');
             },
             Shop() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
+
+            },
+            Two(){
+                var vul=$("#listdoBusinessSiteName").val()
+                console.log(vul)
+                this.sired1=this.sired[vul]
+                console.log(this.sired1)
             },
             One() {
                 var that = this
                 axios
-                    .post('/storeAdmin/finds?shopId='+this.selVal+'&&storeType.type=service')
+                    .post('/storeAdmin/finds?shopId='+that.selVal+'&&storeType.type=service')
                     .then(function (response) {
                         that.responseResult = response.data.responseList;
                         console.log(response.data)
@@ -279,8 +307,11 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             },
             // 添加
             addShop(list) {
-                this.list.shopId =39;
-                console.log(this.list)
+                this.list.shopId =this.selVal;
+                this.list.name=$("#listname").val()
+                this.list.keywords=$("#listflorid").val()
+                this.list.storeTypeId=$("#liststoreTypeName").val()
+                console.log(this.list.name)
                 axios
                 // /doBusinessSite/add
                     .post('/storeAdmin/add', this.list)
@@ -298,7 +329,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             delByid(Result) {
                 axios
                 // shopAdmin/deleteShop
-                    .post('/storeAdmin/delete?id='+ Result.id)
+                    .post('/storeAdmin/delete?id='+Result.id)
                     .then(function (response) {
                         alert("删除成功")
                         location.reload()
@@ -355,7 +386,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 });
 
             axios
-                .post('/shopAdmin/find')
+                .post('/shopAdmin/find?shopId=39&&storeType.type=service')
                 .then(function (response) {
                     that.store=response.data.responseList;
                     console.log(response.data)
@@ -363,6 +394,19 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                 .catch(function (error) {
                     console.log(error);
                 });
+
+            axios
+                .post('/storeType/finds?shopId=39&type=service')
+                .then(function (response) {
+                    that.first=response.data.responseList;
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
         }
     })
 </script>

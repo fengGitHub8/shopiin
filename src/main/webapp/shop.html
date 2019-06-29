@@ -230,7 +230,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 				</div>
 				<form class="form-horizontal" method="post" role="form">
 					<div class="modal-header">
-						<input type="text" name="type" id="updatelist.id" v-model="updatelist.id" >
+						<input type="hidden" name="type" id="updatelist.id" v-model="updatelist.id" >
 						<div class="form-group">
 							<label class="col-sm-2 control-label">门店名称:</label>
 							<div class="col-sm-8">
@@ -328,7 +328,6 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 		},
 		methods: {
 			pimgs(val){
-			    alert(val.images)
 			    this.store=val.images
 				$("#myModallll").modal('show');
 			},
@@ -341,7 +340,8 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 			},
 			// 添加
 			addShop(list) {
-				console.log(this.list.name)
+
+				console.log(this.list.id)
 				axios
 				// /shopAdmin/add
 						.post('/shopAdmin/add', this.list)
@@ -370,7 +370,6 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 			},
 			// 修改
 			updateid(val) {
-				alert(val.id)
 				$("#myModall").modal('show')
 				var that=this
 				axios
@@ -386,10 +385,9 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
 						});
 			},
 			updateByid(updatelist) {
-				this.updatelist.id=$("#updatelist.id").val()
-				console.log(this.updatelist.name)
+				console.log(this.updatelist.id)
 				axios
-						.post('/shopAdmin/deleteShop', this.updatelist)
+						.post('/shopAdmin/add', this.updatelist)
 						.then(function(response) {
 							$("#myModal").modal('hide')
 							alert("修改成功")
