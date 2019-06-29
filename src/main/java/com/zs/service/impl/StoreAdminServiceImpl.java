@@ -71,7 +71,7 @@ public class StoreAdminServiceImpl implements StoreAdminService {
     @Override
     public int deleteStoreAdminById(Integer id) {
         int i = 1;
-        i = storeBrandMapper.deleteStoreBrand(id);
+        storeBrandMapper.deleteStoreBrand(id);
         if (i!=0){
             i = storeAdminMapper.deleteStoreAdminById(id);
         }
