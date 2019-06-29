@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -54,4 +55,12 @@ public class BrandController {
         Boolean result = brandService.deleteBrand(id);
         return ResultVOUtil.success(result,null);
     }
+
+    @RequestMapping("/upload")
+    public ResultVO upload(@RequestParam("shopId") String shopId, MultipartFile mFile){
+        brandService.readExcelFile(mFile,shopId);
+        return ResultVOUtil.success("上传成功",null);
+    }
+
+
 }
