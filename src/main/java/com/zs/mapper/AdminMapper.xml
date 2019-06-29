@@ -8,7 +8,7 @@
         select * from admin WHERE `user` = #{user } AND password = #{password} AND status = 1;
     </select>
 
-    <update id="updateAdminToken" parameterType="String">
+    <update id="updateAdminTokenById">
         update admin set token = #{token } WHERE id = #{id} AND status = 1;
     </update>
 

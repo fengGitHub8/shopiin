@@ -26,7 +26,8 @@ public class AdminServiceImpl implements AdminService {
         Admin byUserAndPwd = adminMapper.findByUserAndPwd(admin);
         if (byUserAndPwd != null) {
             String token = TokenUtil.getToken();
-            adminMapper.updateAdminTokenById(admin.getId(),token);
+            Integer id = byUserAndPwd.getId();
+            adminMapper.updateAdminTokenById(id,token);
         }
         return adminMapper.findByUserAndPwd(admin);
     }

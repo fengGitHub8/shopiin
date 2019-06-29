@@ -24,7 +24,6 @@ import java.util.List;
  * @create: 2019-06-22 10:56
  **/
 @Controller
-@ResponseBody
 @RequestMapping("/min")
 public class AdminController {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -40,13 +39,13 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/login")
-    public ResultVO login(Admin admin){
+    public String login(Admin admin){
         log.info("admin = {}",admin);
         Admin byUserAndPwd = adminService.findByUserAndPwd(admin);
         if (byUserAndPwd != null) {
-            return ResultVOUtil.success(byUserAndPwd.getToken(),null);
+            return "redirect:../index.html";
         }else {
-            return ResultVOUtil.error(null,null);
+            return "redirect:../login.html";
         }
 
     }
@@ -73,6 +72,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/find")
+    @ResponseBody
     public ResultVO find(@RequestParam("shopId") String shopId,@RequestParam("date") String date){
         OperState operState = operStateService.findByShopIdAndDate(shopId, date);
         return ResultVOUtil.success(operState,null);
@@ -85,12 +85,14 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/findAdmin")
+    @ResponseBody
     public ResultVO findAdmin(@RequestParam("index") String index, @RequestParam("max") String max){
         List<Admin> adminList = adminService.findAdminByIndex(index, max);
         return ResultVOUtil.success(null,adminList);
     }
 
     @RequestMapping("/findAdminById")
+    @ResponseBody
     public ResultVO findAdminById(@RequestParam("id") String id){
         Admin admin = adminService.findAdminById(id);
         return ResultVOUtil.success(null,admin);
@@ -102,6 +104,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/addUser")
+    @ResponseBody
     public ResultVO addAdmin(Admin admin){
         log.info("admin = {}",admin);
         adminService.addAdmin(admin);
@@ -115,6 +118,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/changeAdmin")
+    @ResponseBody
     public ResultVO changeAdmin(Admin admin){
         adminService.updateAdmin(admin);
         return ResultVOUtil.success("修改成功",null);
@@ -126,6 +130,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/deleteAdmin")
+    @ResponseBody
     public ResultVO deleteAdmin(@RequestParam("id") String id){
         adminService.deleteAdmin(id);
         return ResultVOUtil.success("删除成功",null);
@@ -139,6 +144,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/creatorExcel")
+    @ResponseBody
     public ResultVO creatorExcel(@RequestParam("shopId") String shopId,
                                  @RequestParam("date") String date,
                                  @RequestParam("date2") String date2){
@@ -152,6 +158,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/findAdminTypes")
+    @ResponseBody
     public ResultVO findAdminType(){
         List<AdminType> allType = adminService.findAllType();
         return ResultVOUtil.success("查询成功",allType);
