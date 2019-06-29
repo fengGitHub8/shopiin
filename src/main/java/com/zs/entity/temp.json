@@ -1,0 +1,183 @@
+{
+  "status": "Success",
+  "responseResult": [
+    {
+      "id": 1,
+      "shopId": 39,
+      "name": "A座",
+      "introduce": "上品＋购物中心",
+      "status": 1,
+      "qrcodeImage": null,
+      "qrcodeText": null,
+      "floorPlanList": [
+        {
+          "id": 1,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "B1",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": -1,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 4,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "1F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 1,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 5,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "2F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 2,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 6,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "3F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 3,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 7,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "4F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 4,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 8,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "5F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 5,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        },
+        {
+          "id": 9,
+          "shopId": 39,
+          "doBusinessSiteId": 1,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "6F",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": 6,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "shopId": 39,
+      "name": "上品+花园停车场",
+      "introduce": "花园停车场地下一层",
+      "status": 1,
+      "qrcodeImage": null,
+      "qrcodeText": null,
+      "floorPlanList": [
+        {
+          "id": 10,
+          "shopId": 39,
+          "doBusinessSiteId": 2,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "花园停车场",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": -1,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "shopId": 39,
+      "name": "写字楼B3停车场",
+      "introduce": "写字楼B3停车场",
+      "status": 1,
+      "qrcodeImage": null,
+      "qrcodeText": null,
+      "floorPlanList": [
+        {
+          "id": 11,
+          "shopId": 39,
+          "doBusinessSiteId": 3,
+          "doBusinessSiteName": null,
+          "shopName": null,
+          "name": "写字楼B3停车场",
+          "imageUrl": "https:%2F%2Fimages.shopin.net%2Fwxx%2F1527587806294.png",
+          "floor": -3,
+          "storeLocations": null,
+          "qrcodeImage": null,
+          "qrcodeText": null,
+          "status": 1,
+          "grade": 0,
+          "display": 1
+        }
+      ]
+    }
+  ],
+  "responseList": null
+}

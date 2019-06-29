@@ -1,6 +1,7 @@
 package com.zs.service;
 
 import com.zs.entity.StoreAdmin;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,4 +47,11 @@ public interface StoreAdminService {
      * @return
      */
     StoreAdmin findById(Integer id);
+
+    /**
+     * 读取excel文件
+     * @param mFile
+     * @param shopId
+     */
+    void readExcelFile(MultipartFile mFile, Integer shopId);
 }

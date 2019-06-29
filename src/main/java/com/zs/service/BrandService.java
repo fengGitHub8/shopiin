@@ -1,6 +1,7 @@
 package com.zs.service;
 
 import com.zs.entity.Brand;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,4 +44,11 @@ public interface BrandService {
      * @return
      */
     Brand findById(Integer id);
+
+    /**
+     * 读取excel文件
+     * @param file
+     * @return
+     */
+    String readExcelFile(MultipartFile file,String shopId);
 }

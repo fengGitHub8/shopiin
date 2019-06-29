@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
+    <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<style>
+    #showEmp {
+        margin-top: 30px;
+    }
+</style>
+
+<body>
+<!--<div class="container">-->
+<!--<div class="form-control">-->
+<!--</div>-->
+<!--</div>-->
+<div class="container" id="showEmp" style="margin-top: 30px">
+    <div class="form-group col-sm-8">
+        <label class="control-label col-sm-1">门店</label>
+        <div class="col-sm-2">
+            <select class="form-control" style="width:100px" name="shop" id="shop">
+                <option v-for="item in storelist" :value="item.id"
+                        :label="item.name" @click="changeshop(item.id)"></option>
+            </select>
+        </div>
+        <div class="col-sm-1 col-sm-offset-2">
+            <button class="btn btn-default" @click="showadd()">创建</button>
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <input id="searchId" stype="text" class="form-control">
+        </div>
+        <div>
+            <button class="btn btn-default " @click="search()">查找</button>
+        </div>
+    </div>
+    <!--表格-->
+    <table class="table table-bordered table-hover tab-content">
+        <tr>
+            <td class="col-sm-2">停车位id</td>
+            <td class="col-sm-2">停车场</td>
+            <td class="col-sm-2">车位号</td>
+            <td class="col-sm-2">车位二维码</td>
+            <td class="col-sm-2">状态</td>
+            <td class="col-sm-2">操作</td>
+        </tr>
+        <tr v-for="parking in pageList">
+            <td>{{parking.id}}</td>
+            <td>{{parking.parkingName}}</td>
+            <td>{{parking.name}}</td>
+            <td class="col-sm-2">
+                <!--<button class="btn btn-warning btn-xs" @click="showqrcode(tempparkdepot.grcodeImage)"></button>-->
+                <!--<button class="btn btn-warning btn-xs" @click="showqrcode('https://images.shopin.net/wxx/1530167817416.png')">修改</button>-->
+                <button class="btn btn-default btn-xs" @click="showqrcode(parking.qrcodeImage)">显示二维码</button>
+            </td>
+            <!--<td>{{tempparkdepot.qrcodeImage}}</td>-->
+            <!--<td>{{tempparkdepot.status}}</td>-->
+            <!--<td>{{tempparkdepot.pakingImage}}</td>-->
+            <td v-if="parkdepot.status==0">启用</td>
+            <td v-else>禁用</td>
+            <td>
+                <button class="btn btn-warning btn-xs" @click="showModal(parking)">修改</button>
+                <button class="btn btn-danger btn-xs" @click="del(parking)">删除</button>
+            </td>
+        </tr>
+    </table>
+    <div class="container">
+        <label id="pagecount" class="col-sm-1">共{{pagecount}}页</label>
+        <button id="prepage" class="btn btn-default btn-xs" @click="changepagenum(-1)"><<</button>
+        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="border:0;width: 20px;text-align: center">
+        <button id="nextpage" class="btn btn-default btn-xs" @click="changepagenum(1)">>></button>
+    </div>
+
+    <!--模态框显示二维码图片-->
+    <div class="modal fade" id="qrcodemodal" tabindex="-1" role="dialog" aria-hidden="true" style="text-align: center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="" id="qrcodeImage"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--模态框添加停车位数据-->
+    <div class="modal fade" id="myModaladd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">修改 停车场管理</h4>
+                </div>
+                <form class="form-horizontal" id="addForm" method="post" role="form">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="parkingAdmin.shopId" v-model="shop.shopId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">停车场:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingAdmin.parkingDepotId"
+                                        id="parkingDepotIdadd">
+                                    <option v-for="item in parkingDepotList" :value="item.id"
+                                            :label="item.name"></option>
+                                </select>
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">车位号:</label>
+                            <div class="col-sm-8">
+                                <input type="select" v-model="parkingAdmin.name" name="parkingAdmin.name" id="nameadd"
+                                       class="form-control" placeholder="请输入车位号">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingAdmin.status"
+                                        v-model="parkingAdmin.status" id="statusadd"
+                                        class="col-sm-2   ">
+                                    <option value="0">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="addparking()">添加</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    <!--模态框修改停车位数据-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改 停车位管理</h4>
+                </div>
+                <form class="form-horizontal" id="updateForm" method="post" role="form">
+                    <div class="modal-body">
+                        <input type="hidden" name="parkingAdmin.id" v-model="parkingAdmin.id">
+                        <input type="hidden" name="parkingAdmin.shopId" id="shopId" v-model="shop.shopId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">停车场:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingAdmin.parkingDepotId"
+                                        v-model="parkingAdmin.parkingDepotId">
+                                    <option v-for="item in parkingDepotList" :value="item.id"
+                                            :label="item.name"></option>
+                                </select>
+                            </div>
+                            <label class="control-label" id="namelable"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">车位号:</label>
+                            <div class="col-sm-8">
+                                <input type="select" id="" v-model="parkingAdmin.name" name="parkingAdmin.name"
+                                       class="form-control" placeholder="请输入车位号">
+                            </div>
+                            <label class="control-label" id="vipPricelable"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingAdmin.status" id="status"
+                                        v-model="parkingAdmin.status"
+                                        class="col-sm-2   ">
+                                    <option value="0">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add_btn" class="btn btn-primary" @click="updateparking(parkingAdmin)">
+                            修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+</div>
+</body>
+<script>
+    var showEmp = new Vue({
+            el: "#showEmp",
+            data: {
+                status: "Success",
+                code: "",
+                responseResult: "",
+                responseList: [],
+                itemList: [],
+                parkdepot: {},
+                itemcount: 0, //行数统计
+                pagecount: 0, //页数统计
+                itemsofpage: 4,	//每页行数
+                pagenum: 0, //当前页
+                shoplist: [],		//营业场所统计
+                shop: {},
+                parkingDepotList: [],
+                pageList: [],
+                parkingAdmin: {},
+                storelist:[]
+            },
+            dataType: "json",   //返回数据为json格式
+            methods: {
+                getparkingDepot() {
+                    var that = this;
+                    axios.post('/parkingDepot/finds?shopId=39')
+                        .then(function (response) {
+                            that.parkingDepotList = response.data.responseList;
+                            console.log("parkingDepot:")
+                            console.log(that.parkingDepot);
+                        })
+                        .catch(function (error) {
+                            consolo.log(error);
+                        })
+                },
+                showadd() {
+                    $("#myModaladd").modal('show');
+                    // this.parkingAdmin={};
+                    this.parkingAdmin.name=null;
+                    this.parkingAdmin.status=null;
+                    this.getparkingDepot();
+                }
+                ,
+                showModal(parkingAdmin) {
+                    $("#myModal").modal('show');
+                    this.parkingAdmin = parkingAdmin;
+                    this.getparkingDepot();
+                },
+                changepagenum(offset) {
+                    var tempnum = this.pagenum + offset;
+                    if (tempnum == 0)
+                        alert("已到第一页");
+                    else if (tempnum > this.pagecount)
+                        alert("已经是最后一页");
+                    else
+                        this.pagenum = tempnum;
+                    this.getpageList();
+                },
+                updateparking(parkingAdmin) {
+                    var that = this;
+                    // console.log($("#updateForm").serialize());
+
+                    console.log(parkingAdmin);
+
+                    this.parkingAdmin = parkingAdmin;
+                    // console.log(this.parkingAdmin);
+                    // axios.get('parkingAdmin/finds?shopId=39')
+                    axios.post('parkingAdmin/modify', that.parkingAdmin)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModal").modal('hide');
+                            that.gettabledata();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            $("#myModal").modal('hide');
+                        })
+                },
+                del(parkingAdmin) {
+                    var that = this;
+                    this.parkingAdmin = parkingAdmin;
+                    console.log(parkingAdmin);
+                    axios.post('parkingAdmin/delete?id=' + this.parkingAdmin.id)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModal").modal('hide');
+                            that.gettabledata();
+                        })
+                }
+                , addparking() {
+                    var that = this;
+                    var parking = this.parkingAdmin;
+                    parking.id = null;
+                    parking.shopId = this.shop.shopId;
+                    parking.parkingDepotId = $("#parkingDepotIdadd").val();
+                    parking.name = $("#nameadd").val();
+                    parking.status = $("#statusadd").val();
+                    this.parkingAdmin = parking;
+                    // this.parkingAdmin=parkingAdmin;
+                    console.log(this.parkingAdmin);
+                    axios.post('parkingAdmin/add', this.parkingAdmin)
+                        .then(function (response) {
+                            that.gettabledata();
+                            console.log(response.data.status);
+                            $("#myModaladd").modal('hide');
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                }
+                ,search() {
+                    var that = this;
+                    // console.log(parkingAdmin);
+                    var id= $("#searchId").val();
+                    console.log("id:"+id);
+                    axios.post('parkingAdmin/findbyid?id=' + id)
+                        .then(function (response) {
+                            that.pagenum=1;
+                            that.pagecount=1;
+                            console.log(that.pageList);
+                            console.log(response);
+                            // that.gettabledata();
+                        })
+
+                },
+                showqrcode(string) {
+                    console.log(string);
+                    $("#qrcodeImage").attr("src", string);
+                    $("#qrcodemodal").modal("show");
+                }
+                , getpageList() {
+                    var that = this;
+                    var start = (that.pagenum - 1) * that.itemsofpage;
+                    var end = that.pagenum * that.itemsofpage - 1;
+                    console.log(start + "|" + end);
+                    if (end >= that.itemcount)
+                        end = that.itemcount - 1;
+                    console.log(start + "|" + end);
+                    var k = 0;
+                    that.pageList = [];
+                    for (var i = start; i <= end; i++) {
+                        that.pageList[k] = (that.itemList[i]);
+                        k = k + 1;
+                    }
+                    console.log(that.pageList);
+                }
+                , gettabledata() {
+                    var that = this;
+                    axios.get('parkingAdmin/finds?shopId=39')
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                , getOnedata() {
+                    var that = this;
+                    // console.log(parkingAdmin);
+                    var id= $("#searchId").val();
+                    console.log("id:"+id);
+                    axios.post('parkingAdmin/findbyid?id=' + id)
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                ,getshoplist(){
+                    var that=this;
+                    axios
+                        .post('/shopAdmin/find')
+                        .then(function (response) {
+                            that.storelist=response.data.responseList;
+                            console.log(response.data)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                ,changeshop(i){
+                    this.shop.shopId=i;
+                }
+            }
+            , created() {
+                var that = this;
+                this.getshoplist();
+                axios.get('parkingAdmin/finds?shopId=39')
+                    .then(function (response) {
+                        that.shop.shopId = 39;
+                        var data = response.data;
+                        if (data.status == "Success") {
+                            that.status = data.status;
+                            that.code = data.code;
+                            that.responseResult = data.responseResult;
+                            that.responseList = data.responseList;
+                            that.itemList = data.responseList;
+                            that.itemcount = that.itemList.length;
+                            console.log(that.itemcount);
+                            that.pagenum = 1;
+                            // console.log("itemlist+" + that.itemList);
+                            that.getpageList();
+                            that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                        } else {
+                            alert(data.responseResult);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    )
+</script>
+
+</html>

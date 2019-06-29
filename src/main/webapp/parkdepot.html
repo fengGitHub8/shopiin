@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
+    <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<style>
+    #showEmp {
+        margin-top: 30px;
+    }
+</style>
+
+<body>
+<!--<div class="container">-->
+<!--<div class="form-control">-->
+<!--</div>-->
+<!--</div>-->
+<div class="container" id="showEmp" style="margin-top: 30px">
+    <div class="form-group col-sm-11">
+        <label class="control-label col-sm-1">门店</label>
+        <div class="col-sm-2">
+            <select class="form-control" style="width:100px" name="shop" id="shop">
+                <option v-for="item in storelist" :value="item.id"
+                        :label="item.name" @click="changeshop(item.id)"></option>
+            </select>
+        </div>
+        <div class="col-sm-1 col-sm-offset-2">
+            <button class="btn btn-default" @click="showadd()">创建</button>
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <input id="searchId" stype="text" class="form-control">
+        </div>
+        <div>
+            <button class="btn btn-default " @click="search()">查找</button>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover tab-content">
+        <tr>
+            <td class="col-sm-1">停车场id</td>
+            <td class="col-sm-1">营业场所</td>
+            <td class="col-sm-1">楼层</td>
+            <td class="col-sm-1">停车场名字</td>
+            <td class="col-sm-1">停车说明</td>
+            <td class="col-sm-1">平面图</td>
+            <td class="col-sm-1">状态</td>
+            <td class="col-sm-1">操作</td>
+        </tr>
+        <tr v-for="parkingdepot in pageList">
+            <td>{{parkingdepot.id}}</td>
+            <td>{{parkingdepot.doBusinessSiteName}}</td>
+            <td>{{parkingdepot.floorName}}</td>
+            <td>{{parkingdepot.name}}</td>
+            <td>{{parkingdepot.introduce}}</td>
+            <td class="1">
+                <button class="btn btn-default btn-xs" @click="showqrcode(parkingdepot)">显示平面图</button>
+            </td>
+            <td v-if="parkdepot.status==1">启用</td>
+            <td v-else>禁用</td>
+            <td>
+                <button class="btn btn-warning btn-xs" @click="showModal(parkingdepot)">修改</button>
+                <button class="btn btn-danger btn-xs" @click="del(parkingdepot)">删除</button>
+            </td>
+        </tr>
+    </table>
+    <div class="container">
+        <label id="pagecount" class="col-sm-1">共{{pagecount}}页</label>
+        <button id="prepage" class="btn btn-default btn-xs" @click="changepagenum(-1)"><<</button>
+        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="width: 20px;text-align: center">
+        <button id="nextpage" class="btn btn-default btn-xs" @click="changepagenum(1)">>></button>
+    </div>
+
+    <!--模态框显示平面图-->
+    <div class="modal fade" id="qrcodemodal" tabindex="-1" role="dialog" aria-hidden="true" style="text-align: center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="" id="qrcodeImage"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--模态框添加停车场数据-->
+    <div class="modal fade" id="myModaladd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加 停车场管理</h4>
+                </div>
+                <form class="form-horizontal" id="addForm" method="post" role="form">
+                    <div class="modal-body">
+                        <input type="hidden" name="parkingDepot.shopId" :value="shop.shopId">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">营业场所:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control"
+                                        id="doBusinessSiteName" @change="bussinesschange()">
+                                    <option disabled selected>请选择</option>
+                                    <option v-for=" (value,index) in bussinessList" :value="index"
+                                            :label="value.name"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">楼层:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingDepot.parkingDepotId" placeholder="请选择"
+                                        id="floorName" @change="floorchange()" :label="msg" v-model="parkingDepot.floorId">
+                                    <option v-for="itemfloor in bussinessSite.floorPlanList" v-model="itemfloor.floorId"
+                                            :label="itemfloor.name"></option>
+                                </select>
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车场名字:</label>
+                            <div class="col-sm-8">
+                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name"
+                                       class="form-control" placeholder="请输入停车场名字">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车说明:</label>
+                            <div class="col-sm-8">
+                                <input type="select" v-model="parkingDepot.introduce" id="introduce"
+                                       class="form-control" placeholder="请输入停车说明">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车场平面图:</label>
+                            <div class="col-sm-8">
+                                <input type="file" >
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingDepot.status"
+                                        v-model="parkingDepot.status" id="statusadd"
+                                        class="col-sm-2   ">
+                                    <option value="0">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="addparkingDepot()">添加</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    模态框修改停车场数据
+    <div class="modal fade" id="myModalupdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加 停车场管理</h4>
+                </div>
+                <form class="form-horizontal" id="updateForm" method="post" role="form">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="parkingDepot.shopId" v-model="shop.shopId">
+                        <div class="form-group">
+
+                            <label class="col-sm-3 control-label">营业场所:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control"
+                                        id="doBusinessSiteNameupdate" @change="bussinesschangeupdate()">
+                                    <option v-for=" (value,index) in bussinessList" :value="index"
+                                            :label="value.name"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">楼层:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingDepot.parkingDepotId"
+                                        id="floorNameupdate" @click="floorchangeupdate()">
+                                    <option v-model="parkingDepot.parkingDepotId" id="tempfloor">{{parkingDepot.name}}</option>
+                                    <!--<option v-for="itemfloor in bussinessSite.floorPlanList" :value="itemfloor.floorId"-->
+                                            <!--:label="itemfloor.name"></option>-->
+                                </select>
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车场名字:</label>
+                            <div class="col-sm-8">
+                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name" id="nameadd"
+                                       class="form-control" placeholder="请输入停车场名字">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车说明:</label>
+                            <div class="col-sm-8">
+                                <input type="select" v-model="parkingDepot.name" name="parkingDepot.name" id="introduceadd"
+                                       class="form-control" placeholder="请输入停车说明">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">停车场平面图:</label>
+                            <div class="col-sm-8">
+                                <input type="file" >
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状态:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="parkingDepot.status"
+                                        :value="parkingDepot.status" id="statusupdate"
+                                        class="col-sm-2   ">
+                                    <option value="0">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="addparkingDepot()">添加</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+
+</div>
+</body>
+<script>
+    var showEmp = new Vue({
+            el: "#showEmp",
+            data: {
+                msg:"wtf",
+                status: "Success",
+                code: "",
+                responseResult: "",
+                responseList: [],
+                itemList: [],
+                parkdepot: {},
+                itemcount: 0, //行数统计
+                pagecount: 0, //页数统计
+                itemsofpage: 4,	//每页行数
+                pagenum: 0, //当前页
+                shoplist: [],		//营业场所统计
+                shop: {},
+                parkingDepotList: [],
+                pageList: [],
+                parkingDepot: {},
+                storelist: [],
+                bussinessList:[],
+                bussinessSite:{},
+                floorList:[],
+                floor:{}
+            },
+            dataType: "json",   //返回数据为json格式
+            methods: {
+                getBussinessandfloor() {
+                    var that = this;
+                    axios.post('/doBusinessSite/findBusinessSiteAndFloor?shopId=39')
+                        .then(function (response) {
+                            console.log(response.data);
+                            that.bussinessList = response.data.responseList;
+                            console.log(that.bussinessList);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
+                showadd() {
+                    $("#myModaladd").modal('show');
+                    // this.parkingDepot={};
+                    this.parkingDepot.name = null;
+                    this.parkingDepot.status = null;
+                    this.getBussinessandfloor();
+                }
+                ,
+                showModal(parkingDepot) {
+                    $("#myModalupdate").modal('show');
+                    this.parkingDepot = parkingDepot;
+                    this.getBussinessandfloor();
+                },
+                changepagenum(offset) {
+                    var tempnum = this.pagenum + offset;
+                    if (tempnum == 0)
+                        alert("已到第一页");
+                    else if (tempnum > this.pagecount)
+                        alert("已经是最后一页");
+                    else
+                        this.pagenum = tempnum;
+                    this.getpageList();
+                },
+                cleanmodel(){
+                    $("#myModaladd").on("hidden.bs.modal",function(){
+                        $("#addForm").reset();
+                    })
+                }
+                ,
+                bussinesschange(){
+                    var index=$("#doBusinessSiteName").val();
+                    console.log(index);
+                    this.bussinessSite=this.bussinessList[index];
+                    // $("#floorName").val(0);
+                    console.log(this.bussinessSite);
+                },
+                floorchange(){
+                    var index=$("#floorName").val();
+                    this.floor=this.bussinessSite.floorPlanList[index];
+                }
+                ,
+                updateparkingDepot(parkingDepot) {
+                    var that = this;
+                    console.log(parkingDepot);
+                    this.parkingDepot = parkingDepot;
+                    axios.post('parkingDepot/modify', this.parkingDepot)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModal").modal('hide');
+                            that.gettabledata();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            $("#myModal").modal('hide');
+                        })
+                },
+                del(parkingDepot) {
+                    var that = this;
+                    this.parkingDepot = parkingDepot;
+                    console.log(parkingDepot);
+                    axios.post('parkingDepot/delete?id=' + this.parkingDepot.id)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModal").modal('hide');
+                            that.gettabledata();
+                        })
+                }
+                , addparkingDepot() {
+                    var that = this;
+                    // var parking = this.parkingDepot;
+                    // parking.id = null;
+                    this.parkingDepot.shopId = this.shop.shopId;
+                    // // parking.name = $("#nameadd").val();
+                    // parking.status = $("#statusadd").val();
+                    this.parkingDepot.doBusinessSiteId=this.bussinessSite.id;
+                    this.parkingDepot.floorId=$("#floorName").val();
+                    this.parkingDepot.introduce=$("#introduce").val();;
+                    // this.parkingDepot = parking;
+                    // this.parkingDepot=parkingDepot;
+                    console.log(this.parkingDepot);
+                    axios.post('parkingDepot/add', this.parkingDepot)
+                        .then(function (response) {
+                            that.gettabledata();
+                            console.log(response.data.status);
+                            $("#myModaladd").modal('hide');
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                }
+                , search() {
+                    var that = this;
+                    // console.log(parkingDepot);
+                    var id = $("#searchId").val();
+                    console.log("id:" + id);
+                    axios.post('parkingDepot/findbyid?id=' + id)
+                        .then(function (response) {
+                            that.pagenum = 1;
+                            that.pagecount = 1;
+                            console.log(that.pageList);
+                            console.log(response);
+                            // that.gettabledata();
+                        })
+
+                }
+                ,showqrcode(string) {
+                    console.log(string);
+                    $("#qrcodeImage").attr("src", "" + string.qrcodeImage);
+                    $("#qrcodemodal").modal("show");
+                }
+                , getpageList() {
+                    var that = this;
+                    var start = (that.pagenum - 1) * that.itemsofpage;
+                    var end = that.pagenum * that.itemsofpage - 1;
+                    console.log(start + "|" + end);
+                    if (end >= that.itemcount)
+                        end = that.itemcount - 1;
+                    console.log(start + "|" + end);
+                    var k = 0;
+                    that.pageList = [];
+                    for (var i = start; i <= end; i++) {
+                        that.pageList[k] = (that.itemList[i]);
+                        k = k + 1;
+                    }
+                    console.log("page:");
+                    console.log(that.pageList);
+                }
+                ,floorchangeupdate(){
+                    var options=$("#floorNameupdate").empty();
+    //                 console.log(options);
+    //                 for(var option in options){
+    // console.log(option);
+    //                     option.remove();
+    //                 }
+    //                 $("#tempfloor").remove();
+                    console.log(this.floorList);
+                    for(var floor in  this.floorList)
+                        console.log(floor);
+                    // $("#floorNameupdate").append(" <option value="+"></option>");
+                }
+                , gettabledata() {
+                    var that = this;
+                    axios.get('parkingDepot/finds?shopId=39')
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                , getOnedata() {
+                    var that = this;
+                    // console.log(parkingDepot);
+                    var id = $("#searchId").val();
+                    console.log("id:" + id);
+                    axios.post('parkingDepot/findbyid?id=' + id)
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                , getshoplist() {
+                    var that = this;
+                    axios
+                        .post('/shopAdmin/find')
+                        .then(function (response) {
+                            that.storelist = response.data.responseList;
+                            console.log(response.data)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                , changeshop(i) {
+                    this.shop.shopId = i;
+                }
+            }
+            , created() {
+                // this.cleanmodel();
+                var that = this;
+                this.getshoplist();
+                this.getBussinessandfloor();
+                axios.get('parkingDepot/finds?shopId=39')
+                    .then(function (response) {
+                        that.shop.shopId = 39;
+                        var data = response.data;
+                        if (data.status == "Success") {
+                            that.status = data.status;
+                            that.code = data.code;
+                            that.responseResult = data.responseResult;
+                            that.responseList = data.responseList;
+                            that.itemList = data.responseList;
+                            that.itemcount = that.itemList.length;
+                            console.log(that.itemcount);
+                            that.pagenum = 1;
+                            // console.log("itemlist+" + that.itemList);
+                            that.getpageList();
+                            that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                        } else {
+                            alert(data.responseResult);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    )
+</script>
+
+</html>

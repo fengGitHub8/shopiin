@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="Vue/axios.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="Vue/vue.min.js" charset="UTF-8" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"/>
+    <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<style>
+    #showEmp {
+        margin-top: 30px;
+    }
+    .tdtype{
+        width:200px;
+    }
+</style>
+
+<body>
+<!--<div class="container">-->
+<!--<div class="form-control">-->
+<!--</div>-->
+<!--</div>-->
+<div class="container" id="showEmp" style="margin-top: 30px">
+    <div class="form-group col-sm-8">
+        <label class="control-label col-sm-1">门店</label>
+        <div class="col-sm-2">
+            <select class="form-control" style="width:100px" name="shop" id="shop">
+                <option v-for="item in storelist" :value="item.id"
+                        :label="item.name" @click="changeshop(item.id)"></option>
+            </select>
+        </div>
+        <div class="col-sm-1 col-sm-offset-2">
+            <button class="btn btn-default" @click="showadd()">创建</button>
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <input id="searchId" stype="text" class="form-control">
+        </div>
+        <div>
+            <button class="btn btn-default " @click="search()">查找</button>
+        </div>
+    </div>
+    <!--表格-->
+    <table class="table table-bordered table-hover tab-content">
+        <tr>
+            <td class="col-sm-1" >消息id</td>
+            <td class="col-sm-1" >消息标题</td>
+            <td class="col-sm-1" >消息内容</td>
+            <td class="col-sm-1" >发送时间</td>
+            <td class="col-sm-1" >创建人</td>
+            <td class="col-sm-1" >操作</td>
+        </tr>
+        <tr v-for="messageAdmin in pageList">
+            <td>{{messageAdmin.id}}</td>
+            <td>{{messageAdmin.title}}</td>
+            <td>{{messageAdmin.content}}</td>
+            <td>{{messageAdmin.sendDate}}</td>
+            <td>{{messageAdmin.creator}}</td>
+            <td>
+                <button class="btn btn-warning btn-xs" @click="showModalupdate(messageAdmin)">修改</button>
+                <button class="btn btn-danger btn-xs" @click="del(messageAdmin)">删除</button>
+            </td>
+        </tr>
+    </table>
+    <div class="container">
+        <label id="pagecount" class="col-sm-1">共{{pagecount}}页</label>
+        <button id="prepage" class="btn btn-default btn-xs" @click="changepagenum(-1)"><<</button>
+        <input type="text" id="pagecurrent" v-model="pagenum" class="form-group" style="border:0;width: 20px;text-align: center">
+        <button id="nextpage" class="btn btn-default btn-xs" @click="changepagenum(1)">>></button>
+    </div>
+
+    <!--模态框显示图片-->
+    <div class="modal fade" id="qrcodemodal" tabindex="-1" role="dialog" aria-hidden="true" style="text-align: center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="" id="qrcodeImage"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--模态框添加消息数据-->
+    <div class="modal fade" id="myModaladd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加 通知消息</h4>
+                </div>
+                <form class="form-horizontal" id="addForm" method="post" role="form">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="messageAdmin.shopId" v-model="shop.shopId">
+                        <input type="hidden" name="messageAdmin.id" v-model="messageAdmin.id">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">消息标题</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="messageAdmin.title" name="messageAdmin.title"
+                                       class="form-control" placeholder="请输入消息标题">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">内容</label>
+                            <div class="col-sm-8">
+                                <textarea type="text" v-model="messageAdmin.title"
+                                       class="form-control" placeholder="请输入内容">
+                                </textarea>
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">创建人</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="messageAdmin.title" name="messageAdmin.title"
+                                       class="form-control" >
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="addmessageAdmin()">添加</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <!--模态框修改消息数据-->
+    <div class="modal fade" id="myModalupdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">修改 通知消息</h4>
+                </div>
+                <form class="form-horizontal" id="updateForm" method="post" role="form">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="messageAdmin.shopId" v-model="shop.shopId">
+                        <input type="hidden" name="messageAdmin.id" v-model="messageAdmin.id">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">消息标题</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="messageAdmin.title" name="messageAdmin.title"
+                                       class="form-control" placeholder="请输入消息标题">
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">内容</label>
+                            <div class="col-sm-8">
+                                <textarea type="text" v-model="messageAdmin.content"
+                                          class="form-control" placeholder="请输入内容">
+                                </textarea>
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">创建人</label>
+                            <div class="col-sm-8">
+                                <input type="text" v-model="messageAdmin.creator" name="messageAdmin.creator"
+                                       class="form-control" >
+                            </div>
+                            <label class="control-label"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="updatemessageAdmin(messageAdmin)">修改</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+
+</div>
+</body>
+<script>
+    var showEmp = new Vue({
+            el: "#showEmp",
+            data: {
+                status: "Success",
+                code: "",
+                responseResult: "",
+                responseList: [],
+                itemList: [],
+                parkdepot: {},
+                itemcount: 0, //行数统计
+                pagecount: 0, //页数统计
+                itemsofpage: 4,	//每页行数
+                pagenum: 0, //当前页
+                shoplist: [],		//营业场所统计
+                shop: {},
+                parkingDepotList: [],
+                pageList: [],
+                messageAdmin: {},
+                storelist:[]
+            },
+            dataType: "json",   //返回数据为json格式
+            methods: {
+                showadd() {
+                    $("#myModaladd").modal('show');
+                    // this.messageAdmin={};
+                    this.messageAdmin.name=null;
+                    this.messageAdmin.status=null;
+                }
+                ,showModalupdate(messageAdmin) {
+                    $("#myModalupdate").modal('show');
+                    this.messageAdmin = messageAdmin;
+                }
+                ,changepagenum(offset) {
+                    var tempnum = this.pagenum + offset;
+                    if (tempnum == 0)
+                        alert("已到第一页");
+                    else if (tempnum > this.pagecount)
+                        alert("已经是最后一页");
+                    else
+                        this.pagenum = tempnum;
+                    this.getpageList();
+                },
+                updatemessageAdmin(messageAdmin) {
+                    var that = this;
+                    console.log("mes");
+                    console.log(messageAdmin);
+
+                    this.messageAdmin = messageAdmin;
+                    axios.post('messageAdmin/modify', that.messageAdmin)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModalupdate").modal('hide');
+                            that.gettabledata();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            $("#myModalupdate").modal('hide');
+                        })
+                },
+                del(messageAdmin) {
+                    var that = this;
+                    this.messageAdmin = messageAdmin;
+                    console.log(messageAdmin);
+                    axios.post('messageAdmin/delete?id=' + this.messageAdmin.id)
+                        .then(function (response) {
+                            console.log(response.data.status);
+                            $("#myModal").modal('hide');
+                            that.gettabledata();
+                        })
+                }
+                , addmessageAdmin() {
+                    var that = this;
+                    var parking = this.messageAdmin;
+                    parking.id = null;
+                    parking.shopId = this.shop.shopId;
+                    parking.parkingDepotId = $("#parkingDepotIdadd").val();
+                    parking.name = $("#nameadd").val();
+                    parking.status = $("#statusadd").val();
+                    this.messageAdmin = parking;
+                    // this.messageAdmin=messageAdmin;
+                    console.log(this.messageAdmin);
+                    axios.post('messageAdmin/add', this.messageAdmin)
+                        .then(function (response) {
+                            that.gettabledata();
+                            console.log(response.data.status);
+                            $("#myModaladd").modal('hide');
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                }
+                ,search() {
+                    var that = this;
+                    // console.log(messageAdmin);
+                    var id= $("#searchId").val();
+                    console.log("id:"+id);
+                    axios.post('messageAdmin/findbyid?id=' + id)
+                        .then(function (response) {
+                            that.pagenum=1;
+                            that.pagecount=1;
+                            console.log(that.pageList);
+                            console.log(response);
+                            // that.gettabledata();
+                        })
+
+                }
+                ,showqrcode(string) {
+                    console.log(string);
+                    $("#qrcodeImage").attr("src", string);
+                    $("#qrcodemodal").modal("show");
+                }
+                , getpageList() {
+                    var that = this;
+                    var start = (that.pagenum - 1) * that.itemsofpage;
+                    var end = that.pagenum * that.itemsofpage - 1;
+                    console.log(start + "|" + end);
+                    if (end >= that.itemcount)
+                        end = that.itemcount - 1;
+                    console.log(start + "|" + end);
+                    var k = 0;
+                    that.pageList = [];
+                    for (var i = start; i <= end; i++) {
+                        that.pageList[k] = (that.itemList[i]);
+                        k = k + 1;
+                    }
+                    console.log(that.pageList);
+                }
+                , gettabledata() {
+                    var that = this;
+                    axios.get('messageAdmin/finds?shopId=39')
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                , getOnedata() {
+                    var that = this;
+                    // console.log(messageAdmin);
+                    var id= $("#searchId").val();
+                    console.log("id:"+id);
+                    axios.post('messageAdmin/finds?id=' + id)
+                        .then(function (response) {
+                            that.shop.shopId = 39;
+                            var data = response.data;
+                            if (data.status == "Success") {
+                                that.status = data.status;
+                                that.code = data.code;
+                                that.responseResult = data.responseResult;
+                                that.responseList = data.responseList;
+                                that.itemList = data.responseList;
+                                that.itemcount = that.itemList.length;
+                                console.log(that.itemcount);
+                                that.pagenum = 1;
+                                // console.log("itemlist+" + that.itemList);
+                                that.getpageList();
+                                that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                            } else {
+                                alert(data.responseResult);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                ,getshoplist(){
+                    var that=this;
+                    axios
+                        .post('/shopAdmin/find')
+                        .then(function (response) {
+                            that.storelist=response.data.responseList;
+                            console.log(response.data)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                ,changeshop(i){
+                    this.shop.shopId=i;
+                }
+            }
+            , created() {
+                var that = this;
+                this.getshoplist();
+                axios.get('messageAdmin/finds?shopId=39')
+                    .then(function (response) {
+                        that.shop.shopId = 39;
+                        var data = response.data;
+                        if (data.status == "Success") {
+                            that.status = data.status;
+                            that.code = data.code;
+                            that.responseResult = data.responseResult;
+                            that.responseList = data.responseList;
+                            that.itemList = data.responseList;
+                            that.itemcount = that.itemList.length;
+                            console.log(that.itemcount);
+                            that.pagenum = 1;
+                            // console.log("itemlist+" + that.itemList);
+                            that.getpageList();
+                            that.pagecount = Math.ceil(that.itemcount / that.itemsofpage);
+                        } else {
+                            alert(data.responseResult);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    )
+</script>
+
+</html>

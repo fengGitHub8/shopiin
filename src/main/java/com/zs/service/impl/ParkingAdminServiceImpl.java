@@ -21,7 +21,6 @@ public class ParkingAdminServiceImpl implements ParkingAdminService {
     @Autowired
     private ParkingAdminMapper parkingAdminMapper;
 
-
     @Override
     public List<ParkingAdmin> findParkingAdminsByShopId(ParkingAdmin parkingAdmin) {
         return parkingAdminMapper.findParkingAdminsByShopId(parkingAdmin);
