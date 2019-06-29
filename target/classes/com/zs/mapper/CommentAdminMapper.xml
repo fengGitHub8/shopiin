@@ -12,7 +12,7 @@
     </select>
     
     <select id="findCommentByContent" parameterType="commentadmin" resultType="commentadmin">
-        select * from comment_admin where content like '%#{content}%'
+        select * from comment_admin where content like concat('%',#{content},'%');
     </select>
 
     <update id="modifyComment" parameterType="commentadmin">

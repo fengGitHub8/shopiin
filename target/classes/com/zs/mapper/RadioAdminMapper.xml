@@ -8,7 +8,7 @@
     </select>
 
     <insert id="addRadioBroadcast" parameterType="radioadmin">
-        insert into pageradio_admin values(#{shopId},#{content},#{title});
+        insert into pageradio_admin(shopId,content,title) values(#{shopId},#{content},#{title});
     </insert>
     <update id="modifyRadioBroadcast" parameterType="radioadmin">
         update pageradio_admin set shopId = #{shopId},content = #{content},title = #{title} where id = #{id};
