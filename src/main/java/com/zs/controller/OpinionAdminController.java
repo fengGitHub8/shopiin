@@ -27,13 +27,13 @@ public class OpinionAdminController {
     @RequestMapping("/finds")
     public ResultVO finds(int shopId) {
         List<OpinionAdmin> opinionAdmins = opinionAdminService.findOpinion(shopId);
-        return ResultVOUtil.success(opinionAdmins, null);
+        return ResultVOUtil.success(null, opinionAdmins);
     }
 
     @RequestMapping("/modify")
     public ResultVO modify(OpinionAdmin opinionAdmin) {
         Boolean result = opinionAdminService.modifyOpinion(opinionAdmin);
-        return ResultVOUtil.success(null, result);
+        return ResultVOUtil.success(result,null);
     }
 
     @RequestMapping("/deleteOpinion")

@@ -21,11 +21,11 @@ public class AdsAdmin {
     //跳转的链接
     private String url;
     //是纯图片还是跳转的图片
-    private String type;
+    private Integer type;
     //Banner的名字
     private String name;
     //优先级
-    private String grade;
+    private Integer grade;
     //是否删除
     private int isdel;
 }

@@ -25,7 +25,7 @@ public class FloorsAdmin {
     //Banner图的路径
     private String bannerUrl;
     //优先级
-    private String grade;
+    private Integer grade;
     //是否删除
     private Integer isdel;
 }

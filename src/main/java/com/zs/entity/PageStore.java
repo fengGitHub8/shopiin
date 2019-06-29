@@ -23,7 +23,7 @@ public class PageStore {
     //跳转的链接
     private String url;
     //优先级
-    private String grade;
+    private Integer grade;
     //类型
-    private String type;
+    private Integer type;
 }

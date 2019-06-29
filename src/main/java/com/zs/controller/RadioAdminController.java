@@ -27,7 +27,7 @@ public class RadioAdminController {
     @RequestMapping("/findRadioBroadcasts")
     public ResultVO findRadioBroadcasts(int shopId) {
         List<RadioAdmin> radioAdmins = radioAdminService.findRadioBroadcasts(shopId);
-        return ResultVOUtil.success(radioAdmins, null);
+        return ResultVOUtil.success(null,radioAdmins);
     }
 
     @RequestMapping("/addRadioBroadcast")

@@ -19,7 +19,7 @@ public class RadioAdmin {
     //内容
     private String content;
     //优先级
-    private String grade;
+    private Integer grade;
     //是否删除
     private Integer isdel;
 }

@@ -27,7 +27,7 @@ public class CommentAdminController {
     @RequestMapping("/find")
     public ResultVO find(int shopId) {
         List<CommentAdmin> commentAdmins = commentAdminService.findComment(shopId);
-        return ResultVOUtil.success(commentAdmins, null);
+        return ResultVOUtil.success(null, commentAdmins);
     }
 
     @RequestMapping("/findById")

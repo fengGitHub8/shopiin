@@ -17,7 +17,7 @@ public class OpinionAdmin {
     //用户id
     private Integer userId;
     //意见反馈的类型
-    private String type;
+    private Integer type;
     //意见反馈的内容
     private String content;
     //意见反馈的图片
@@ -27,7 +27,7 @@ public class OpinionAdmin {
     //电话
     private String tel;
     //状态
-    private String status;
+    private Integer status;
     //是否删除
     private Integer isdel;
 }

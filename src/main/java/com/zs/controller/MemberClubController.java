@@ -27,7 +27,7 @@ public class MemberClubController {
     @RequestMapping("/finds")
     public ResultVO finds(int id) {
         List<MemberClub> memberClubs = memberClubService.findMember(id);
-        return ResultVOUtil.success(memberClubs, null);
+        return ResultVOUtil.success(null, memberClubs);
     }
 
     @RequestMapping("/modify")

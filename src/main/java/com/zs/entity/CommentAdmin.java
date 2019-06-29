@@ -29,6 +29,6 @@ public class CommentAdmin {
     //评论内容
     private String content;
     //评论状态
-    private String status;
+    private Integer status;
 
 }
