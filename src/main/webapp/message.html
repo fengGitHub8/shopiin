@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">内容</label>
                             <div class="col-sm-8">
-                                <textarea type="text" v-model="messageAdmin.title"
+                                <textarea type="text" v-model="messageAdmin.content"
                                        class="form-control" placeholder="请输入内容">
                                 </textarea>
                             </div>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">创建人</label>
                             <div class="col-sm-8">
-                                <input type="text" v-model="messageAdmin.title" name="messageAdmin.title"
+                                <input type="text" v-model="messageAdmin.creator" name="messageAdmin.title"
                                        class="form-control" >
                             </div>
                             <label class="control-label"></label>
@@ -265,9 +265,10 @@
                     var parking = this.messageAdmin;
                     parking.id = null;
                     parking.shopId = this.shop.shopId;
-                    parking.parkingDepotId = $("#parkingDepotIdadd").val();
+                    // parking.parkingDepotId = $("#parkingDepotIdadd").val();
+                    parking,sendDate=new Date();
                     parking.name = $("#nameadd").val();
-                    parking.status = $("#statusadd").val();
+                    parking.status = 1;
                     this.messageAdmin = parking;
                     // this.messageAdmin=messageAdmin;
                     console.log(this.messageAdmin);

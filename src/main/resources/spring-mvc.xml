@@ -17,5 +17,10 @@
     <!--默认释放静态资源-->
     <mvc:default-servlet-handler/>
 
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="32505856"></property>
+        <property name="maxInMemorySize" value="4096"></property>
+    </bean>
 
 </beans>
