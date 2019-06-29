@@ -110,7 +110,7 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">场所名称:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"  class="form-control" id="" v-model="list.name" placeholder="请输入该门店的名称">
+                                        <input type="text"  class="form-control" id="listname" v-model="list.name" placeholder="请输入该门店的名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -126,15 +126,16 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                                     <label class="col-sm-2 control-label">楼层:</label>
                                     <div class="col-sm-8">
                                         <select class="form-control" id="listflorid"   >
-                                            <option v-for="i in sired1.floorPlanList" v-model="i.id" >{{i.name}}</option>
+                                            <option v-for="i in sired1.floorPlanList" v-model:="i.id" >{{i.name}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">类型:</label>
                                     <div class="col-sm-8">
-                                    <select  class="form-control" v-bind:value="first.id" id="liststoreTypeName" placeholder="请输入该门店的名称" >
-                                        <option v-for="f in first" v-model="f.id">{{f.name}}</option>
+                                    <select  class="form-control"  id="liststoreTypeName" placeholder="请输入该门店的名称" >
+                                        <option disabled selected>请选择</option>
+                                        <option v-for="(value,key) in first" v-bind:value="value.id">{{value.name}}</option>
                                     </select>
                                 </div>
                                 </div>
@@ -187,32 +188,72 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
                         </div>
                         <form class="form-horizontal"   method="post" role="form">
                             <div class="modal-header">
-                                <input type="hidden" name="type" v-model="updatelist.id"    >
+                                <input type="hidden" id="updateid" name="type" v-model="updatelist.shopId" value="store">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">名字:</label>
+                                    <label class="col-sm-2 control-label">场所名称:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"  class="form-control" v-model="updatelist.name" placeholder="请输入该门店的名称">
+                                        <input type="text"  class="form-control" id="updatename" v-model="updatelist.name" placeholder="请输入该门店的名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">简介:</label>
+                                    <label class="col-sm-2 control-label">营业场所:</label>
                                     <div class="col-sm-8">
-                                        <input type="text"class="form-control" v-model="updatelist.introduce"  placeholder="请输入该门店的地址">
+                                        <!--<select class="form-control"  id="updatedoBusinessSiteName" @change="Two()"  placeholder="请输入该门店的名称" >-->
+                                            <!--<option disabled selected>请选择</option>-->
+                                            <!--<option v-for="(inn,index) in sired" v-bind:value="index" v-bind:label="inn.name"></option>-->
+                                        <!--</select>-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">楼层:</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="updateflorid"   >
+                                            <option v-for="i in sired1.floorPlanList" v-model:="i.id" >{{i.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">类型:</label>
+                                    <div class="col-sm-8">
+                                        <select  class="form-control"  id="updateTypeName" placeholder="请输入该门店的名称" >
+                                            <option disabled selected>请选择</option>
+                                            <option v-for="(value,key) in first" v-model="updatelist" v-bind:value="value.id">{{value.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">关键字:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"  class="form-control" v-model="updatelist.keywords" placeholder="请输入关键字(关键字请以逗号隔开)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">介绍:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"  class="form-control" v-model="updatelist.introduce" placeholder="请输入介绍">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">门头图:</label>
+                                    <div class="div_imgall  col-sm-offset-3">
+                                        <input type="file" class="input_flie" ref="file" v-model="updatelist.logoImageUrl">
+                                        <div class="div_shuline"></div>
+                                        <div class="div_hengline"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">门店状态:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" id="updatestatus" v-bind:value="updatelist.status" v-model="updatelist.status" >
+                                        <select class="form-control" id="updatestatus" v-model="updatelist.status">
                                             <option value="1" >启用</option>
                                             <option value="0">禁用</option>
                                         </select>
                                     </div>
                                 </div>
+                            </div>
                                 <div class="modal-body col-sm-offset-9">
                                     <button type="button" id="update_btn" class="btn btn-primary" @click="updateByid(updatelist)">确定</button>
                                 </div>
-                            </div>
                         </form>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
@@ -307,11 +348,14 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             },
             // 添加
             addShop(list) {
+                this.list.name=$("#listname").val()
                 this.list.shopId =this.selVal;
                 this.list.name=$("#listname").val()
                 this.list.keywords=$("#listflorid").val()
                 this.list.storeTypeId=$("#liststoreTypeName").val()
-                console.log(this.list.name)
+                this.list.categoryId=3
+                console.log($("#liststoreTypeName").val())
+                console.log(this.list.storeTypeId)
                 axios
                 // /doBusinessSite/add
                     .post('/storeAdmin/add', this.list)
@@ -342,15 +386,18 @@ input层级高并且透明，就能显示出+号并且点击元素任意地方�
             // 修改
             updateAndid(Result) {
                 $("#myModall").modal('show')
-                alert(Result.id)
+                console.log(Result.id)
                 var that=this
                 axios
                 // 单个查询
                     .post('/storeAdmin/findbyid?id='+Result.id)
                     .then(function (response) {
-                        that.updatelist = response.data.responseResult;
+                        that.updatelist = response.data.responseResult
                         console.log(response.data.responseResult)
                         $("#updatestatus").val(that.updatelist.status)
+                        $("#updatedoBusinessSiteName").val(that.updatelist.doBusinessSiteId)
+                        $("#updatedoBusinessSiteName").val(that.updatelist.storeType.id)
+
                     })
                     .catch(function (error) {
                         console.log(error);
