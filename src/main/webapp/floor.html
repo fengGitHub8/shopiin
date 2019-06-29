@@ -45,12 +45,12 @@
                 <td>{{List.doBusinessSiteName}}</td>
                 <td>{{List.floor}}</td>
                 <td>{{List.name}}</td>
-                <td><img :src="List.imageUrl" height="40px" @click="pimgs(val)"></td>
+                <td><img :src="List.imageUrl" height="40px" @click="pimgs(List)"></td>
                 <td v-if="List.status==1">启用</td>
                 <td v-else>禁用</td>
-                <td v-if="List.Display==0">显示</td>
+                <td v-if="List.display==0">显示</td>
                 <td v-else>隐藏</td>
-                <td><button class="btn btn-default btn-xs" @click="ping()">生成</button></td>
+                <td><button class="btn btn-default btn-xs" @click="ping(List)">生成</button></td>
                 <td>{{List.grade}}</td>
                 <td><button class="btn btn-default btn-xs" @click="updateAndid(List)">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default btn-xs" @click="updateAndByid(List)">管理平面图</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-xs" @click="delByid(List)">删除</button></td>
             </tr>
@@ -114,8 +114,8 @@
                                 <label class="col-sm-2 control-label">状态:</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="adddisplay" v-model="list.display">
-                                        <option value="1" >显示</option>
-                                        <option value="0">隐藏</option>
+                                        <option value="0" >显示</option>
+                                        <option value="1">隐藏</option>
                                     </select>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">楼层【数字】:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" style="width: 230px" id="updatename" class="form-control" v-model="updatelist.name" placeholder="请输入添加的品类">
+                                    <input type="text" style="width: 230px" id="updatename" class="form-control" v-model="updatelist.floor" placeholder="请输入添加的品类">
                                 </div>
                                 <div>
                                     <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4，请填写：4</a>
@@ -161,7 +161,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">楼层【汉字】:</label>
                                 <div class="col-sm-4">
-                                    <input type="text" style="width: 230px" id="updatefloor" class="form-control" v-model="updatelist.floor" placeholder="请输入添加的品类">
+                                    <input type="text" style="width: 230px" id="updatefloor" class="form-control" v-model="updatelist.name" placeholder="请输入添加的品类">
                                 </div>
                                 <div>
                                     <a  class="btn  btn-xs disabled " role="button" style="background-color: #ebcccc;color: red">此处请填写对应的楼层汉字，如，4，请填写：4</a>
@@ -180,8 +180,8 @@
                                 <label class="col-sm-2 control-label">门状态:</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="updatedisplay" v-model="updatelist.display">
-                                        <option value="1" >显示</option>
-                                        <option value="0">隐藏</option>
+                                        <option value="0" >显示</option>
+                                        <option value="1">隐藏</option>
                                     </select>
                                 </div>
                             </div>
@@ -196,6 +196,21 @@
 
 
 
+        <div class="modal fade bbd-example-modal-sm" id="myModalll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:600px">
+                <div class="modal-content">
+                    <img :src="store1">
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bbd-example-modal-sm" id="myModallll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content"  >
+                    <img  :src="store" style="height: 400px">
+                </div>
+            </div>
+        </div>
+
 
 
     </div>
@@ -209,10 +224,19 @@
             list:{},
             updatelist:{},
             store:{},
+            store1:{},
             repost:{},
             repost1:{}
         },
         methods: {
+            pimgs(List){
+                this.store=List.imageUrl
+                $("#myModallll").modal('show');
+            },
+            ping(List) {
+                this.store1=List.qrcodeImage
+                $("#myModalll").modal('show');
+            },
             addUser() {
                 $("#myModal").modal('show');
                 $("#status").val(1)
@@ -303,7 +327,7 @@
                 this.updatelist.status= $("#updatestatus").val();
                 console.log(this.updatelist.type)
                 axios
-                    .post('/category/modify', this.updatelist)
+                    .post('/floorAdmin/modify', this.updatelist)
                     .then(function (response) {
                         $("#myModal").modal('hide')
                         alert("修改成功")
