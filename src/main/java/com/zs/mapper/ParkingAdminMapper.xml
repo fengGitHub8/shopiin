@@ -20,7 +20,7 @@
     <select id="findParkingAdminsByShopId" parameterType="parkingadmin" resultMap="parkingadmin_map">
         select * from parking_admin left join parking_depot on parking_admin.parkingDepotId = parking_depot.id where parking_admin.status!=2 and parking_admin.shopId = #{shopId}
         <if test="name!=null">
-            parking_admin.name like concat('%',#{name},'%')
+           and parking_admin.name like concat('%',#{name},'%')
         </if>
     </select>
 
