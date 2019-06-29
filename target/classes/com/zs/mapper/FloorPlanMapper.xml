@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zs.mapper.FloorPlanMapper">
+    <resultMap id="FloorPlanMap" type="floorPlan">
+        <id column="id" property="id"></id>
+        <result column="shopId" property="shopId"></result>
+        <result column="doBusinessSiteId" property="doBusinessSiteId"></result>
+        <result column="name" property="name"></result>
+        <result column="imageUrl" property="imageUrl"></result>
+        <result column="floor" property="floor"></result>
+        <result column="storeLocations" property="storeLocations"></result>
+        <result column="qrcodeImage" property="qrcodeImage"></result>
+        <result column="qrcodeText" property="qrcodeText"></result>
+        <result column="status" property="status"></result>
+        <result column="grade" property="grade"></result>
+        <result column="display" property="display"></result>
+        <association property="doBusinessSiteName" column="doBusinessSiteId" javaType="String">
+            <result column="business_site.name" property="name"></result>
+        </association>
+        <association property="shopName" column="shopId" javaType="String">
+            <result column="shop.name" property="name"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="FloorPlanMap2" type="floorPlan">
+        <id column="id" property="id"></id>
+        <result property="name" column="name"></result>
+    </resultMap>
+
+
+    <select id="findByShopId" parameterType="int" resultMap="FloorPlanMap">
+        select * from floor_plan LEFT JOIN business_site on doBusinessSiteId = business_site.id
+        LEFT JOIN shop on floor_plan.shopId = shop.id WHERE floor_plan.shopId = #{shopId} AND floor_plan.status != 2;
+    </select>
+
+    <insert id="addFloorPlan" parameterType="floorPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into floor_plan (shopId,`name`,imageUrl,floor,doBusinessSiteId,status,display)
+        values (#{shopId},#{name},#{imageUrl},#{floor},#{doBusinessSiteId},#{status},#{display});
+    </insert>
+
+    <update id="updateFloorPlan" parameterType="floorPlan">
+        update floor_plan set shopId=#{shopId},`name`=#{name},imageUrl=#{imageUrl},floor=#{floor},doBusinessSiteId=#{doBusinessSiteId},status=#{status},display=#{display}
+        where id = #{id};
+    </update>
+
+    <update id="deleteFloorPlan" parameterType="int">
+        update floor_plan set status = 2 where id = #{id};
+    </update>
+
+    <select id="findFloorByDoBusinessSiteId" parameterType="int" resultMap="FloorPlanMap2">
+        select * from floor_plan where doBusinessSiteId = #{doBusinessSiteId} and status = 1
+    </select>
+
+    <select id="findById" parameterType="int" resultType="floorPlan">
+        select * from floor_plan WHERE id = #{id} AND status !=2;
+    </select>
+</mapper>

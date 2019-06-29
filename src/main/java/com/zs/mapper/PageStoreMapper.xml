@@ -10,7 +10,7 @@
         insert into pagestore_admin values(#{id},#{storeId},#{pageFloorId},#{title},#{image},#{url},#{grade},#{type});
     </insert>
     <update id="modifyPageStore" parameterType="pagestore">
-        update pagestore_admin set pageFloorId = #{pageFloorId},storeId = #{storeId},title = #{title},image = #{image},url = #{url},type = #{type}
-        where pageFloorId = #{pageFloorId};
+        update pagestore_admin set pageFloorId = #{pageFloorId},storeId = #{storeId},title = #{title},image = #{image},url = #{url},grade = #{grade},type = #{type}
+        where id = #{id};
     </update>
 </mapper>

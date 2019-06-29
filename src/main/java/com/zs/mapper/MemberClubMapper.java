@@ -13,8 +13,8 @@ import java.util.List;
  **/
 @Repository
 public interface MemberClubMapper {
-    List<MemberClub> findMember(MemberClub memberClub);
+    List<MemberClub> findMember(int id);
 
-    Boolean updateMember(MemberClub memberClub);
+    Boolean modifyMember(MemberClub memberClub);
 
 }

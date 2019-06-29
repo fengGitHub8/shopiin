@@ -11,8 +11,8 @@ import java.util.List;
  * @create: 2019-06-25
  **/
 public interface MemberClubService {
-    List<MemberClub> findMember(MemberClub memberClub);
+    List<MemberClub> findMember(int id);
 
-    Boolean updateMember(MemberClub memberClub);
+    Boolean modifyMember(MemberClub memberClub);
 
 }

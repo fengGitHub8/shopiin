@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.StoreTypeMapper">
+
+    <resultMap id="type_map" type="storetype">
+        <id property="id" column="id"></id>
+        <result column="name" property="name"></result>
+        <result property="type" column="type"></result>
+        <result property="status" column="status"></result>
+    </resultMap>
+
+    <select id="findStoreTypeByShopIdAndType"  parameterType="storetype" resultType="storetype">
+        select * from store_type where shopId= #{shopId} AND type = #{type} and status!=2
+    </select>
+
+    <insert id="addStoreType" parameterType="storetype">
+        insert into store_type(shopId,name,type,status) values(#{shopId},#{name},#{type},#{status})
+    </insert>
+
+    <select id="findStoreTypeByShopIdAndTypeAndName" parameterType="storetype" resultType="int">
+        select count(1) from store_type where  name=#{name} and type= #{type} and shopId=#{shopId} and status!=2
+    </select>
+
+    <update id="updateStoreTypeById" parameterType="storetype">
+        update store_type set name = #{name},status = #{status} where id = #{id}
+    </update>
+    
+    <update id="deleteStoreTypeById" parameterType="int">
+        update store_type set status=2 where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="int" resultMap="type_map">
+        select * from store_type where id = #{id}
+    </select>
+
+</mapper>

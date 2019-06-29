@@ -19,13 +19,13 @@ import java.util.List;
  **/
 @Controller
 @ResponseBody
-@RequestMapping("/pageAdmin")
+@RequestMapping("/pageAdAdmin")
 public class PageStoreController {
     @Autowired
     private PageStoreService pageStoreService;
 
-    @RequestMapping("getPageFloors")
-    public ResultVO getPageFloors(int pageFloorId) {
+    @RequestMapping("/getPageStore")
+    public ResultVO getPageStore(int pageFloorId) {
         List<PageStore> pageStores = pageStoreService.getPageStore(pageFloorId);
         return ResultVOUtil.success(null, pageStores);
     }

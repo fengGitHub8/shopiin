@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.mapper.MessageAdminMapper">
+
+    <select id="findMessagesByShopId" parameterType="messageadmin" resultType="messageadmin">
+        select * from message_admin where shopId = #{shopId} and status!=2
+    </select>
+
+    <insert id="addMessage" parameterType="messageadmin">
+        insert into message_admin(shopId,title,content,creator,status) values(#{shopId},#{title},#{content},#{creator},#{status})
+    </insert>
+
+    <update id="updateMessageById" parameterType="messageadmin">
+        update message_admin set title = #{title},content = #{content} where id = #{id}
+    </update>
+
+    <update id="deleteMessageById" parameterType="int">
+        update message_admin set status=2 where id = #{id}
+    </update>
+
+    <update id="sendMessageById" parameterType="messageadmin">
+        update message_admin set status = 1,sendDate = #{sendDate} where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="int" resultType="messageadmin">
+        select * from message_admin where id = #{id}
+    </select>
+
+</mapper>

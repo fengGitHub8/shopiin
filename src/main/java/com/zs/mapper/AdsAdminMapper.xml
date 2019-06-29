@@ -8,7 +8,7 @@
     </select>
 
     <insert id="addAds" parameterType="adsadmin" useGeneratedKeys="true" keyProperty="id">
-     insert into pageads_admin values(#{name},#{shopId},#{adPositionId},#{imageUrl},#{url},#{type});
+     insert into pageads_admin(name,shopId,adPositionId,imageUrl,url,type) values(#{name},#{shopId},#{adPositionId},#{imageUrl},#{url},#{type});
     </insert>
 
     <update id="modifyAds" parameterType="adsadmin">

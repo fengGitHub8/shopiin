@@ -1,11 +1,14 @@
 package com.zs.entity;
 
+import lombok.Data;
+
 /**
  * @program: PageStore
  * @description:
  * @author: ZWX
  * @create: 2019/6/27 11:51
  **/
+@Data
 public class PageStore {
     //id
     private Integer id;

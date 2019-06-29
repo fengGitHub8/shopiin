@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zs.mapper.AdminMapper">
+    <select id="findByUserAndPwd" parameterType="admin" resultType="admin">
+        select * from admin WHERE `user` = #{user } AND password = #{password} AND status = 1;
+    </select>
+
+    <update id="updateAdminToken" parameterType="String">
+        update admin set token = #{token } WHERE id = #{id} AND status = 1;
+    </update>
+
+    <select id="findAdminBytoken" parameterType="String" resultType="admin">
+        select * from admin where token = #{token} AND status = 1;
+    </select>
+
+    <select id="findAdminByIndex" resultType="admin">
+        select * from admin WHERE status != 2 limit #{index},#{max};
+    </select>
+
+    <insert id="addAdmin" parameterType="admin" useGeneratedKeys="true" keyProperty="id">
+        insert into admin (`type`,shopIds, `name`,tel,`user`,status,password)
+        values (#{type},#{shopIds},#{name},#{tel},#{user},#{status},#{password});
+    </insert>
+
+    <update id="updateAdmin" parameterType="admin">
+        update admin set `type`=#{type},shopIds=#{shopIds},`name`=#{name},tel=#{tel},`user`=#{user},status=#{status},password=#{password}
+        where id = #{id};
+    </update>
+    
+    <update id="deleteAdmin" parameterType="int">
+        update admin set status = 2 where id = #{value };
+    </update>
+
+    <select id="findAllType" resultType="adminType">
+        select * from admin_type;
+    </select>
+
+    <select id="findAdminById" parameterType="int" resultType="admin">
+        select * from admin where id = #{id} AND status != 2;
+    </select>
+</mapper>
