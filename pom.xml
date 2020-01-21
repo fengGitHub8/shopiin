@@ -19,7 +19,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <junit.version>4.12</junit.version>
-    <spring.version>5.1.5.RELEASE</spring.version>
+    <spring.version>5.2.3.RELEASE</spring.version>
     <jsp.version>2.0</jsp.version>
     <servlet.version>2.5</servlet.version>
     <druid.version>1.0.9</druid.version>
